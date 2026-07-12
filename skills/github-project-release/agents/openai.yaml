@@ -1,0 +1,7 @@
+interface:
+  display_name: "GitHub Project Release"
+  short_description: "Prepare clean GitHub project releases"
+  default_prompt: "Use $github-project-release to audit and prepare this project as a clean GitHub repository, confirming before remote changes."
+
+policy:
+  allow_implicit_invocation: true

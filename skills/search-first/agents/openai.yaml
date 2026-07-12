@@ -1,0 +1,7 @@
+interface:
+  display_name: "Search First"
+  short_description: "Research existing solutions before coding"
+  default_prompt: "Use $search-first to find and compare maintained solutions before implementing custom code for this requirement."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Paper Review Panel"
+  short_description: "Synthesize top-conference paper reviews"
+  default_prompt: "Use $paper-review-panel to review this conference-paper draft with a top-venue panel and synthesize its main acceptance risks."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Paper Section Playbook"
+  short_description: "Structure research-paper sections"
+  default_prompt: "Use $paper-section-playbook to plan the section and paragraph structure for this research-paper draft."
+
+policy:
+  allow_implicit_invocation: true

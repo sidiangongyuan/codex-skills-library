@@ -1,0 +1,6 @@
+interface:
+  display_name: "Example Skill"
+  short_description: "Describe the skill in one short phrase"
+  default_prompt: "Use $example-skill to complete this workflow."
+policy:
+  allow_implicit_invocation: true

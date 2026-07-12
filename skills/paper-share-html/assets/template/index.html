@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>{{DOCUMENT_TITLE}} | Paper Share</title>
+  <style>
+    :root {
+      --paper: #fbfcfa;
+      --surface: #ffffff;
+      --ink: #18201f;
+      --muted: #586461;
+      --line: #d7ddda;
+      --accent: #0d7377;
+      --accent-soft: #dff0ee;
+      --warm: #b9563f;
+      --stage-shadow: 0 18px 60px rgba(24, 32, 31, 0.16);
+      font-family: Inter, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: #e8ecea;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+      overflow: hidden;
+      background: #e8ecea;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    a {
+      color: var(--accent);
+      text-underline-offset: 0.18em;
+    }
+
+    .deck {
+      position: relative;
+      width: min(100vw, calc(100vh * 16 / 9));
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--paper);
+      box-shadow: var(--stage-shadow);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      grid-template-rows: auto 1fr auto;
+      gap: 1.5rem;
+      padding: 3.5rem 4.5rem 3.8rem;
+      overflow: hidden;
+      background: var(--paper);
+    }
+
+    .slide.is-active {
+      display: grid;
+    }
+
+    .slide::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0.45rem;
+      height: 100%;
+      content: "";
+      background: var(--accent);
+    }
+
+    .slide-title::before {
+      width: 0.7rem;
+      background: var(--warm);
+    }
+
+    .eyebrow {
+      margin: 0 0 0.7rem;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    blockquote {
+      margin-top: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 18ch;
+      margin-bottom: 1.2rem;
+      font-size: 3.6rem;
+      line-height: 1.06;
+    }
+
+    h2 {
+      max-width: 28ch;
+      margin-bottom: 0;
+      font-size: 2.5rem;
+      line-height: 1.12;
+    }
+
+    h3 {
+      margin-bottom: 0.55rem;
+      font-size: 1.05rem;
+      line-height: 1.3;
+    }
+
+    p,
+    li {
+      font-size: 1.06rem;
+      line-height: 1.62;
+    }
+
+    .lead {
+      max-width: 55rem;
+      color: var(--muted);
+      font-size: 1.35rem;
+      line-height: 1.5;
+    }
+
+    .source-line {
+      align-self: end;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .title-body {
+      display: grid;
+      align-content: center;
+      max-width: 75rem;
+    }
+
+    .content {
+      min-height: 0;
+    }
+
+    .split {
+      display: grid;
+      min-height: 0;
+      grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .split-wide-visual {
+      grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    }
+
+    .statement {
+      max-width: 42rem;
+      font-size: 1.55rem;
+      font-weight: 650;
+      line-height: 1.4;
+    }
+
+    .detail-list {
+      margin: 1rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    .detail-list li + li {
+      margin-top: 0.5rem;
+    }
+
+    .callout {
+      margin: 1.4rem 0 0;
+      padding: 0.25rem 0 0.25rem 1rem;
+      border-left: 0.25rem solid var(--warm);
+      color: var(--muted);
+    }
+
+    .figure-frame {
+      display: grid;
+      min-height: 0;
+      place-items: center;
+      padding: 0.7rem;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .figure-frame img {
+      display: block;
+      width: 100%;
+      max-height: 29rem;
+      object-fit: contain;
+    }
+
+    .figure-frame figcaption {
+      width: 100%;
+      margin-top: 0.55rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    .table-stage {
+      display: grid;
+      min-height: 0;
+      grid-template-rows: 1fr auto;
+      gap: 0.75rem;
+    }
+
+    .table-image {
+      display: block;
+      width: 100%;
+      max-height: 30rem;
+      object-fit: contain;
+      cursor: zoom-in;
+      background: #ffffff;
+    }
+
+    .metric-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .quote-block {
+      margin: 0;
+      padding: 0.3rem 0 0.3rem 1.3rem;
+      border-left: 0.3rem solid var(--accent);
+    }
+
+    .quote-block p {
+      margin-bottom: 0.8rem;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.35rem;
+      line-height: 1.48;
+    }
+
+    .quote-block cite {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-style: normal;
+      line-height: 1.45;
+    }
+
+    .takeaways {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.3rem;
+      align-items: stretch;
+    }
+
+    .takeaway {
+      padding: 1.2rem 1.25rem;
+      border-top: 0.28rem solid var(--accent);
+      background: var(--surface);
+    }
+
+    .takeaway:nth-child(2) {
+      border-color: var(--warm);
+    }
+
+    .takeaway p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .controls {
+      position: fixed;
+      right: 1.2rem;
+      bottom: 1.15rem;
+      z-index: 20;
+      display: flex;
+      gap: 0.55rem;
+      align-items: center;
+    }
+
+    .icon-button {
+      display: grid;
+      width: 2.75rem;
+      height: 2.75rem;
+      padding: 0;
+      place-items: center;
+      border: 1px solid #bbc4c0;
+      border-radius: 50%;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.94);
+      cursor: pointer;
+    }
+
+    .icon-button:hover,
+    .icon-button:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+      outline: 2px solid transparent;
+    }
+
+    .slide-count {
+      min-width: 4.2rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    .progress-track {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 19;
+      height: 0.25rem;
+      background: rgba(24, 32, 31, 0.12);
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      background: var(--accent);
+      transition: width 180ms ease;
+    }
+
+    .lightbox {
+      width: min(94vw, 90rem);
+      max-width: none;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 0.35rem;
+      background: #ffffff;
+    }
+
+    .lightbox::backdrop {
+      background: rgba(12, 18, 17, 0.82);
+    }
+
+    .lightbox img {
+      display: block;
+      width: 100%;
+      max-height: 86vh;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 0.65rem;
+      right: 0.65rem;
+      z-index: 2;
+    }
+
+    @media (max-width: 1300px) and (min-width: 761px) {
+      .slide {
+        gap: 1rem;
+        padding: 2.7rem 3.5rem 3rem;
+      }
+
+      h1 {
+        font-size: 3.1rem;
+      }
+
+      h2 {
+        font-size: 2.15rem;
+      }
+
+      p,
+      li {
+        font-size: 0.96rem;
+      }
+
+      .figure-frame img,
+      .table-image {
+        max-height: 25rem;
+      }
+    }
+
+    @media (max-width: 760px) {
+      body {
+        display: block;
+        overflow: auto;
+        background: var(--paper);
+      }
+
+      .deck {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        aspect-ratio: auto;
+        box-shadow: none;
+      }
+
+      .slide,
+      .slide.is-active {
+        position: relative;
+        display: grid;
+        min-height: 100svh;
+        padding: 3.6rem 1.35rem 2.7rem;
+        border-bottom: 1px solid var(--line);
+        overflow: visible;
+      }
+
+      .slide::before {
+        width: 0.3rem;
+      }
+
+      h1 {
+        max-width: none;
+        font-size: 2.45rem;
+      }
+
+      h2 {
+        max-width: none;
+        font-size: 1.85rem;
+      }
+
+      .lead,
+      .statement {
+        font-size: 1.18rem;
+      }
+
+      .split,
+      .split-wide-visual,
+      .takeaways {
+        grid-template-columns: 1fr;
+      }
+
+      .figure-frame img,
+      .table-image {
+        max-height: none;
+      }
+
+      .controls,
+      .progress-track {
+        display: none;
+      }
+
+      .lightbox {
+        width: 96vw;
+        padding: 0.65rem;
+      }
+    }
+
+    @media print {
+      @page {
+        size: 13.333in 7.5in;
+        margin: 0;
+      }
+
+      body {
+        display: block;
+        overflow: visible;
+        background: #ffffff;
+      }
+
+      .deck {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        box-shadow: none;
+      }
+
+      .slide,
+      .slide.is-active {
+        position: relative;
+        display: grid;
+        width: 100%;
+        height: 7.5in;
+        break-after: page;
+        page-break-after: always;
+      }
+
+      .controls,
+      .progress-track,
+      .lightbox {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" id="deck" aria-label="{{PAPER_TITLE}}">
+    <section class="slide slide-title is-active" id="slide-1" aria-hidden="false">
+      <header>
+        <p class="eyebrow">{{VENUE_OR_IDENTIFIER}}</p>
+      </header>
+      <div class="title-body">
+        <h1>{{PAPER_TITLE}}</h1>
+        <p class="lead">{{PAPER_SUBTITLE}}</p>
+      </div>
+      <p class="source-line">{{AUTHORS_AND_AFFILIATIONS}}</p>
+    </section>
+
+    <section class="slide" id="slide-2" aria-hidden="true">
+      <header>
+        <p class="eyebrow">{{SECTION_LABEL}}</p>
+        <h2>{{RESEARCH_QUESTION_TITLE}}</h2>
+      </header>
+      <div class="content split">
+        <div>
+          <p class="statement">{{RESEARCH_QUESTION_STATEMENT}}</p>
+          <p class="callout">{{WHY_THE_QUESTION_MATTERS}}</p>
+        </div>
+        <div>
+          <h3>{{PRIOR_APPROACH_HEADING}}</h3>
+          <ul class="detail-list">
+            <li>{{PRIOR_APPROACH_POINT_1}}</li>
+            <li>{{PRIOR_APPROACH_POINT_2}}</li>
+            <li>{{PRIOR_APPROACH_POINT_3}}</li>
+          </ul>
+        </div>
+      </div>
+      <p class="source-line">{{SOURCE_OR_CONTEXT}}</p>
+    </section>
+
+    <section class="slide" id="slide-3" aria-hidden="true">
+      <header>
+        <p class="eyebrow">{{SECTION_LABEL}}</p>
+        <h2>{{MAIN_CLAIM_TITLE}}</h2>
+      </header>
+      <div class="content split">
+        <div>
+          <p class="statement">{{MAIN_CLAIM}}</p>
+          <p>{{CLAIM_SCOPE_AND_ASSUMPTIONS}}</p>
+        </div>
+        <blockquote class="quote-block">
+          <p>{{FULL_ENGLISH_QUOTATION}}</p>
+          <cite>{{FULL_SOURCE_TITLE_AND_CITATION}}</cite>
+        </blockquote>
+      </div>
+      <p class="source-line">{{PAPER_CITATION}}</p>
+    </section>
+
+    <section class="slide" id="slide-4" aria-hidden="true">
+      <header>
+        <p class="eyebrow">{{SECTION_LABEL}}</p>
+        <h2>{{METHOD_TITLE}}</h2>
+      </header>
+      <div class="content split split-wide-visual">
+        <div>
+          <p class="statement">{{METHOD_SUMMARY}}</p>
+          <ul class="detail-list">
+            <li>{{METHOD_STEP_1}}</li>
+            <li>{{METHOD_STEP_2}}</li>
+            <li>{{METHOD_STEP_3}}</li>
+          </ul>
+        </div>
+        <figure class="figure-frame">
+          <img src="assets/figures/method-overview.png" alt="{{METHOD_FIGURE_ALT}}">
+          <figcaption>{{METHOD_FIGURE_SOURCE}}</figcaption>
+        </figure>
+      </div>
+      <p class="source-line">{{METHOD_SOURCE_LINE}}</p>
+    </section>
+
+    <section class="slide" id="slide-5" aria-hidden="true">
+      <header>
+        <p class="eyebrow">{{SECTION_LABEL}}</p>
+        <h2>{{EVIDENCE_TITLE}}</h2>
+      </header>
+      <div class="content table-stage">
+        <img class="table-image zoomable" src="assets/tables/main-result.png" alt="{{RESULT_TABLE_ALT}}" data-zoomable>
+        <p class="metric-note">{{METRIC_DIRECTION_AND_RESULT_SCOPE}}</p>
+      </div>
+      <p class="source-line">{{TABLE_SOURCE_LINE}}</p>
+    </section>
+
+    <section class="slide" id="slide-6" aria-hidden="true">
+      <header>
+        <p class="eyebrow">{{SECTION_LABEL}}</p>
+        <h2>{{BOUNDARY_TITLE}}</h2>
+      </header>
+      <div class="content takeaways">
+        <article class="takeaway">
+          <h3>{{SUPPORTED_HEADING}}</h3>
+          <p>{{SUPPORTED_SCOPE}}</p>
+        </article>
+        <article class="takeaway">
+          <h3>{{TRADEOFF_HEADING}}</h3>
+          <p>{{TRADEOFF_OR_EXCEPTION}}</p>
+        </article>
+        <article class="takeaway">
+          <h3>{{OPEN_QUESTION_HEADING}}</h3>
+          <p>{{OPEN_QUESTION}}</p>
+        </article>
+      </div>
+      <p class="source-line">{{BOUNDARY_SOURCE_LINE}}</p>
+    </section>
+
+    <section class="slide" id="slide-7" aria-hidden="true">
+      <header>
+        <p class="eyebrow">{{SECTION_LABEL}}</p>
+        <h2>{{TAKEAWAY_TITLE}}</h2>
+      </header>
+      <div class="content split">
+        <p class="statement">{{FINAL_TAKEAWAY}}</p>
+        <div>
+          <h3>{{DISCUSSION_HEADING}}</h3>
+          <p>{{DISCUSSION_QUESTION}}</p>
+        </div>
+      </div>
+      <p class="source-line">{{PAPER_PROJECT_AND_CODE_LINKS}}</p>
+    </section>
+  </main>
+
+  <div class="controls" aria-label="Presentation controls">
+    <button class="icon-button" id="previous-slide" type="button" title="Previous slide" aria-label="Previous slide">
+      <span aria-hidden="true">&larr;</span>
+    </button>
+    <span class="slide-count" id="slide-count" aria-live="polite">1 / 7</span>
+    <button class="icon-button" id="next-slide" type="button" title="Next slide" aria-label="Next slide">
+      <span aria-hidden="true">&rarr;</span>
+    </button>
+  </div>
+
+  <div class="progress-track" aria-hidden="true">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <dialog class="lightbox" id="image-lightbox" aria-label="Enlarged figure">
+    <form method="dialog">
+      <button class="icon-button lightbox-close" type="submit" title="Close" aria-label="Close enlarged figure">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </form>
+    <img id="lightbox-image" alt="" data-decorative>
+  </dialog>
+
+  <script>
+    (function () {
+      var slides = Array.from(document.querySelectorAll(".slide"));
+      var previousButton = document.getElementById("previous-slide");
+      var nextButton = document.getElementById("next-slide");
+      var counter = document.getElementById("slide-count");
+      var progress = document.getElementById("progress-bar");
+      var lightbox = document.getElementById("image-lightbox");
+      var lightboxImage = document.getElementById("lightbox-image");
+      var mobileQuery = window.matchMedia("(max-width: 760px)");
+      var current = 0;
+
+      function showSlide(index) {
+        current = (index + slides.length) % slides.length;
+        slides.forEach(function (slide, slideIndex) {
+          var active = slideIndex === current;
+          slide.classList.toggle("is-active", active);
+          slide.setAttribute("aria-hidden", mobileQuery.matches ? "false" : String(!active));
+        });
+        counter.textContent = String(current + 1) + " / " + String(slides.length);
+        progress.style.width = String(((current + 1) / slides.length) * 100) + "%";
+        if (!mobileQuery.matches) {
+          history.replaceState(null, "", "#slide-" + String(current + 1));
+        }
+      }
+
+      function initialSlide() {
+        var match = window.location.hash.match(/^#slide-(\d+)$/);
+        if (!match) {
+          return 0;
+        }
+        return Math.min(Math.max(Number(match[1]) - 1, 0), slides.length - 1);
+      }
+
+      previousButton.addEventListener("click", function () {
+        showSlide(current - 1);
+      });
+
+      nextButton.addEventListener("click", function () {
+        showSlide(current + 1);
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (lightbox.open || mobileQuery.matches) {
+          return;
+        }
+        if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+          event.preventDefault();
+          showSlide(current + 1);
+        } else if (["ArrowLeft", "PageUp"].includes(event.key)) {
+          event.preventDefault();
+          showSlide(current - 1);
+        } else if (event.key === "Home") {
+          showSlide(0);
+        } else if (event.key === "End") {
+          showSlide(slides.length - 1);
+        }
+      });
+
+      document.querySelectorAll("[data-zoomable]").forEach(function (image) {
+        image.addEventListener("click", function () {
+          lightboxImage.src = image.currentSrc || image.src;
+          lightboxImage.alt = image.alt;
+          if (typeof lightbox.showModal === "function") {
+            lightbox.showModal();
+          } else {
+            lightbox.setAttribute("open", "");
+          }
+        });
+      });
+
+      lightbox.addEventListener("click", function (event) {
+        if (event.target === lightbox) {
+          lightbox.close();
+        }
+      });
+
+      mobileQuery.addEventListener("change", function () {
+        showSlide(current);
+      });
+
+      showSlide(initialSlide());
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Paper Framework Figure Studio Pro"
+  short_description: "Plan source-grounded paper framework figures"
+  default_prompt: "Use $paper-framework-figure-studio-pro to plan a source-grounded method overview figure without generating images yet."
+
+policy:
+  allow_implicit_invocation: true

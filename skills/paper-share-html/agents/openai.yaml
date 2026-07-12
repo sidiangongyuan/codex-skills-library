@@ -1,0 +1,7 @@
+interface:
+  display_name: "Paper Share HTML"
+  short_description: "Build responsive paper presentations"
+  default_prompt: "Use $paper-share-html to turn a research paper into a source-grounded, audience-ready HTML presentation and validate it in the browser."
+
+policy:
+  allow_implicit_invocation: true

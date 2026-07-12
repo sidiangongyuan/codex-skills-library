@@ -1,0 +1,7 @@
+interface:
+  display_name: "App Feature Craft"
+  short_description: "Build product-grade app features"
+  default_prompt: "Use $app-feature-craft to implement this user-facing feature end to end with appropriate states, tests, and verification."
+
+policy:
+  allow_implicit_invocation: true

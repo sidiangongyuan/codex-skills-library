@@ -1,0 +1,7 @@
+interface:
+  display_name: "Experiment Planner"
+  short_description: "Plan claim-driven research experiments"
+  default_prompt: "Use $experiment-planner to turn this research idea into a claim-driven, pilot-first experiment matrix."
+
+policy:
+  allow_implicit_invocation: true

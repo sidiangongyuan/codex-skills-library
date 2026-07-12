@@ -1,0 +1,7 @@
+interface:
+  display_name: "App Release Readiness"
+  short_description: "Prepare and verify app releases"
+  default_prompt: "Use $app-release-readiness to test, package, and verify this application update before any approved publication step."
+
+policy:
+  allow_implicit_invocation: true

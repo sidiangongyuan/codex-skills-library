@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rebuttal Response Skills"
+  short_description: "Draft evidence-grounded author responses"
+  default_prompt: "Use $rebuttal-response-skills to draft a concise response that covers each reviewer concern using only verified evidence."
+
+policy:
+  allow_implicit_invocation: true

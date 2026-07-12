@@ -1,0 +1,7 @@
+interface:
+  display_name: "UI UX Pro Max"
+  short_description: "Design and audit web or mobile interfaces"
+  default_prompt: "Use $ui-ux-pro-max to design or review this interface for accessibility, responsive layout, typography, and interaction quality."
+
+policy:
+  allow_implicit_invocation: true

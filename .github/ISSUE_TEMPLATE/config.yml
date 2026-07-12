@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Private security report
+    url: https://github.com/sidiangongyuan/codex-skills-library/security/advisories/new
+    about: Report vulnerabilities or unsafe behavior privately.

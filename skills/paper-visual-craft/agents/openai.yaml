@@ -1,0 +1,7 @@
+interface:
+  display_name: "Paper Visual Craft"
+  short_description: "Polish paper figures and tables"
+  default_prompt: "Use $paper-visual-craft to redesign this paper figure or table while preserving exact data and validating the rendered PDF."
+
+policy:
+  allow_implicit_invocation: true

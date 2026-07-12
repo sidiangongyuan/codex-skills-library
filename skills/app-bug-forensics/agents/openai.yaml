@@ -1,0 +1,7 @@
+interface:
+  display_name: "App Bug Forensics"
+  short_description: "Diagnose app bugs from evidence"
+  default_prompt: "Use $app-bug-forensics to trace this application failure to its root cause and define a focused regression test."
+
+policy:
+  allow_implicit_invocation: true

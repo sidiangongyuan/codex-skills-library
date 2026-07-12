@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Codex Skills Library</title>
+  <desc id="desc">A four-cell library grid inside a square outline.</desc>
+  <style>
+    .frame { fill: none; stroke: #24292f; }
+    .blue { fill: #0969da; }
+    .green { fill: #1f883d; }
+    @media (prefers-color-scheme: dark) {
+      .frame { stroke: #f0f6fc; }
+      .blue { fill: #58a6ff; }
+      .green { fill: #3fb950; }
+    }
+  </style>
+  <rect class="frame" x="9" y="9" width="78" height="78" rx="12" stroke-width="6"/>
+  <rect class="blue" x="23" y="23" width="20" height="20" rx="3"/>
+  <rect class="green" x="53" y="23" width="20" height="20" rx="3"/>
+  <rect class="green" x="23" y="53" width="20" height="20" rx="3"/>
+  <rect class="blue" x="53" y="53" width="20" height="20" rx="3"/>
+</svg>

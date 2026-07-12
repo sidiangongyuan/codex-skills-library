@@ -1,0 +1,7 @@
+interface:
+  display_name: "Paper Refinement Skills"
+  short_description: "Refine research-paper logic and prose"
+  default_prompt: "Use $paper-refinement-skills to revise this paper passage for clarity, structure, and venue-appropriate style without strengthening its claims."
+
+policy:
+  allow_implicit_invocation: true

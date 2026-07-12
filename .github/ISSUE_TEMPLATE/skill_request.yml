@@ -1,0 +1,31 @@
+name: Skill request
+description: Suggest a new workflow for the library.
+title: "[Skill] "
+labels:
+  - enhancement
+body:
+  - type: input
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: What repeatable job should the skill help an agent complete?
+    validations:
+      required: true
+  - type: textarea
+    id: triggers
+    attributes:
+      label: Trigger examples
+      description: Give two or three prompts or situations that should activate it.
+    validations:
+      required: true
+  - type: textarea
+    id: resources
+    attributes:
+      label: Dependencies or upstream sources
+      description: Link relevant tools, standards, or existing skills and include licenses when known.
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to open a pull request.

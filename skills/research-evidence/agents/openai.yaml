@@ -1,0 +1,7 @@
+interface:
+  display_name: "Research Evidence"
+  short_description: "Search and verify academic evidence"
+  default_prompt: "Use $research-evidence to search papers, verify citations, and check claim evidence for this research task."
+
+policy:
+  allow_implicit_invocation: true
