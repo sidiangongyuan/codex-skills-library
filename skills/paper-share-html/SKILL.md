@@ -1,6 +1,6 @@
 ---
 name: paper-share-html
-description: Use when creating or revising a responsive static HTML presentation from a paper, PDF, DOI, or arXiv page for a journal club, lab meeting, or cross-disciplinary report. Preserves source fidelity, extracts legible figures and tables, and verifies browser layout for a live audience.
+description: Create or revise audience-ready HTML paper presentations for lab meetings, journal clubs, and cross-disciplinary reports. Use when Codex needs to extract clear figures and tables, shape a fluent live talk with verified quotations and varied explanatory diagrams, or audit evidence fidelity, table clarity, responsive layout, and print output.
 license: MIT
 ---
 
@@ -16,6 +16,8 @@ must present the research, not explain the editing process to the requester.
   drafting Chinese copy, quotations, or slide titles.
 - Read [references/visual-qa.md](references/visual-qa.md) before extracting
   figures/tables or validating the finished page.
+- Read [references/visual-story-patterns.md](references/visual-story-patterns.md)
+  before designing explanatory or synthesis diagrams.
 - Use [assets/template/index.html](assets/template/index.html) as a structural
   starter, not as a fixed slide count or visual theme.
 
@@ -72,7 +74,20 @@ assessment. Use a problem -> claim -> mechanism -> evidence -> boundary ->
 takeaway arc when it fits, but add, merge, or reorder sections to match the
 paper. Do not force every paper into the same number of slides.
 
-### 4. Create the paper package
+### 4. Storyboard and rehearse the argument
+
+Assign one main rhetorical job to each slide. For every slide, verify what it
+inherits from the previous slide, what it establishes, and why the next slide
+is now necessary. Add full-size figure, qualitative comparison, or visual
+transition slides when they improve comprehension; do not assume every slide
+needs the same speaking time.
+
+Read the sequence aloud as a presenter before polishing individual sentences.
+Repair missing premises, repeated claims, abrupt method-to-result jumps, and
+conclusions that exceed the evidence. Prefer a coherent talk over a fixed slide
+count or a mechanically repeated section template.
+
+### 5. Create the paper package
 
 Run:
 
@@ -102,20 +117,38 @@ Keep CSS and JavaScript inside `index.html`; keep visual assets as relative
 files. The report must open directly through `file://` without a development
 server or network dependency.
 
-### 5. Prepare visual evidence
+### 6. Prepare visual evidence
 
 Use paper and project-page visuals before decorative or generated imagery.
 Preserve original figures unless a simpler explanatory redraw is genuinely
 needed; label any redraw as a schematic and do not alter the scientific claim.
 
-For experimental tables, render the PDF at high resolution, crop to the table
-content, preserve the uncropped or initial capture in `assets/tables/raw/`, and
-place the presentation-ready crop in `assets/tables/`. Prefer a faithful image
-over manually retyping values. Make tables large in the slide and click-to-zoom.
-Explain whether each metric is higher-is-better or lower-is-better and state
-exceptions honestly.
+For rasterized paper figures and experimental tables, render directly from the
+PDF at about 300-360 DPI or at least 3x scale. Preserve the initial page or
+capture in `assets/tables/raw/`, then crop the presentation copy tightly around
+the table. Do not upscale a small screenshot and call it high resolution.
 
-### 6. Write for the audience
+Use 1600-2200 pixels as a practical full-slide table target and treat 1400
+pixels as the warning floor. Make the table readable in the default desktop
+view; click-to-zoom is only a secondary inspection path. Prefer a faithful
+image over manually retyping values. State metric direction, comparison scope,
+and meaningful exceptions honestly.
+
+### 7. Design explanatory visuals
+
+Use original diagrams only for background, related work, method explanation,
+or presenter synthesis. Never redraw experimental evidence in a way that can be
+mistaken for a paper result. Keep each synthesis traceable to the figures,
+tables, or claims it combines.
+
+Choose composition from the semantic relationship: sequence, comparison,
+hierarchy, convergence, feedback, continuum, evidence structure, or state
+change. Do not default to a left-to-right row of rectangular boxes. Add
+`data-visual-pattern` to slides containing original diagrams so the audit can
+detect repeated horizontal chains. Variation serves meaning; do not change
+layouts merely to make adjacent slides look different.
+
+### 8. Write for the audience
 
 Use direct, formal, natural statements. Make slide titles carry the finding or
 question rather than editorial labels. Explain unfamiliar terms where they
@@ -128,7 +161,7 @@ English sentence, provide the full title of the cited article or book, and let
 the Chinese text continue the argument. Do not create a compulsory quote slide
 or cite only an internal location such as “Section 2” or “the abstract.”
 
-### 7. Build the presentation
+### 9. Build the presentation
 
 Adapt the template's theme and composition to the paper while retaining:
 
@@ -144,7 +177,7 @@ Adapt the template's theme and composition to the paper while retaining:
 Remove every placeholder and unused component. Do not add visible instructions
 about how the presentation was written or how the audience should operate it.
 
-### 8. Audit and verify
+### 10. Audit and verify
 
 Run the static audit:
 
@@ -155,11 +188,13 @@ python scripts/audit_paper_share.py "PATH/TO/PAPER PACKAGE"
 Fix all errors and review every warning. Then open `index.html` in a real
 browser and validate at desktop and mobile viewports. Exercise every slide,
 keyboard navigation, table lightbox, local asset, external source link, and
-print layout. Save final screenshots under `qa/` and iteration artifacts under
-`qa/archive/`. Inspect screenshots visually; a successful command is not proof
-that the page is legible.
+print layout. At 1280x720, 1440x900, and 1920x1080, confirm that ordinary table
+cells are readable without zoom and that dense tables are not compressed into
+split or card layouts. Save final screenshots under `qa/` and iteration
+artifacts under `qa/archive/`. Inspect screenshots visually; a successful
+command is not proof that the page is legible or the talk is coherent.
 
-### 9. Deliver the package
+### 11. Deliver the package
 
 Report the direct local link to `index.html`, the source and QA artifacts
 created, and any claim or citation that could not be verified. Do not deploy
@@ -176,4 +211,8 @@ the report unless the user explicitly asks for hosting.
   or a subset of tasks.
 - Do not accept a small table merely because a zoom control exists; the default
   slide view must remain readable.
+- Do not present a PDF screenshot with long captions or large page margins as a
+  finished table crop.
+- Do not repeat a horizontal box-and-arrow chain across three consecutive
+  original-diagram slides.
 - Do not finish without desktop and mobile visual inspection.

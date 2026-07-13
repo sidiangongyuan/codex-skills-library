@@ -9,9 +9,17 @@ import re
 import struct
 import sys
 from collections import Counter
+from dataclasses import dataclass
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+
+try:
+    from PIL import Image as PILImage
+    from PIL import ImageChops
+except ImportError:  # Pillow improves crop checks but is not required at runtime.
+    PILImage = None
+    ImageChops = None
 
 
 REQUIRED_DIRECTORIES = (
@@ -24,42 +32,103 @@ REQUIRED_DIRECTORIES = (
 META_PHRASES = (
     "一句话版",
     "外行版",
-    "文中几处值得展示的表述",
     "值得展示的表述",
-    "下面保留原文",
     "下面保留",
     "这页适合",
     "这一页适合",
+    "原文完整句子",
+    "中文部分只说明",
+    "引文位于",
+    "本页将展示",
+    "本页用于",
+    "这一页将展示",
+    "这一页用于",
+    "这页用于",
     "结果解读",
     "表格解读",
     "给你一个",
+    "向你解释",
+    "核心 takeaway",
 )
+
+VOID_ELEMENTS = {
+    "area",
+    "base",
+    "br",
+    "col",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr",
+}
+IGNORED_TEXT_ELEMENTS = {"script", "style", "noscript", "template"}
+COMPRESSING_TABLE_CLASSES = {
+    "card-grid",
+    "cards",
+    "columns",
+    "comparison-grid",
+    "split",
+    "split-wide-visual",
+    "takeaways",
+    "three-column",
+    "two-column",
+}
+MIN_TABLE_WIDTH = 1400
+MIN_CONTENT_WIDTH_RATIO = 0.90
+MIN_CONTENT_HEIGHT_RATIO = 0.82
 
 PLACEHOLDER_PATTERNS = (
     re.compile(r"{{\s*[^{}]+\s*}}"),
     re.compile(r"\bTODO\b", re.IGNORECASE),
     re.compile(r"\bTBD\b", re.IGNORECASE),
     re.compile(r"\[\s*INSERT\b", re.IGNORECASE),
+    re.compile(r"\bdata-template-placeholder\s*=", re.IGNORECASE),
 )
+
+
+@dataclass(frozen=True)
+class ElementFrame:
+    tag: str
+    classes: frozenset[str]
+
+
+@dataclass(frozen=True)
+class ImageRecord:
+    attrs: dict[str, str | None]
+    ancestor_classes: frozenset[str]
 
 
 class ReportParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.ids: list[str] = []
-        self.images: list[dict[str, str | None]] = []
+        self.images: list[ImageRecord] = []
         self.references: list[tuple[str, str, str]] = []
         self.visible_text: list[str] = []
+        self.visual_patterns: list[str | None] = []
         self.html_lang: str | None = None
         self.has_viewport = False
         self.slide_count = 0
-        self._ignored_tags: list[str] = []
+        self._elements: list[ElementFrame] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self._handle_starttag(tag, attrs, push=True)
+
+    def _handle_starttag(
+        self,
+        tag: str,
+        attrs: list[tuple[str, str | None]],
+        *,
+        push: bool,
+    ) -> None:
         attr = {key.lower(): value for key, value in attrs}
         lowered_tag = tag.lower()
-        if lowered_tag in {"script", "style", "noscript", "template"}:
-            self._ignored_tags.append(lowered_tag)
 
         element_id = attr.get("id")
         if element_id:
@@ -68,31 +137,43 @@ class ReportParser(HTMLParser):
         classes = set((attr.get("class") or "").split())
         if "slide" in classes:
             self.slide_count += 1
+            raw_pattern = (attr.get("data-visual-pattern") or "").strip()
+            pattern = raw_pattern.casefold().replace("_", "-") or None
+            self.visual_patterns.append(pattern)
 
         if lowered_tag == "html":
             self.html_lang = attr.get("lang")
         elif lowered_tag == "meta" and (attr.get("name") or "").lower() == "viewport":
             self.has_viewport = bool(attr.get("content"))
         elif lowered_tag == "img":
-            self.images.append(attr)
+            ancestor_classes = frozenset(
+                class_name
+                for element in self._elements
+                for class_name in element.classes
+            )
+            self.images.append(ImageRecord(attr, ancestor_classes))
 
         for attribute in ("src", "href", "poster"):
             value = attr.get(attribute)
             if value:
                 self.references.append((lowered_tag, attribute, value))
 
+        if push and lowered_tag not in VOID_ELEMENTS:
+            self._elements.append(ElementFrame(lowered_tag, frozenset(classes)))
+
     def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        self.handle_starttag(tag, attrs)
-        if tag.lower() in {"script", "style", "noscript", "template"} and self._ignored_tags:
-            self._ignored_tags.pop()
+        self._handle_starttag(tag, attrs, push=False)
 
     def handle_endtag(self, tag: str) -> None:
         lowered_tag = tag.lower()
-        if self._ignored_tags and self._ignored_tags[-1] == lowered_tag:
-            self._ignored_tags.pop()
+        for index in range(len(self._elements) - 1, -1, -1):
+            if self._elements[index].tag == lowered_tag:
+                del self._elements[index:]
+                break
 
     def handle_data(self, data: str) -> None:
-        if not self._ignored_tags and data.strip():
+        ignored = any(element.tag in IGNORED_TEXT_ELEMENTS for element in self._elements)
+        if not ignored and data.strip():
             self.visible_text.append(data)
 
 
@@ -105,6 +186,75 @@ def png_dimensions(path: Path) -> tuple[int, int] | None:
     if len(header) != 24 or header[:8] != b"\x89PNG\r\n\x1a\n":
         return None
     return struct.unpack(">II", header[16:24])
+
+
+def raster_dimensions(path: Path) -> tuple[int, int] | None:
+    dimensions = png_dimensions(path)
+    if dimensions is not None or PILImage is None:
+        return dimensions
+    try:
+        with PILImage.open(path) as image:
+            return image.size
+    except (OSError, ValueError):
+        return None
+
+
+def table_content_occupancy(path: Path) -> tuple[float, float] | None:
+    """Estimate non-background width and height ratios for a raster table crop."""
+    if PILImage is None or ImageChops is None:
+        return None
+    try:
+        with PILImage.open(path) as source:
+            rgba = source.convert("RGBA")
+    except (OSError, ValueError):
+        return None
+
+    white = PILImage.new("RGBA", rgba.size, (255, 255, 255, 255))
+    rgb = PILImage.alpha_composite(white, rgba).convert("RGB")
+    width, height = rgb.size
+    if width == 0 or height == 0:
+        return None
+
+    corners = (
+        rgb.getpixel((0, 0)),
+        rgb.getpixel((width - 1, 0)),
+        rgb.getpixel((0, height - 1)),
+        rgb.getpixel((width - 1, height - 1)),
+    )
+    background = tuple(
+        sorted(pixel[channel] for pixel in corners)[len(corners) // 2]
+        for channel in range(3)
+    )
+    difference = ImageChops.difference(
+        rgb,
+        PILImage.new("RGB", rgb.size, background),
+    ).convert("L")
+    mask = difference.point(lambda value: 255 if value > 18 else 0)
+    bounds = mask.getbbox()
+    if bounds is None:
+        return 0.0, 0.0
+    left, top, right, bottom = bounds
+    return (right - left) / width, (bottom - top) / height
+
+
+def repeated_visual_pattern_warnings(patterns: list[str | None]) -> list[str]:
+    warnings: list[str] = []
+    index = 0
+    while index < len(patterns):
+        if patterns[index] != "horizontal-chain":
+            index += 1
+            continue
+        end = index + 1
+        while end < len(patterns) and patterns[end] == "horizontal-chain":
+            end += 1
+        if end - index >= 3:
+            warnings.append(
+                "slides "
+                f"{index + 1}-{end} repeat data-visual-pattern=horizontal-chain; "
+                "choose a relationship-specific composition unless all are truly sequential"
+            )
+        index = end
+    return warnings
 
 
 def is_remote_or_fragment(reference: str) -> bool:
@@ -172,10 +322,12 @@ def audit(report_root: Path) -> tuple[list[str], list[str]]:
     for identifier in duplicate_ids:
         errors.append(f"duplicate id: {identifier}")
 
-    visible_text = re.sub(r"\s+", " ", " ".join(parser.visible_text))
+    visible_text = re.sub(r"\s+", " ", " ".join(parser.visible_text)).casefold()
     for phrase in META_PHRASES:
-        if phrase in visible_text:
+        if phrase.casefold() in visible_text:
             errors.append(f"audience-facing copy contains meta phrase: {phrase}")
+
+    warnings.extend(repeated_visual_pattern_warnings(parser.visual_patterns))
 
     for pattern in PLACEHOLDER_PATTERNS:
         match = pattern.search(raw_html)
@@ -189,8 +341,9 @@ def audit(report_root: Path) -> tuple[list[str], list[str]]:
         elif target is not None and not target.exists():
             errors.append(f"broken local reference in {tag}[{attribute}]: {reference}")
 
-    table_images: list[tuple[dict[str, str | None], Path, str]] = []
-    for image in parser.images:
+    table_images: list[tuple[ImageRecord, Path, str]] = []
+    for image_record in parser.images:
+        image = image_record.attrs
         src = image.get("src") or ""
         alt = image.get("alt")
         if "data-decorative" not in image and not (alt and alt.strip()):
@@ -199,18 +352,41 @@ def audit(report_root: Path) -> tuple[list[str], list[str]]:
         if normalized.startswith("assets/tables/") and "/raw/" not in normalized:
             target, problem = resolve_local_reference(root, src)
             if target is not None and not problem:
-                table_images.append((image, target, src))
+                table_images.append((image_record, target, src))
 
     raw_table_dir = root / "assets" / "tables" / "raw"
-    for image, target, src in table_images:
+    for image_record, target, src in table_images:
+        image = image_record.attrs
         classes = set((image.get("class") or "").split())
         if "data-zoomable" not in image and "zoomable" not in classes:
             errors.append(f"table image is not click-to-zoom: {src}")
-        dimensions = png_dimensions(target) if target.exists() else None
-        if dimensions and dimensions[0] < 1400:
+        compressed_by = sorted(
+            image_record.ancestor_classes.intersection(COMPRESSING_TABLE_CLASSES)
+        )
+        if compressed_by:
+            warnings.append(
+                f"table image is inside a potentially compressed layout: {src} "
+                f"({', '.join(compressed_by)})"
+            )
+        dimensions = raster_dimensions(target) if target.exists() else None
+        if dimensions and dimensions[0] < MIN_TABLE_WIDTH:
             warnings.append(
                 f"table image may be too narrow for a full slide: {src} ({dimensions[0]}x{dimensions[1]})"
             )
+        occupancy = table_content_occupancy(target) if target.exists() else None
+        if occupancy is not None:
+            content_width, content_height = occupancy
+            if (
+                content_width < MIN_CONTENT_WIDTH_RATIO
+                or content_height < MIN_CONTENT_HEIGHT_RATIO
+            ):
+                warnings.append(
+                    f"table crop may include excess background: {src} "
+                    f"(content occupies {content_width:.1%} width and "
+                    f"{content_height:.1%} height; expected at least "
+                    f"{MIN_CONTENT_WIDTH_RATIO:.0%} and "
+                    f"{MIN_CONTENT_HEIGHT_RATIO:.0%})"
+                )
         if target.exists():
             raw_candidates = (
                 raw_table_dir / f"{target.stem}_raw{target.suffix}",

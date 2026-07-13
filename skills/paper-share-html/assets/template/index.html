@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
   <title>{{DOCUMENT_TITLE}} | Paper Share</title>
   <style>
     :root {
@@ -63,11 +64,16 @@
       position: absolute;
       inset: 0;
       display: none;
+      min-width: 0;
       grid-template-rows: auto 1fr auto;
       gap: 1.5rem;
       padding: 3.5rem 4.5rem 3.8rem;
       overflow: hidden;
       background: var(--paper);
+    }
+
+    .slide > * {
+      min-width: 0;
     }
 
     .slide.is-active {
@@ -110,6 +116,15 @@
     h2,
     h3 {
       letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    p,
+    li,
+    cite,
+    dt,
+    dd {
+      overflow-wrap: anywhere;
     }
 
     h1 {
@@ -175,6 +190,48 @@
       grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
     }
 
+    .causal-stack {
+      display: grid;
+      max-width: 68rem;
+      margin: auto;
+      gap: 1.15rem;
+      align-content: center;
+    }
+
+    .causal-step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 11rem minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: baseline;
+      padding: 0 0 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .causal-step:not(:last-child)::after {
+      position: absolute;
+      bottom: -1.35rem;
+      left: 5.1rem;
+      color: var(--accent);
+      content: "\2193";
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .causal-label {
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 750;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .causal-step p {
+      margin: 0;
+      font-size: 1.12rem;
+      line-height: 1.5;
+    }
+
     .statement {
       max-width: 42rem;
       font-size: 1.55rem;
@@ -209,7 +266,9 @@
 
     .figure-frame img {
       display: block;
-      width: 100%;
+      width: auto;
+      max-width: 100%;
+      height: auto;
       max-height: 29rem;
       object-fit: contain;
     }
@@ -222,16 +281,67 @@
       line-height: 1.4;
     }
 
+    .annotated-visual {
+      display: grid;
+      min-height: 0;
+      grid-template-columns: minmax(0, 1.45fr) minmax(15rem, 0.55fr);
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .annotation-list {
+      display: grid;
+      margin: 0;
+      padding: 0;
+      gap: 1rem;
+      list-style: none;
+      counter-reset: annotation;
+    }
+
+    .annotation-list li {
+      position: relative;
+      padding: 0 0 1rem 2.4rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .annotation-list li::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: grid;
+      width: 1.6rem;
+      height: 1.6rem;
+      place-items: center;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      color: var(--accent);
+      content: counter(annotation);
+      counter-increment: annotation;
+      font-size: 0.76rem;
+      font-weight: 750;
+    }
+
     .table-stage {
       display: grid;
       min-height: 0;
-      grid-template-rows: 1fr auto;
+      grid-template-rows: minmax(0, 1fr) auto;
       gap: 0.75rem;
+    }
+
+    .table-scroll {
+      display: grid;
+      min-width: 0;
+      min-height: 0;
+      place-items: center;
+      overflow: hidden;
     }
 
     .table-image {
       display: block;
-      width: 100%;
+      width: auto;
+      max-width: 100%;
+      height: auto;
       max-height: 30rem;
       object-fit: contain;
       cursor: zoom-in;
@@ -265,27 +375,89 @@
       line-height: 1.45;
     }
 
-    .takeaways {
+    .boundary-matrix {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.3rem;
-      align-items: stretch;
+      grid-template-columns: 12rem minmax(0, 1fr);
+      align-content: center;
+      border-top: 1px solid var(--ink);
     }
 
-    .takeaway {
-      padding: 1.2rem 1.25rem;
-      border-top: 0.28rem solid var(--accent);
-      background: var(--surface);
+    .boundary-row {
+      display: contents;
     }
 
-    .takeaway:nth-child(2) {
-      border-color: var(--warm);
+    .boundary-key,
+    .boundary-value {
+      margin: 0;
+      padding: 1.15rem 0;
+      border-bottom: 1px solid var(--line);
     }
 
-    .takeaway p {
-      margin-bottom: 0;
+    .boundary-key {
+      padding-right: 1.5rem;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    .boundary-value {
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 1.05rem;
+      line-height: 1.55;
+    }
+
+    .evidence-map {
+      display: grid;
+      min-height: 0;
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 1.25fr) minmax(0, 1fr);
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: 1.2rem 2.5rem;
+      align-items: center;
+    }
+
+    .evidence-core {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      padding: 1.5rem 0;
+      border-top: 0.25rem solid var(--accent);
+      border-bottom: 1px solid var(--line);
+      font-size: 1.45rem;
+      font-weight: 700;
+      line-height: 1.42;
+      text-align: center;
+    }
+
+    .evidence-branch {
+      position: relative;
+      margin: 0;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .evidence-branch strong {
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--ink);
+    }
+
+    .evidence-branch.left::after,
+    .evidence-branch.right::before {
+      position: absolute;
+      top: 50%;
+      width: 1.9rem;
+      border-top: 1px solid var(--accent);
+      content: "";
+    }
+
+    .evidence-branch.left::after {
+      right: -2.2rem;
+    }
+
+    .evidence-branch.right::before {
+      left: -2.2rem;
     }
 
     .controls {
@@ -343,12 +515,14 @@
     }
 
     .lightbox {
-      width: min(94vw, 90rem);
+      width: 96vw;
       max-width: none;
+      max-height: 94vh;
       padding: 1rem;
       border: 1px solid var(--line);
       border-radius: 0.35rem;
       background: #ffffff;
+      overflow: auto;
     }
 
     .lightbox::backdrop {
@@ -359,13 +533,20 @@
       display: block;
       width: 100%;
       max-height: 86vh;
+      margin: auto;
       object-fit: contain;
     }
 
+    .lightbox.is-table img {
+      width: auto;
+      max-width: none;
+      max-height: none;
+    }
+
     .lightbox-close {
-      position: absolute;
-      top: 0.65rem;
-      right: 0.65rem;
+      position: fixed;
+      top: 1.25rem;
+      right: 1.75rem;
       z-index: 2;
     }
 
@@ -440,13 +621,67 @@
 
       .split,
       .split-wide-visual,
-      .takeaways {
+      .annotated-visual,
+      .evidence-map {
         grid-template-columns: 1fr;
+      }
+
+      .causal-step {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+      }
+
+      .causal-step:not(:last-child)::after {
+        left: 0.25rem;
+      }
+
+      .boundary-matrix {
+        grid-template-columns: 1fr;
+        border-top: 0;
+      }
+
+      .boundary-row {
+        display: block;
+        border-top: 1px solid var(--line);
+      }
+
+      .boundary-key,
+      .boundary-value {
+        border-bottom: 0;
+      }
+
+      .boundary-key {
+        padding-bottom: 0.25rem;
+      }
+
+      .boundary-value {
+        padding-top: 0;
+      }
+
+      .evidence-core {
+        grid-column: 1;
+        grid-row: auto;
+        text-align: left;
+      }
+
+      .evidence-branch.left::after,
+      .evidence-branch.right::before {
+        display: none;
       }
 
       .figure-frame img,
       .table-image {
         max-height: none;
+      }
+
+      .table-scroll {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .table-image {
+        width: 58rem;
+        max-width: none;
       }
 
       .controls,
@@ -510,23 +745,23 @@
       <p class="source-line">{{AUTHORS_AND_AFFILIATIONS}}</p>
     </section>
 
-    <section class="slide" id="slide-2" aria-hidden="true">
+    <section class="slide" id="slide-2" data-visual-pattern="vertical-causal" aria-hidden="true">
       <header>
         <p class="eyebrow">{{SECTION_LABEL}}</p>
         <h2>{{RESEARCH_QUESTION_TITLE}}</h2>
       </header>
-      <div class="content split">
-        <div>
-          <p class="statement">{{RESEARCH_QUESTION_STATEMENT}}</p>
-          <p class="callout">{{WHY_THE_QUESTION_MATTERS}}</p>
+      <div class="content causal-stack">
+        <div class="causal-step">
+          <span class="causal-label">{{CURRENT_PRACTICE_LABEL}}</span>
+          <p>{{PRIOR_APPROACH_POINT}}</p>
         </div>
-        <div>
-          <h3>{{PRIOR_APPROACH_HEADING}}</h3>
-          <ul class="detail-list">
-            <li>{{PRIOR_APPROACH_POINT_1}}</li>
-            <li>{{PRIOR_APPROACH_POINT_2}}</li>
-            <li>{{PRIOR_APPROACH_POINT_3}}</li>
-          </ul>
+        <div class="causal-step">
+          <span class="causal-label">{{UNRESOLVED_TENSION_LABEL}}</span>
+          <p>{{WHY_THE_QUESTION_MATTERS}}</p>
+        </div>
+        <div class="causal-step">
+          <span class="causal-label">{{RESEARCH_QUESTION_LABEL}}</span>
+          <p>{{RESEARCH_QUESTION_STATEMENT}}</p>
         </div>
       </div>
       <p class="source-line">{{SOURCE_OR_CONTEXT}}</p>
@@ -550,24 +785,21 @@
       <p class="source-line">{{PAPER_CITATION}}</p>
     </section>
 
-    <section class="slide" id="slide-4" aria-hidden="true">
+    <section class="slide" id="slide-4" data-visual-pattern="annotated-figure" aria-hidden="true">
       <header>
         <p class="eyebrow">{{SECTION_LABEL}}</p>
         <h2>{{METHOD_TITLE}}</h2>
       </header>
-      <div class="content split split-wide-visual">
-        <div>
-          <p class="statement">{{METHOD_SUMMARY}}</p>
-          <ul class="detail-list">
-            <li>{{METHOD_STEP_1}}</li>
-            <li>{{METHOD_STEP_2}}</li>
-            <li>{{METHOD_STEP_3}}</li>
-          </ul>
-        </div>
+      <div class="content annotated-visual">
         <figure class="figure-frame">
-          <img src="assets/figures/method-overview.png" alt="{{METHOD_FIGURE_ALT}}">
+          <img class="zoomable" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='620' viewBox='0 0 1200 620'%3E%3Crect width='1200' height='620' fill='%23f7f9f8'/%3E%3Cpath d='M180 310H1020' stroke='%230d7377' stroke-width='8'/%3E%3Ccircle cx='180' cy='310' r='78' fill='%23ffffff' stroke='%230d7377' stroke-width='5'/%3E%3Ccircle cx='600' cy='310' r='92' fill='%23dff0ee' stroke='%230d7377' stroke-width='5'/%3E%3Ccircle cx='1020' cy='310' r='78' fill='%23ffffff' stroke='%23b9563f' stroke-width='5'/%3E%3Ctext x='180' y='325' text-anchor='middle' font-family='Arial' font-size='34' fill='%2318201f'%3ESource%3C/text%3E%3Ctext x='600' y='325' text-anchor='middle' font-family='Arial' font-size='34' fill='%2318201f'%3EModel%3C/text%3E%3Ctext x='1020' y='325' text-anchor='middle' font-family='Arial' font-size='34' fill='%2318201f'%3ETarget%3C/text%3E%3C/svg%3E" alt="{{METHOD_FIGURE_ALT}}" data-template-placeholder="method-figure" data-zoomable tabindex="0" role="button" aria-haspopup="dialog">
           <figcaption>{{METHOD_FIGURE_SOURCE}}</figcaption>
         </figure>
+        <ol class="annotation-list">
+          <li>{{METHOD_STEP_1}}</li>
+          <li>{{METHOD_STEP_2}}</li>
+          <li>{{METHOD_STEP_3}}</li>
+        </ol>
       </div>
       <p class="source-line">{{METHOD_SOURCE_LINE}}</p>
     </section>
@@ -578,45 +810,47 @@
         <h2>{{EVIDENCE_TITLE}}</h2>
       </header>
       <div class="content table-stage">
-        <img class="table-image zoomable" src="assets/tables/main-result.png" alt="{{RESULT_TABLE_ALT}}" data-zoomable>
+        <div class="table-scroll">
+          <img class="table-image zoomable" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='600' viewBox='0 0 1600 600'%3E%3Crect width='1600' height='600' fill='white'/%3E%3Cg stroke='%2318201f' stroke-width='4'%3E%3Cpath d='M45 55H1555M45 165H1555M45 535H1555'/%3E%3C/g%3E%3Cg font-family='Georgia' font-size='48' fill='%2318201f'%3E%3Ctext x='85' y='130'%3EMethod%3C/text%3E%3Ctext x='700' y='130'%3EMetric 1%3C/text%3E%3Ctext x='1030' y='130'%3EMetric 2%3C/text%3E%3Ctext x='1350' y='130'%3EMetric 3%3C/text%3E%3Ctext x='85' y='255'%3EBaseline A%3C/text%3E%3Ctext x='85' y='355'%3EBaseline B%3C/text%3E%3Ctext x='85' y='465' font-weight='bold'%3EProposed%3C/text%3E%3Ctext x='760' y='255'%3EXX.X%3C/text%3E%3Ctext x='760' y='355'%3EXX.X%3C/text%3E%3Ctext x='760' y='465' font-weight='bold'%3EXX.X%3C/text%3E%3Ctext x='1100' y='255'%3EXX.X%3C/text%3E%3Ctext x='1100' y='355'%3EXX.X%3C/text%3E%3Ctext x='1100' y='465' font-weight='bold'%3EXX.X%3C/text%3E%3Ctext x='1410' y='255'%3EX.XX%3C/text%3E%3Ctext x='1410' y='355'%3EX.XX%3C/text%3E%3Ctext x='1410' y='465' font-weight='bold'%3EX.XX%3C/text%3E%3C/g%3E%3C/svg%3E" alt="{{RESULT_TABLE_ALT}}" data-template-placeholder="result-table" data-zoomable data-table-primary tabindex="0" role="button" aria-haspopup="dialog">
+        </div>
         <p class="metric-note">{{METRIC_DIRECTION_AND_RESULT_SCOPE}}</p>
       </div>
       <p class="source-line">{{TABLE_SOURCE_LINE}}</p>
     </section>
 
-    <section class="slide" id="slide-6" aria-hidden="true">
+    <section class="slide" id="slide-6" data-visual-pattern="matrix" aria-hidden="true">
       <header>
         <p class="eyebrow">{{SECTION_LABEL}}</p>
         <h2>{{BOUNDARY_TITLE}}</h2>
       </header>
-      <div class="content takeaways">
-        <article class="takeaway">
-          <h3>{{SUPPORTED_HEADING}}</h3>
-          <p>{{SUPPORTED_SCOPE}}</p>
-        </article>
-        <article class="takeaway">
-          <h3>{{TRADEOFF_HEADING}}</h3>
-          <p>{{TRADEOFF_OR_EXCEPTION}}</p>
-        </article>
-        <article class="takeaway">
-          <h3>{{OPEN_QUESTION_HEADING}}</h3>
-          <p>{{OPEN_QUESTION}}</p>
-        </article>
-      </div>
+      <dl class="content boundary-matrix">
+        <div class="boundary-row">
+          <dt class="boundary-key">{{SUPPORTED_HEADING}}</dt>
+          <dd class="boundary-value">{{SUPPORTED_SCOPE}}</dd>
+        </div>
+        <div class="boundary-row">
+          <dt class="boundary-key">{{TRADEOFF_HEADING}}</dt>
+          <dd class="boundary-value">{{TRADEOFF_OR_EXCEPTION}}</dd>
+        </div>
+        <div class="boundary-row">
+          <dt class="boundary-key">{{OPEN_QUESTION_HEADING}}</dt>
+          <dd class="boundary-value">{{OPEN_QUESTION}}</dd>
+        </div>
+      </dl>
       <p class="source-line">{{BOUNDARY_SOURCE_LINE}}</p>
     </section>
 
-    <section class="slide" id="slide-7" aria-hidden="true">
+    <section class="slide" id="slide-7" data-visual-pattern="evidence-map" aria-hidden="true">
       <header>
         <p class="eyebrow">{{SECTION_LABEL}}</p>
         <h2>{{TAKEAWAY_TITLE}}</h2>
       </header>
-      <div class="content split">
-        <p class="statement">{{FINAL_TAKEAWAY}}</p>
-        <div>
-          <h3>{{DISCUSSION_HEADING}}</h3>
-          <p>{{DISCUSSION_QUESTION}}</p>
-        </div>
+      <div class="content evidence-map">
+        <p class="evidence-branch left"><strong>{{EVIDENCE_HEADING_1}}</strong>{{EVIDENCE_POINT_1}}</p>
+        <p class="evidence-branch left"><strong>{{EVIDENCE_HEADING_2}}</strong>{{EVIDENCE_POINT_2}}</p>
+        <p class="evidence-core">{{FINAL_TAKEAWAY}}</p>
+        <p class="evidence-branch right"><strong>{{BOUNDARY_HEADING}}</strong>{{FINAL_BOUNDARY}}</p>
+        <p class="evidence-branch right"><strong>{{DISCUSSION_HEADING}}</strong>{{DISCUSSION_QUESTION}}</p>
       </div>
       <p class="source-line">{{PAPER_PROJECT_AND_CODE_LINKS}}</p>
     </section>
@@ -705,13 +939,22 @@
       });
 
       document.querySelectorAll("[data-zoomable]").forEach(function (image) {
-        image.addEventListener("click", function () {
+        function openImage() {
           lightboxImage.src = image.currentSrc || image.src;
           lightboxImage.alt = image.alt;
+          lightbox.classList.toggle("is-table", Boolean(image.closest(".table-stage")));
           if (typeof lightbox.showModal === "function") {
             lightbox.showModal();
           } else {
             lightbox.setAttribute("open", "");
+          }
+        }
+
+        image.addEventListener("click", openImage);
+        image.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openImage();
           }
         });
       });

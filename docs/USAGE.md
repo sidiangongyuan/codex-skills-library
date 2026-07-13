@@ -194,12 +194,19 @@ Use `$paper-share-html` to turn a paper into a browser-based presentation for a
 lab meeting, journal club, or cross-disciplinary report:
 
 ```text
-$paper-share-html Create a source-grounded 15-minute HTML presentation from this paper. Preserve complete quotations and citations, use legible figure and table assets, write for the stated audience, and verify desktop and mobile layouts in a real browser.
+$paper-share-html Create a source-grounded 15-minute HTML presentation from this paper. Build a fluent live-talk argument, preserve complete quotations and citations, keep PDF-extracted tables readable before zoom, vary original diagrams according to the relationship they explain, and verify desktop and mobile layouts in a real browser.
 ```
 
 Use `$research-evidence` first if the presentation depends on uncertain
 external claims. Use `$paper-visual-craft` when a figure or table needs a
 substantial redesign instead of faithful extraction.
+
+The skill treats a tightly cropped 1600-2200-pixel table image as the normal
+full-slide target and warns below 1400 pixels. When Pillow is available, its
+audit also detects broad empty margins. Visual variety is semantic rather than
+decorative: timelines, matrices, evidence maps, spectra, vertical causal
+structures, and annotated source figures are selected only when they match the
+relationship being explained.
 
 ## Publish a clean GitHub project
 

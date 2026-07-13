@@ -92,7 +92,7 @@ python scripts/install.py \
 | 起草有证据边界的审稿回复 | [`rebuttal-response-skills`](skills/rebuttal-response-skills) | `third-party-adapted` |
 | 规划论文方法、架构和流程总览图 | [`paper-framework-figure-studio-pro`](skills/paper-framework-figure-studio-pro) | `adapter` |
 | 设计并验证论文图表 | [`paper-visual-craft`](skills/paper-visual-craft) | `original` |
-| 制作适合报告分享的静态 HTML | [`paper-share-html`](skills/paper-share-html) | `original` |
+| 制作表格清晰、叙事流畅的论文分享 HTML | [`paper-share-html`](skills/paper-share-html) | `original` |
 | 审计并发布干净的 GitHub 项目仓库 | [`github-project-release`](skills/github-project-release) | `original` |
 | 诊断并恢复 Codex Desktop 会话 | [`codex-session-restore`](skills/codex-session-restore) | `original` |
 

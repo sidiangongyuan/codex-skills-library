@@ -102,7 +102,7 @@ the work it performs may still require task-specific tools or access.
 | Review & Rebuttal | [`rebuttal-response-skills`](skills/rebuttal-response-skills) | None | `third-party-adapted` |
 | Figures & Tables | [`paper-framework-figure-studio-pro`](skills/paper-framework-figure-studio-pro) | None | `adapter` |
 | Figures & Tables | [`paper-visual-craft`](skills/paper-visual-craft) | The plotting or LaTeX toolchain used by the source artifact<br>PDF rendering tools for visual verification | `original` |
-| Paper Communication | [`paper-share-html`](skills/paper-share-html) | Browser automation for visual QA<br>PDF extraction or rendering tools when the source is a PDF | `original` |
+| Paper Communication | [`paper-share-html`](skills/paper-share-html) | Browser automation for visual QA<br>PDF extraction or rendering tools when the source is a PDF<br>Optional Pillow for automated table-crop checks | `original` |
 | Operations & Release | [`github-project-release`](skills/github-project-release) | Git<br>GitHub CLI for remote repository operations | `original` |
 | Operations & Release | [`codex-session-restore`](skills/codex-session-restore) | Python 3 for the bundled recovery script<br>Local access to the Codex Desktop data directory | `original` |
 
