@@ -82,6 +82,7 @@ COMPRESSING_TABLE_CLASSES = {
 MIN_TABLE_WIDTH = 1400
 MIN_CONTENT_WIDTH_RATIO = 0.90
 MIN_CONTENT_HEIGHT_RATIO = 0.82
+FRAGMENT_VALUE_RE = re.compile(r"^[1-9][0-9]*$")
 
 PLACEHOLDER_PATTERNS = (
     re.compile(r"{{\s*[^{}]+\s*}}"),
@@ -96,12 +97,23 @@ PLACEHOLDER_PATTERNS = (
 class ElementFrame:
     tag: str
     classes: frozenset[str]
+    has_fragment: bool
+    slide_index: int | None
 
 
 @dataclass(frozen=True)
 class ImageRecord:
     attrs: dict[str, str | None]
     ancestor_classes: frozenset[str]
+    inside_fragment: bool
+
+
+@dataclass(frozen=True)
+class FragmentRecord:
+    value: str | None
+    tag: str
+    slide_index: int | None
+    nested: bool
 
 
 class ReportParser(HTMLParser):
@@ -109,6 +121,8 @@ class ReportParser(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.ids: list[str] = []
         self.images: list[ImageRecord] = []
+        self.fragments: list[FragmentRecord] = []
+        self.fragment_values_by_slide: list[list[str | None]] = []
         self.references: list[tuple[str, str, str]] = []
         self.visible_text: list[str] = []
         self.visual_patterns: list[str | None] = []
@@ -135,11 +149,38 @@ class ReportParser(HTMLParser):
             self.ids.append(element_id)
 
         classes = set((attr.get("class") or "").split())
+        current_slide_index = next(
+            (
+                element.slide_index
+                for element in reversed(self._elements)
+                if element.slide_index is not None
+            ),
+            None,
+        )
         if "slide" in classes:
+            current_slide_index = self.slide_count
             self.slide_count += 1
+            self.fragment_values_by_slide.append([])
             raw_pattern = (attr.get("data-visual-pattern") or "").strip()
             pattern = raw_pattern.casefold().replace("_", "-") or None
             self.visual_patterns.append(pattern)
+
+        has_fragment = "data-fragment" in attr
+        nested_fragment = has_fragment and any(
+            element.has_fragment for element in self._elements
+        )
+        if has_fragment:
+            value = attr.get("data-fragment")
+            self.fragments.append(
+                FragmentRecord(
+                    value=value,
+                    tag=lowered_tag,
+                    slide_index=current_slide_index,
+                    nested=nested_fragment,
+                )
+            )
+            if current_slide_index is not None:
+                self.fragment_values_by_slide[current_slide_index].append(value)
 
         if lowered_tag == "html":
             self.html_lang = attr.get("lang")
@@ -151,7 +192,10 @@ class ReportParser(HTMLParser):
                 for element in self._elements
                 for class_name in element.classes
             )
-            self.images.append(ImageRecord(attr, ancestor_classes))
+            inside_fragment = has_fragment or any(
+                element.has_fragment for element in self._elements
+            )
+            self.images.append(ImageRecord(attr, ancestor_classes, inside_fragment))
 
         for attribute in ("src", "href", "poster"):
             value = attr.get(attribute)
@@ -159,7 +203,14 @@ class ReportParser(HTMLParser):
                 self.references.append((lowered_tag, attribute, value))
 
         if push and lowered_tag not in VOID_ELEMENTS:
-            self._elements.append(ElementFrame(lowered_tag, frozenset(classes)))
+            self._elements.append(
+                ElementFrame(
+                    lowered_tag,
+                    frozenset(classes),
+                    has_fragment,
+                    current_slide_index,
+                )
+            )
 
     def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         self._handle_starttag(tag, attrs, push=False)
@@ -257,6 +308,61 @@ def repeated_visual_pattern_warnings(patterns: list[str | None]) -> list[str]:
     return warnings
 
 
+def fragment_structure_errors(parser: ReportParser) -> list[str]:
+    errors: list[str] = []
+    invalid_records: set[tuple[int | None, str | None]] = set()
+    for fragment in parser.fragments:
+        raw_value = (fragment.value or "").strip()
+        if not FRAGMENT_VALUE_RE.fullmatch(raw_value):
+            label = raw_value or "<empty>"
+            errors.append(
+                f"data-fragment must be a positive integer on <{fragment.tag}>, "
+                f"found {label!r}"
+            )
+            invalid_records.add((fragment.slide_index, fragment.value))
+        if fragment.slide_index is None:
+            errors.append("data-fragment must be inside a slide")
+        if fragment.nested:
+            errors.append(
+                "nested data-fragment is not allowed"
+                + (
+                    f" on slide {fragment.slide_index + 1}"
+                    if fragment.slide_index is not None
+                    else ""
+                )
+            )
+
+    for slide_index, raw_values in enumerate(parser.fragment_values_by_slide, start=1):
+        values = [
+            int(value.strip())
+            for value in raw_values
+            if value is not None
+            and (slide_index - 1, value) not in invalid_records
+            and FRAGMENT_VALUE_RE.fullmatch(value.strip())
+        ]
+        if not values:
+            continue
+
+        collapsed: list[int] = []
+        for value in values:
+            if not collapsed or collapsed[-1] != value:
+                collapsed.append(value)
+        if collapsed != sorted(collapsed):
+            errors.append(
+                f"slide {slide_index} data-fragment groups are out of DOM order: "
+                + ", ".join(str(value) for value in collapsed)
+            )
+
+        unique_values = sorted(set(values))
+        expected = list(range(1, unique_values[-1] + 1))
+        if unique_values != expected:
+            errors.append(
+                f"slide {slide_index} data-fragment groups must be contiguous from 1: "
+                + ", ".join(str(value) for value in unique_values)
+            )
+    return errors
+
+
 def is_remote_or_fragment(reference: str) -> bool:
     stripped = reference.strip()
     if not stripped or stripped.startswith("#") or stripped.startswith("//"):
@@ -327,6 +433,12 @@ def audit(report_root: Path) -> tuple[list[str], list[str]]:
         if phrase.casefold() in visible_text:
             errors.append(f"audience-facing copy contains meta phrase: {phrase}")
 
+    errors.extend(fragment_structure_errors(parser))
+    if parser.fragments and "prefers-reduced-motion" not in raw_html.casefold():
+        warnings.append(
+            "progressive fragments exist but prefers-reduced-motion handling was not detected"
+        )
+
     warnings.extend(repeated_visual_pattern_warnings(parser.visual_patterns))
 
     for pattern in PLACEHOLDER_PATTERNS:
@@ -349,6 +461,18 @@ def audit(report_root: Path) -> tuple[list[str], list[str]]:
         if "data-decorative" not in image and not (alt and alt.strip()):
             errors.append(f"image is missing descriptive alt text: {src or '<missing src>'}")
         normalized = src.replace("\\", "/").lstrip("./")
+        is_primary_table = (
+            "data-table-primary" in image
+            or (
+                normalized.startswith("assets/tables/")
+                and "/raw/" not in normalized
+            )
+        )
+        if is_primary_table and image_record.inside_fragment:
+            warnings.append(
+                "primary experimental table is inside progressive disclosure: "
+                f"{src or '<missing src>'}"
+            )
         if normalized.startswith("assets/tables/") and "/raw/" not in normalized:
             target, problem = resolve_local_reference(root, src)
             if target is not None and not problem:

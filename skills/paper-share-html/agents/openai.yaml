@@ -1,7 +1,7 @@
 interface:
   display_name: "Paper Share HTML"
-  short_description: "Build clear, varied paper presentations"
-  default_prompt: "Use $paper-share-html to build a source-grounded paper presentation with readable tables, varied explanatory visuals, and browser QA."
+  short_description: "Build clear paper talks with paced reveals"
+  default_prompt: "Use $paper-share-html to build a source-grounded paper talk with readable evidence, varied explanatory visuals, presenter-paced reveals, and browser QA."
 
 policy:
   allow_implicit_invocation: true

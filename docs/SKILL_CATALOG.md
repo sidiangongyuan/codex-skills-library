@@ -220,16 +220,16 @@ $paper-visual-craft Redesign this ablation table so reviewers can scan the main 
 
 ### [`paper-share-html`](../skills/paper-share-html)
 
-Create source-grounded, responsive paper presentations with readable PDF-extracted tables, varied explanatory diagrams, and live-talk browser QA.
+Create source-grounded, responsive paper presentations with readable PDF-extracted tables, varied explanatory diagrams, optional presenter-paced reveals, and live-talk browser QA.
 
-- Tags: `paper`, `presentation`, `html`, `browser`, `journal-club`, `visual-storytelling`, `tables`
+- Tags: `paper`, `presentation`, `html`, `browser`, `journal-club`, `visual-storytelling`, `tables`, `progressive-disclosure`
 - Requirements: Browser automation for visual QA; PDF extraction or rendering tools when the source is a PDF; Optional Pillow for automated table-crop checks
 - Provenance: `original`
 - Source: original project work
 - License: `MIT`; see [notice](../NOTICE.md)
 
 ```text
-$paper-share-html Turn this paper into a fluent 15-minute HTML talk, keep extracted tables readable before zoom, vary original diagrams by relationship, and verify desktop and mobile layouts.
+$paper-share-html Turn this paper into a fluent 15-minute HTML talk, keep extracted tables readable before zoom, use paced reveals only for genuine sequences, and verify desktop, mobile, and print behavior.
 ```
 
 ## Operations & Release

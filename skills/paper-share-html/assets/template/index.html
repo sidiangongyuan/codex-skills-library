@@ -6,6 +6,7 @@
   <meta name="color-scheme" content="light">
   <link rel="icon" href="data:,">
   <title>{{DOCUMENT_TITLE}} | Paper Share</title>
+  <script>document.documentElement.classList.add("js");</script>
   <style>
     :root {
       --paper: #fbfcfa;
@@ -78,6 +79,54 @@
 
     .slide.is-active {
       display: grid;
+    }
+
+    html:not(.js) body {
+      display: block;
+      overflow: auto;
+    }
+
+    html:not(.js) .deck {
+      width: 100%;
+      height: auto;
+      overflow: visible;
+      aspect-ratio: auto;
+      box-shadow: none;
+    }
+
+    html:not(.js) .slide {
+      position: relative;
+      display: grid;
+      width: min(100vw, calc(100vh * 16 / 9));
+      min-height: min(100vh, calc(100vw * 9 / 16));
+      margin: 0 auto 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    html:not(.js) .controls,
+    html:not(.js) .progress-track {
+      display: none;
+    }
+
+    .js [data-fragment] {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(0.5rem);
+      transition:
+        opacity 220ms ease,
+        transform 220ms ease,
+        visibility 0s linear 220ms;
+    }
+
+    .js tr[data-fragment] {
+      transform: none;
+    }
+
+    .js [data-fragment].fragment-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition-delay: 0s;
     }
 
     .slide::before {
@@ -550,6 +599,17 @@
       z-index: 2;
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      .progress-bar,
+      .js [data-fragment] {
+        transition: none !important;
+      }
+
+      .js [data-fragment] {
+        transform: none !important;
+      }
+    }
+
     @media (max-width: 1300px) and (min-width: 761px) {
       .slide {
         gap: 1rem;
@@ -693,6 +753,13 @@
         width: 96vw;
         padding: 0.65rem;
       }
+
+      .js [data-fragment] {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        transition: none !important;
+      }
     }
 
     @media print {
@@ -729,6 +796,13 @@
       .lightbox {
         display: none !important;
       }
+
+      .js [data-fragment] {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
@@ -751,15 +825,15 @@
         <h2>{{RESEARCH_QUESTION_TITLE}}</h2>
       </header>
       <div class="content causal-stack">
-        <div class="causal-step">
+        <div class="causal-step" data-fragment="1">
           <span class="causal-label">{{CURRENT_PRACTICE_LABEL}}</span>
           <p>{{PRIOR_APPROACH_POINT}}</p>
         </div>
-        <div class="causal-step">
+        <div class="causal-step" data-fragment="2">
           <span class="causal-label">{{UNRESOLVED_TENSION_LABEL}}</span>
           <p>{{WHY_THE_QUESTION_MATTERS}}</p>
         </div>
-        <div class="causal-step">
+        <div class="causal-step" data-fragment="3">
           <span class="causal-label">{{RESEARCH_QUESTION_LABEL}}</span>
           <p>{{RESEARCH_QUESTION_STATEMENT}}</p>
         </div>
@@ -796,9 +870,9 @@
           <figcaption>{{METHOD_FIGURE_SOURCE}}</figcaption>
         </figure>
         <ol class="annotation-list">
-          <li>{{METHOD_STEP_1}}</li>
-          <li>{{METHOD_STEP_2}}</li>
-          <li>{{METHOD_STEP_3}}</li>
+          <li data-fragment="1">{{METHOD_STEP_1}}</li>
+          <li data-fragment="2">{{METHOD_STEP_2}}</li>
+          <li data-fragment="3">{{METHOD_STEP_3}}</li>
         </ol>
       </div>
       <p class="source-line">{{METHOD_SOURCE_LINE}}</p>
@@ -857,11 +931,11 @@
   </main>
 
   <div class="controls" aria-label="Presentation controls">
-    <button class="icon-button" id="previous-slide" type="button" title="Previous slide" aria-label="Previous slide">
+    <button class="icon-button" id="previous-slide" type="button" title="Previous step" aria-label="Previous step">
       <span aria-hidden="true">&larr;</span>
     </button>
     <span class="slide-count" id="slide-count" aria-live="polite">1 / 7</span>
-    <button class="icon-button" id="next-slide" type="button" title="Next slide" aria-label="Next slide">
+    <button class="icon-button" id="next-slide" type="button" title="Next step" aria-label="Next step">
       <span aria-hidden="true">&rarr;</span>
     </button>
   </div>
@@ -881,6 +955,7 @@
 
   <script>
     (function () {
+      var deck = document.getElementById("deck");
       var slides = Array.from(document.querySelectorAll(".slide"));
       var previousButton = document.getElementById("previous-slide");
       var nextButton = document.getElementById("next-slide");
@@ -890,19 +965,95 @@
       var lightboxImage = document.getElementById("lightbox-image");
       var mobileQuery = window.matchMedia("(max-width: 760px)");
       var current = 0;
+      var lightboxTrigger = null;
+      var fragmentElements = slides.map(function (slide) {
+        return Array.from(slide.querySelectorAll("[data-fragment]"));
+      });
+      var permanentlyHiddenFragments = new WeakSet();
+      var fragmentGroups = fragmentElements.map(function (elements) {
+        var groups = [];
+        elements.forEach(function (element) {
+          if (element.getAttribute("aria-hidden") === "true") {
+            permanentlyHiddenFragments.add(element);
+          }
+          if (!groups.includes(element.dataset.fragment)) {
+            groups.push(element.dataset.fragment);
+          }
+        });
+        return groups;
+      });
+      var fragmentProgress = slides.map(function () {
+        return 0;
+      });
+
+      function fragmentsEnabled() {
+        return !mobileQuery.matches;
+      }
+
+      function syncSlideFragments(index) {
+        var groups = fragmentGroups[index];
+        var effectiveProgress = fragmentsEnabled()
+          ? fragmentProgress[index]
+          : groups.length;
+        fragmentElements[index].forEach(function (element) {
+          var groupIndex = groups.indexOf(element.dataset.fragment);
+          var visible = groupIndex < effectiveProgress;
+          element.classList.toggle("fragment-visible", visible);
+          element.setAttribute(
+            "aria-hidden",
+            permanentlyHiddenFragments.has(element) ? "true" : String(!visible)
+          );
+        });
+        return { groups: groups, progress: effectiveProgress };
+      }
+
+      function syncAllFragments() {
+        slides.forEach(function (_, index) {
+          syncSlideFragments(index);
+        });
+      }
 
       function showSlide(index) {
-        current = (index + slides.length) % slides.length;
+        current = Math.max(0, Math.min(index, slides.length - 1));
         slides.forEach(function (slide, slideIndex) {
           var active = slideIndex === current;
           slide.classList.toggle("is-active", active);
           slide.setAttribute("aria-hidden", mobileQuery.matches ? "false" : String(!active));
         });
-        counter.textContent = String(current + 1) + " / " + String(slides.length);
+        var state = syncSlideFragments(current);
+        var fragmentState = state.groups.length && fragmentsEnabled()
+          ? " · " + String(state.progress) + " / " + String(state.groups.length)
+          : "";
+        counter.textContent = String(current + 1) + " / " + String(slides.length) + fragmentState;
+        counter.setAttribute(
+          "aria-label",
+          state.groups.length && fragmentsEnabled()
+            ? "Slide " + String(current + 1) + " of " + String(slides.length)
+              + "; step " + String(state.progress) + " of " + String(state.groups.length)
+            : "Slide " + String(current + 1) + " of " + String(slides.length)
+        );
         progress.style.width = String(((current + 1) / slides.length) * 100) + "%";
         if (!mobileQuery.matches) {
           history.replaceState(null, "", "#slide-" + String(current + 1));
         }
+      }
+
+      function advancePresentation() {
+        if (fragmentsEnabled() && fragmentProgress[current] < fragmentGroups[current].length) {
+          fragmentProgress[current] += 1;
+          showSlide(current);
+          return;
+        }
+        showSlide(current + 1);
+      }
+
+      function retreatPresentation() {
+        if (fragmentsEnabled() && fragmentProgress[current] > 0) {
+          fragmentProgress[current] -= 1;
+          showSlide(current);
+          return;
+        }
+        showSlide(current - 1);
       }
 
       function initialSlide() {
@@ -914,32 +1065,78 @@
       }
 
       previousButton.addEventListener("click", function () {
-        showSlide(current - 1);
+        retreatPresentation();
       });
 
       nextButton.addEventListener("click", function () {
-        showSlide(current + 1);
+        advancePresentation();
+      });
+
+      function isInteractiveTarget(target) {
+        if (!(target instanceof Element)) {
+          return false;
+        }
+        return Boolean(target.closest(
+          "a, button, img, input, select, textarea, summary, "
+          + "[contenteditable='true'], [role='button'], [data-zoomable]"
+        ));
+      }
+
+      function isTypingTarget(target) {
+        if (!(target instanceof Element)) {
+          return false;
+        }
+        return Boolean(target.closest("input, select, textarea, [contenteditable='true']"));
+      }
+
+      deck.addEventListener("click", function (event) {
+        if (
+          mobileQuery.matches
+          || event.defaultPrevented
+          || isInteractiveTarget(event.target)
+          || !(event.target instanceof Element)
+          || !event.target.closest(".slide.is-active")
+        ) {
+          return;
+        }
+        var selection = window.getSelection();
+        if (selection && !selection.isCollapsed && selection.toString().trim()) {
+          return;
+        }
+        advancePresentation();
       });
 
       document.addEventListener("keydown", function (event) {
+        if (event.defaultPrevented) {
+          return;
+        }
         if (lightbox.open || mobileQuery.matches) {
           return;
         }
-        if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+        if (isTypingTarget(event.target)) {
+          return;
+        }
+        if (event.key === " " && isInteractiveTarget(event.target)) {
+          return;
+        }
+        if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(event.key)) {
           event.preventDefault();
-          showSlide(current + 1);
-        } else if (["ArrowLeft", "PageUp"].includes(event.key)) {
+          advancePresentation();
+        } else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(event.key)) {
           event.preventDefault();
-          showSlide(current - 1);
+          retreatPresentation();
         } else if (event.key === "Home") {
+          event.preventDefault();
           showSlide(0);
         } else if (event.key === "End") {
+          event.preventDefault();
           showSlide(slides.length - 1);
         }
       });
 
       document.querySelectorAll("[data-zoomable]").forEach(function (image) {
         function openImage() {
+          lightboxTrigger = image;
           lightboxImage.src = image.currentSrc || image.src;
           lightboxImage.alt = image.alt;
           lightbox.classList.toggle("is-table", Boolean(image.closest(".table-stage")));
@@ -959,16 +1156,33 @@
         });
       });
 
+      function restoreLightboxTrigger() {
+        lightboxImage.removeAttribute("src");
+        if (lightboxTrigger) {
+          lightboxTrigger.focus();
+        }
+      }
+
       lightbox.addEventListener("click", function (event) {
         if (event.target === lightbox) {
           lightbox.close();
         }
       });
 
-      mobileQuery.addEventListener("change", function () {
-        showSlide(current);
-      });
+      lightbox.addEventListener("close", restoreLightboxTrigger);
 
+      function handleLayoutChange() {
+        syncAllFragments();
+        showSlide(current);
+      }
+
+      if (typeof mobileQuery.addEventListener === "function") {
+        mobileQuery.addEventListener("change", handleLayoutChange);
+      } else {
+        mobileQuery.addListener(handleLayoutChange);
+      }
+
+      syncAllFragments();
       showSlide(initialSlide());
     }());
   </script>

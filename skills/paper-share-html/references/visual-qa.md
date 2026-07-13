@@ -6,9 +6,10 @@
 2. Figures
 3. Tables
 4. Presentation layout
-5. Browser verification
-6. Automated crop checks
-7. Acceptance checklist
+5. Progressive disclosure
+6. Browser verification
+7. Automated crop checks
+8. Acceptance checklist
 
 ## 1. Source hierarchy
 
@@ -90,7 +91,26 @@ performed.
 - Ensure long English titles and unbroken technical terms wrap without
   overlapping neighboring content.
 
-## 5. Browser verification
+## 5. Progressive disclosure
+
+- Use numbered `data-fragment` groups only for an actual explanatory sequence.
+  Start at `1`, keep groups contiguous and in DOM order, and never nest them.
+- Elements with the same number appear together. Keep hidden elements in the
+  layout so revealing them does not resize the slide.
+- Forward controls reveal the next group before advancing. Backward controls
+  hide the latest group before returning, and revisited slides retain progress.
+- Keep primary result tables, quantitative plots, and side-by-side qualitative
+  evidence static so the audience can compare the complete result.
+- Ignore clicks on links, buttons, images, form controls, selected text, and
+  lightbox content. Closing a lightbox must not consume a presentation step.
+- Hide fragments only after JavaScript marks the document as interactive.
+  Without JavaScript, expose every slide as a readable continuous document.
+- Force all fragments visible on narrow screens and in print. Preserve DOM
+  reading order and accessible state when switching between layouts.
+- Respect `prefers-reduced-motion`. Use only a restrained 180-250 ms fade or
+  slight vertical movement in the normal desktop presentation mode.
+
+## 6. Browser verification
 
 Use a real browser after the static audit. Prefer the installed Playwright CLI
 workflow and direct `file://` navigation.
@@ -106,6 +126,8 @@ Desktop checks:
 - capture the full stage and at least one enlarged table.
 - read ordinary row labels, column headings, and body values before opening the
   lightbox; record a failure if zoom is required for normal reading.
+- when fragments exist, exercise forward reveal, backward retreat, progress
+  persistence, first/last boundaries, and mouse-click isolation;
 
 Mobile checks:
 
@@ -114,6 +136,7 @@ Mobile checks:
 - confirm no hidden desktop slide state removes content;
 - inspect long titles, quotations, tables, source lines, and the final section;
 - ensure controls do not cover the text.
+- ensure every fragment is visible and exposed to assistive technology.
 
 Print checks:
 
@@ -125,10 +148,18 @@ Print checks:
   `printBackground: true`, then confirm the PDF page count matches the slide
   count and render dense pages back to PNG for visual inspection.
 
+Fallback checks:
+
+- disable JavaScript and confirm all slides and fragments remain readable;
+- emulate reduced motion and confirm fragment and progress transitions are
+  removed;
+- verify the console remains free of errors throughout navigation and layout
+  changes.
+
 Inspect the screenshots themselves. A zero exit code cannot reveal tiny table
 text, visual imbalance, clipped citations, or incoherent overlap.
 
-## 6. Automated crop checks
+## 7. Automated crop checks
 
 `audit_paper_share.py` always checks table dimensions and layout context. When
 Pillow is available, it also estimates the non-background content bounding box.
@@ -145,7 +176,7 @@ markers and warns when three consecutive original-diagram slides use
 Pillow remains optional for skill users. Without it, structural, resolution,
 resource, language, and layout checks still run normally.
 
-## 7. Acceptance checklist
+## 8. Acceptance checklist
 
 - The package opens without a server or network dependency.
 - Every local `src` and `href` resolves.
@@ -156,5 +187,9 @@ resource, language, and layout checks still run normally.
 - Raw and processed table captures are both retained.
 - No slide overflows or changes size when an asset loads.
 - Desktop navigation and mobile continuous reading both work.
+- Optional fragments reveal and retreat in order without intercepting evidence
+  inspection or other interactive controls.
+- Mobile, print, and no-JavaScript modes expose all progressive content;
+  reduced-motion mode removes animation.
 - Print layout contains all slides and no interactive controls.
 - Final desktop, mobile, and table-lightbox screenshots are stored in `qa/`.

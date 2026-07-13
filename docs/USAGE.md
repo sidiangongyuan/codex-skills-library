@@ -194,7 +194,7 @@ Use `$paper-share-html` to turn a paper into a browser-based presentation for a
 lab meeting, journal club, or cross-disciplinary report:
 
 ```text
-$paper-share-html Create a source-grounded 15-minute HTML presentation from this paper. Build a fluent live-talk argument, preserve complete quotations and citations, keep PDF-extracted tables readable before zoom, vary original diagrams according to the relationship they explain, and verify desktop and mobile layouts in a real browser.
+$paper-share-html Create a source-grounded 15-minute HTML presentation from this paper. Build a fluent live-talk argument, preserve complete quotations and citations, keep PDF-extracted tables readable before zoom, use paced reveals only for genuine explanatory sequences, and verify desktop, mobile, print, and fallback behavior in a real browser.
 ```
 
 Use `$research-evidence` first if the presentation depends on uncertain
@@ -207,6 +207,11 @@ audit also detects broad empty margins. Visual variety is semantic rather than
 decorative: timelines, matrices, evidence maps, spectra, vertical causal
 structures, and annotated source figures are selected only when they match the
 relationship being explained.
+
+Optional `data-fragment` groups let the presenter reveal a causal chain,
+timeline, equation, or method flow one step at a time. Primary result tables
+and comparison figures remain fully visible, while mobile, print, and
+no-JavaScript modes expose every fragment automatically.
 
 ## Publish a clean GitHub project
 

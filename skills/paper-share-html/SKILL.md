@@ -1,6 +1,6 @@
 ---
 name: paper-share-html
-description: Create or revise audience-ready HTML paper presentations for lab meetings, journal clubs, and cross-disciplinary reports. Use when Codex needs to extract clear figures and tables, shape a fluent live talk with verified quotations and varied explanatory diagrams, or audit evidence fidelity, table clarity, responsive layout, and print output.
+description: Create or revise audience-ready HTML paper presentations for lab meetings and journal clubs. Use when Codex needs source-grounded figures and tables, a fluent live-talk narrative, verified quotations, varied explanatory diagrams, presenter-paced reveals, or browser QA for evidence fidelity, interaction, responsive layout, and print.
 license: MIT
 ---
 
@@ -81,6 +81,11 @@ inherits from the previous slide, what it establishes, and why the next slide
 is now necessary. Add full-size figure, qualitative comparison, or visual
 transition slides when they improve comprehension; do not assume every slide
 needs the same speaking time.
+
+Mark a slide for progressive disclosure only when the presenter must establish
+an actual sequence, such as a causal chain, timeline, equation construction,
+method data flow, or evidence boundary. Do not fragment ordinary prose or
+complete experimental comparisons merely to add motion.
 
 Read the sequence aloud as a presenter before polishing individual sentences.
 Repair missing premises, repeated claims, abrupt method-to-result jumps, and
@@ -174,6 +179,23 @@ Adapt the template's theme and composition to the paper while retaining:
 - stable dimensions that prevent layout shifts;
 - descriptive alternative text.
 
+Use `data-fragment="N"` for optional presenter-paced disclosure. Start at `1`
+on each slide, keep groups contiguous and in DOM order, and give elements the
+same number when they must appear together. Do not nest fragments. Forward
+actions reveal the next group before changing slides; backward actions hide the
+latest group before returning. Preserve per-slide progress when revisiting a
+slide.
+
+Keep primary result tables, quantitative plots, and qualitative comparisons
+fully visible by default. Fragment method schematics or presenter synthesis
+only when the reveal order clarifies a genuine dependency without hiding
+evidence needed for comparison. Exclude links, controls, images, selected text,
+and lightbox interaction from click-to-advance behavior.
+
+Progressive content must remain fully visible on mobile, in print, and without
+JavaScript. Respect `prefers-reduced-motion`, and keep transitions to a quiet
+180-250 ms fade or slight vertical movement.
+
 Remove every placeholder and unused component. Do not add visible instructions
 about how the presentation was written or how the audience should operate it.
 
@@ -193,6 +215,10 @@ cells are readable without zoom and that dense tables are not compressed into
 split or card layouts. Save final screenshots under `qa/` and iteration
 artifacts under `qa/archive/`. Inspect screenshots visually; a successful
 command is not proof that the page is legible or the talk is coherent.
+
+When fragments are present, also verify forward reveal, backward retreat,
+progress persistence, first/last boundaries, click isolation, mobile and print
+expansion, no-JavaScript readability, and reduced-motion behavior.
 
 ### 11. Deliver the package
 
@@ -215,4 +241,8 @@ the report unless the user explicitly asks for hosting.
   finished table crop.
 - Do not repeat a horizontal box-and-arrow chain across three consecutive
   original-diagram slides.
+- Do not invent a unified star rating or strength scale for assumptions that
+  act at different levels unless the source defines and measures that scale.
+- Do not fragment a primary experimental table or comparison figure to force
+  the audience through evidence that should be judged simultaneously.
 - Do not finish without desktop and mobile visual inspection.
