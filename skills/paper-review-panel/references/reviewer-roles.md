@@ -1,7 +1,7 @@
 # Reviewer Roles
 
-Use these roles for both panel mode and solo fallback. In solo fallback, apply
-all three lenses yourself and keep the final output synthesized.
+Use these roles as a structured three-reviewer rubric. Apply all three lenses
+yourself and keep the final output synthesized.
 
 ## Shared Reviewer Instructions
 

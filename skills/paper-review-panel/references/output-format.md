@@ -26,7 +26,7 @@ but complete enough to resemble a real top-conference review.
 - [Question a reviewer would ask.]
 - [Clarification needed.]
 
-**Main-Agent Judgment**
+**Synthesis Judgment**
 - Valid concerns to fix: [short list.]
 - Misunderstandings caused by paper clarity: [short list.]
 - Unsupported or incorrect reviewer concerns: [short list or "None."]

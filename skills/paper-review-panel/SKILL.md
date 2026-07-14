@@ -1,6 +1,6 @@
 ---
 name: paper-review-panel
-description: Use when conducting a mock top-conference review, reviewer-panel audit, readiness assessment, or accept/reject risk analysis for a research paper. Synthesizes reviewer-style concerns for venues such as CVPR, ICCV, ECCV, ICLR, NeurIPS, and AAAI without editing the manuscript.
+description: Use when conducting a mock top-conference review, reviewer-style audit, readiness assessment, or accept/reject risk analysis for a research paper. Synthesizes reviewer-style concerns for venues such as CVPR, ICCV, ECCV, ICLR, NeurIPS, and AAAI without editing the manuscript.
 license: MIT
 ---
 
@@ -30,30 +30,23 @@ priorities.
    - If only a section is provided, label the result as a partial review and do
      not score the full paper as if all sections were available.
 
-2. Choose solo or panel mode.
-   - Spawn subagents only when the user explicitly asks for subagents, a
-     reviewer panel, multiple reviewers, or parallel review.
-   - If subagents are not explicitly authorized, perform a solo review using
-     the same three-reviewer rubric.
-   - When panel mode is authorized, read `references/subagent-panel.md` and
-     launch three independent read-only reviewer agents.
-
-3. Use the three-reviewer lens.
+2. Apply the three-reviewer lens in the main review.
    - Reviewer 1: contribution, novelty, positioning, motivation, venue fit.
    - Reviewer 2: method, technical correctness, experiments, metrics, evidence.
    - Reviewer 3: writing, figures, tables, consistency, reproducibility,
      appendix, reviewer readability.
    - Read `references/reviewer-roles.md` for detailed role prompts.
 
-4. Synthesize rather than concatenate.
-   - Do not paste raw subagent reviews by default.
+3. Synthesize rather than concatenate.
+   - Do not list reviewer lenses separately unless that helps diagnose the
+     paper's risks.
    - Judge each concern independently: valid issue, clarity-induced
      misunderstanding, unsupported or incorrect reviewer claim, or optional
      polish.
    - Preserve concrete anchors such as section, page, table, figure, equation,
      appendix item, or source location whenever available.
 
-5. Report in official-review style.
+4. Report in official-review style.
    - Use English by default.
    - Use venue-aware scoring when the venue is known. If unknown, use
      `Overall score 1-10` and `Confidence 1-5`.
@@ -83,8 +76,7 @@ priorities.
 
 ## Reference Routing
 
-- Read `references/subagent-panel.md` only for explicit subagent/panel requests.
-- Read `references/reviewer-roles.md` for role-specific prompts and solo-review
+- Read `references/reviewer-roles.md` for role-specific prompts and review
   lenses.
 - Read `references/output-format.md` before writing the final review.
 - Read `references/review-checklist.md` for deep or high-stakes readiness
