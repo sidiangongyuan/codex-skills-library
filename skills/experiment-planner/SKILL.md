@@ -18,8 +18,12 @@ rebuttal, figure, evidence, or GitHub release skills.
 - Default domain: general deep learning and computer science research. Adapt to
   collaborative perception, 3D perception, or autonomous driving only when the
   task context calls for it.
-- Do not write Markdown, JSON, reports, logs, or experiment documents unless the
-  user explicitly asks for saved artifacts.
+- For discussion-only planning, keep output in chat unless the user asks for a
+  saved artifact. When the user asks to implement or run experiments in a
+  repository, persist the pre-run result contract: update the paper's final
+  LaTeX tables when a manuscript is in scope; otherwise update the existing
+  experiment-planning document or create `experiment-plan.md` at the repository
+  root.
 - Do not launch long experiments, deploy GPU jobs, modify code, or retry failed
   runs unless the user explicitly asks for execution.
 - Do not replace `paper-section-playbook`, `paper-refinement-skills`,
@@ -45,21 +49,35 @@ rebuttal, figure, evidence, or GitHub release skills.
    validation, and claims that will not outrun the evidence.
 4. **Claim freeze**: freeze the smallest verifiable claim before planning runs.
    Avoid changing the story repeatedly while experiments are running.
-5. **Idea validation first**: design the smallest pilot/smoke/sanity experiment
+5. **Paper/table contract freeze**: before scheduling runs, define the final
+   main-result, ablation, and necessary diagnostic tables. For every metric,
+   record its plain-language definition, unit, direction, aggregation, and any
+   delta reference. Use `--` for unavailable values and do not write claims
+   from placeholder cells.
+6. **Idea validation first**: design the smallest pilot/smoke/sanity experiment
    that can falsify or support the core hypothesis. If multiple GPUs are idle,
    parallelize only independent exploration runs with clear ownership.
-6. **Matrix expansion**: only after the pilot passes, expand to main result,
-   ablation, diagnostic, robustness, efficiency, qualitative, and failure
-   analysis runs.
-7. **Subagent coordination**: keep the main session responsible for planning,
+7. **Minimum sufficient matrix**: only after the pilot passes, add the main
+   result and claim-critical ablations. Add robustness, diagnostics, efficiency,
+   qualitative results, or failure analysis only when they support a paper
+   claim or answer a credible reviewer question; do not add them for symmetry.
+8. **Subagent coordination**: keep the main session responsible for planning,
    task decomposition, and final result acceptance. Use `explorer` for read-only
    repo/config/protocol investigation. Use `worker` for implementation with
    explicit file or module ownership. Do not manually override subagent model or
    reasoning settings unless the user explicitly requests it.
-8. **Run discipline**: test that the command starts and produces plausible small
+9. **Run discipline**: test that the command starts and produces plausible small
    outputs; remove test data after smoke checks; launch the full run only after
    sanity passes; inspect the first few samples/logs/artifacts; stop continuous
    monitoring once the run is confirmed healthy unless the user asks otherwise.
+10. **Conditional seed policy**: record an existing seed and keep compared runs
+    under the same evaluation and checkpoint-selection policy. For expensive
+    training such as autonomous driving, accept a single training run by default.
+    Require repeated seeds only when variance could change the central claim,
+    the margin is small, the runs are inexpensive, or the venue requires them.
+11. **Default decisions**: ask only questions whose answers materially change
+    the plan. If a non-critical choice goes unanswered, use the recommended
+    default and record it as an assumption.
 
 ## Output Contract
 
@@ -70,9 +88,12 @@ The matrix must include:
 
 - `research question`
 - `core hypothesis`
+- `paper claim`
 - `storyline`
 - `literature inspiration`
 - `baseline/control`
+- `table contract`
+- `metric definitions`
 - `idea validation experiment`
 - `expected signal`
 - `failure modes`
@@ -80,7 +101,9 @@ The matrix must include:
 - `follow-up experiments`
 - `subagent/task ownership`
 - `compute/resource assumptions`
+- `seed policy`
 - `success gate`
+- `claim gate`
 - `next action`
 
 Use `unknown` or `needs user input` for unresolved fields instead of inventing

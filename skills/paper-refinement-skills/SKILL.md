@@ -15,21 +15,28 @@ Use this skill when revising academic papers section by section. Preserve verifi
 1. Read the target sentence, paragraph, and immediate surrounding context before editing.
 2. Identify whether the problem is structural or local: argument flow, scope, redundancy, terminology drift, or sentence quality.
 3. Identify the paper story before polishing: dataset/benchmark, method, analysis, or system. Experiments should support that story, not read like a run log.
-4. Revise conservatively: preserve verified claims, datasets, equations, and citations unless the user explicitly asks to change them.
-5. When a passage is repeatedly misunderstood, fix the ambiguity at its source instead of only softening nearby claims.
-6. When confusion comes from a category error, fix the category boundary before polishing the sentence. Separate dataset/protocol contents from diagnostic experiments, model design from evaluation controls, and baseline-conversion fairness from the paper's main contribution.
-7. Check the revised passage against the rest of the paper for claim consistency, notation, references, figure/table links, and rendering risks.
-8. After a figure or table changes, search nearby and later prose for stale
+4. Freeze the claim hierarchy: one central paper claim first, with ablations,
+   reliability studies, and diagnostics presented only as supporting evidence.
+5. Revise conservatively: preserve verified claims, datasets, equations, and citations unless the user explicitly asks to change them.
+6. When a passage is repeatedly misunderstood, fix the ambiguity at its source instead of only softening nearby claims.
+7. When confusion comes from a category error, fix the category boundary before polishing the sentence. Separate dataset/protocol contents from diagnostic experiments, model design from evaluation controls, and baseline-conversion fairness from the paper's main contribution.
+8. Check the revised passage against the rest of the paper for claim consistency, notation, references, figure/table links, and rendering risks.
+9. After a figure or table changes, search nearby and later prose for stale
    terminology, old row names, obsolete panel structure, and implementation
    leakage. A consistent table has a matching body, caption, and local
    explanatory paragraph. If a new row is added to a delta-coded or
    reference-coded table, the prose must name the comparison reference and
    report movement in the same direction as the table cells.
-9. Promote only reusable cross-paper heuristics into this skill. Keep paper-specific conventions outside the skill unless the user explicitly asks for a project-local note.
+10. Promote only reusable cross-paper heuristics into this skill. Keep paper-specific conventions outside the skill unless the user explicitly asks for a project-local note.
 
 ## Core Rules
 
 - Prefer direct, claim-driven prose over long setup or component lists.
+- Write manuscript content as the paper's author for reviewers. Insert only
+  submission-ready prose, captions, equations, and table text. Keep advice to
+  the user outside the manuscript; never insert author-facing instructions,
+  editorial commentary, or internal status labels such as `TODO`, `TBD`, or
+  `pending` into paper-facing text.
 - Write for the paper reader, not for the experiment operator. Convert implementation steps, run bookkeeping, and parser mechanics into the smallest protocol statement needed for the claim, then move reproducibility details to appendix notes.
 - Use section-aware disclosure. Main text should include only details that affect the scientific conclusion, fairness, validity, or reader interpretation. Checkpoints, runner names, guard logic, adapters, local paths, download failures, failed attempts, and engineering patches belong in Appendix or internal records by default.
 - Do not sound anxious. Avoid stacking caveats in captions or result prose just because a reviewer might ask. If a detail does not change how the reader should interpret a result, move it out of the main narrative.
@@ -52,6 +59,15 @@ Use this skill when revising academic papers section by section. Preserve verifi
 - Outside experimental sections, avoid adding concrete numbers unless they are already verified or required for correctness.
 - Maintain symbol consistency and define symbols on first use.
 - De-emphasize repeated secondary claims; keep them where they are needed for setup or reproducibility, not as a paper-wide slogan.
+- Use one canonical name for each concept and metric. Collapse aliases that
+  describe the same condition or ablation; remove a coined label when ordinary
+  wording is equally precise.
+- Define every non-standard metric before interpreting it. State what is
+  measured, over which samples it is aggregated, its unit and direction, and
+  the named reference for any delta.
+- For planned but unfinished results, keep the accepted table structure and use
+  `--` in unavailable cells. Remove unsupported result sentences and do not
+  explain the internal completion state in the caption or manuscript prose.
 - Do not treat adding numbers to a table as complete writing. First check the
   table contract: whether cells require deltas, reference labels, color
   semantics, confidence intervals, sample counts, or row-group notes. Then make

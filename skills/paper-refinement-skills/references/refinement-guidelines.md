@@ -10,12 +10,18 @@
 - Before revising, identify the paper's narrative role: dataset/benchmark, method, analysis, or system. A good revision makes that role easier to read; it does not simply preserve the chronology of how experiments were run.
 - Preserve verified claims, citations, equations, and numbers unless the user explicitly asks to change them.
 - Prefer claim-driven prose, clear transitions, and concise sentences over component lists and repetitive setup.
+- Write as the author inside the manuscript. A revised paragraph, caption, or
+  table note must be ready for reviewers; author instructions and internal work
+  status belong only in the chat response or project records.
 - Treat experiments as evidence in a story, not as a lab notebook. Main text should state the question, table/figure evidence, and interpretation. Put command lines, runner stages, parser internals, checkpoint bookkeeping, and other operational detail in appendix notes only when needed for reproducibility.
 - Use section-aware disclosure. Abstract, Introduction, main result paragraphs, and Conclusion should expose only the details that change the scientific claim or reader interpretation. Checkpoint initialization, runner names, guard conditions, adapters, artifact paths, download failures, and failed smoke runs belong in Appendix or internal records unless they affect fairness, validity, or reproducibility.
 - Do not sound anxious. Do not pile up caveats in captions or prose to pre-answer every possible reviewer question. State the necessary scope cleanly, then move non-interpretive engineering detail out of the main flow.
 - Use a section-altitude gradient. Abstract and early Introduction should say what problem the paper asks, what it contributes, and what the evidence implies. Experiments can name the protocol, controls, conversions, and diagnostics after the setup has defined them. Appendix can carry the full operational machinery.
 - Prefer simple wording until precision requires a term. Do not coin a new phrase, expose a runner name, or introduce a fairness/conversion label in front matter when "same evaluation setting", "controlled diagnostics", or another ordinary phrase is accurate enough.
 - Keep category boundaries visible. Dataset/protocol contents, model components, diagnostic controls, baseline-conversion fairness, and appendix audit mechanics are different kinds of claims; do not collapse them into one component inventory.
+- Keep the claim hierarchy visible. Establish the main method, dataset, or
+  system result first. Treat ablations, reliability controls, and diagnostics as
+  supporting evidence unless the paper explicitly makes one of them central.
 - When a reader is confused, first check for a category error before polishing the sentence. A dataset component, diagnostic experiment, baseline setup, and implementation note should not be merged into one list or claim.
 - Prioritize natural academic English. Prefer familiar words, standard phrasing, and direct syntax over ornate, rare, or thesaurus-like wording.
 - Remove AI-like filler: generic intensifiers, repetitive transitions, unnecessary hedges, and sentences that sound polished but do not add information.
@@ -31,6 +37,8 @@
 - Treat repeated secondary properties as setup facts, not as slogans. Mention them once where they matter, then stop repeating them across the paper.
 - In evaluation and reliability papers, foreground the scientific question first and treat the benchmark, dataset, or protocol as the instrument used to answer it. The data artifact should not eclipse the phenomenon the paper reveals.
 - Preserve logical continuity across neighboring paragraphs. A revised sentence should not introduce a motivation, assumption, or conclusion that the surrounding text has not prepared.
+- Merge duplicate names for the same condition, component, or ablation. Prefer
+  one ordinary, reviewer-readable term over multiple internal aliases.
 
 ## Claim Safety and Validation
 
@@ -39,6 +47,9 @@
 - Avoid absolute guarantees such as "ensures", "solves", "eliminates", or "fully robust" unless the paper proves them under the stated scope.
 - State comparison scope clearly: dataset, protocol, metric, budget, corruption model, or training condition when the scope matters.
 - If the user asks for a stronger claim and the evidence is uncertain, flag the gap and ask for the missing support rather than fabricating a justification.
+- When related work supports only a shared design pattern, state that pattern
+  and the relevant difference. Do not imply architectural identity merely to
+  make the paper's design sound established.
 - After editing a section with figures, tables, equations, or citations, check for stale references, mismatched labels, undefined symbols, and prose that contradicts captions or tables.
 - After changing a table or figure, audit the table body, caption, and local
   explanatory paragraph as one unit. If rows, columns, panel structure, or
@@ -56,7 +67,10 @@
 - Keep the reader's comparison path consistent. If a table is meant to be
   scanned horizontally across tasks or controls, the prose and caption should
   preserve that comparison rather than silently reframing it after a layout edit.
-- When an experiment is planned but not yet reported, prefer a clean table scaffold with dashes over ad hoc prose promises. The caption should state that the metric is intentionally blank in the current draft, and the surrounding prose should avoid drawing conclusions from placeholders.
+- When an experiment is planned but not yet reported, prefer a clean table scaffold with `--` over ad hoc prose promises. Keep the caption focused on the comparison and metric contract; do not expose internal status such as `TODO`, `TBD`, or `pending`, and do not draw conclusions from placeholders.
+- Define non-standard metrics at first use with their measured quantity,
+  aggregation population, unit, direction, and reference row or condition for
+  any delta. If this contract is hard to explain, simplify or remove the metric.
 - Present baselines by their normal method names in main tables and result prose unless a qualifier changes how the number should be read. If a baseline is partially reproduced, converted, adapted, or guarded in a way that affects fairness, validity, or reproducibility, state that precisely in the setup, caption, footnote, or Appendix; avoid turning every baseline row into an implementation caveat.
 - Distinguish different comparison axes precisely:
   - native-budget versus budget-matched

@@ -3,7 +3,11 @@
 ## Before Plotting Or Tabulating
 
 - Confirm the source data path and the exact rows/conditions included.
-- Confirm sample counts, split names, checkpoint/run identifiers, and metric definitions.
+- Confirm sample counts, split names, checkpoint/run identifiers, and metric
+  definitions, including aggregation population, unit, direction, precision,
+  and delta reference.
+- Confirm each main table answers one reviewer question and that secondary
+  diagnostics do not obscure the primary comparison.
 - Check whether generated outputs are tracked source artifacts or disposable build products.
 - If the visual replaces an old artifact, remove stale references and stale generated files when appropriate.
 
@@ -20,6 +24,8 @@
 - Search the log for `Overfull`, undefined references, missing citations, and package/icon errors.
 - Render the affected page and inspect column widths, row highlights, caption spacing, and font size.
 - Check that every number in the table can be traced to a source artifact.
+- Check unavailable values use `--`, paper-facing captions contain no internal
+  completion status, and no prose claim relies on placeholder cells.
 
 ## Common Commands
 

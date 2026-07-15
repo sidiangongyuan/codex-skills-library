@@ -27,6 +27,8 @@ priorities.
      audit through `$research-evidence` before finalizing novelty or acceptance
      risk. Do not require this extra pass for casual local or prose-only reviews
      unless novelty or missing citations are part of the ask.
+   - If that audit is incomplete or source coverage is weak, state the coverage
+     limit before assigning novelty confidence or acceptance risk.
    - If only a section is provided, label the result as a partial review and do
      not score the full paper as if all sections were available.
 
@@ -46,7 +48,15 @@ priorities.
    - Preserve concrete anchors such as section, page, table, figure, equation,
      appendix item, or source location whenever available.
 
-4. Report in official-review style.
+4. Run a complexity and readability audit.
+   - Check whether a reviewer can identify the central claim and its main table
+     before encountering secondary ablations or diagnostics.
+   - Require every non-standard metric and delta to define its measured
+     quantity, aggregation population, unit, direction, and reference.
+   - Treat duplicate terminology, opaque metric names, and diagnostic overload
+     as acceptance risks when they make the evidence harder to verify.
+
+5. Report in official-review style.
    - Use English by default.
    - Use venue-aware scoring when the venue is known. If unknown, use
      `Overall score 1-10` and `Confidence 1-5`.
@@ -59,6 +69,15 @@ priorities.
 - Treat unsupported claims, weak baselines, missing ablations, protocol leakage,
   metric ambiguity, and inconsistent appendix/main-paper numbers as high-risk
   issues.
+- Do not mechanically require repeated training seeds for expensive tasks.
+  Accept single-run training when comparisons use the same budget, evaluation,
+  and checkpoint-selection policy; request repeated seeds only when variance
+  could change a central claim, the margin is small, runs are inexpensive, or
+  the venue requires them.
+- In work-in-progress reviews, treat `--` cells as structure only and do not
+  credit them as evidence. In submission-readiness reviews, report unresolved
+  placeholders as incomplete evidence and verify that no result claim depends
+  on them.
 - For dataset and benchmark papers, separate dataset contribution, protocol
   validity, reference baseline strength, and evidence that the benchmark tests
   the claimed capability.
@@ -69,6 +88,8 @@ priorities.
 - For high-risk novelty or readiness judgments, do not rely on memory or the
   paper's current bibliography alone. Use `$research-evidence` to test direct
   and adjacent recent work, terminology variants, and source-coverage limits.
+- If the literature check is partial, make the score or risk estimate
+  conditional on that search coverage instead of presenting it as final.
 - If a novelty, related-work, or citation-authenticity concern remains
   uncertain after checking, report the uncertainty as reviewer risk rather than
   treating the concern as proven.

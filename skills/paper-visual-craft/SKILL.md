@@ -30,8 +30,20 @@ license: MIT
      being compared and what conclusion to read; the visual should not preserve
      implementation history, generated-condition inventories, or debug process
      unless those are the claim.
+   - Prefer a simple table for categorical comparisons and component ablations.
+     Do not turn a row-and-column question into a complex diagram merely to make
+     the presentation look more elaborate.
 
-3. Preserve measurement integrity.
+3. Freeze the table contract before experiments.
+   - When planning results, define the final rows, columns, comparison axis,
+     claim owner, and reference row before runs start.
+   - For each metric, record its plain definition, unit, direction, aggregation
+     population, precision, and any delta reference or sign convention.
+   - If a LaTeX manuscript is in scope, add the final table scaffold there. Use
+     `--` for unavailable values and keep internal completion status out of the
+     caption and paper prose.
+
+4. Preserve measurement integrity.
    - Preserve exact values, units, sample counts, conditions, and axis semantics.
    - Do not mix raw values, percentages, percentage-point deltas, and relative deltas inside one visual unless the caption makes the units explicit.
    - When adding a numeric result row, fit the row to the table's existing
@@ -49,7 +61,7 @@ license: MIT
      describes the old rows or comparison target, or if a new row omits the
      table's required reference/delta semantics.
 
-4. Design with restrained hierarchy.
+5. Design with restrained hierarchy.
    - Prefer vector outputs for papers and PNG previews for inspection.
    - Use consistent legends, typography, line weights, tick formatting, row highlights, and caption structure.
    - Reserve whitespace for endpoint labels and callouts; avoid labels floating over trends, bars, or dense table cells.
@@ -60,13 +72,15 @@ license: MIT
      do not split one wide table into panels merely because it is wide; if the
      user permits `resizebox` and horizontal scanning is the point, keep one
      coherent table and shrink it only as needed.
-   - For planned experiments, create a clean paper-style table scaffold with dashes for missing metrics instead of leaving prose TODOs; do not interpret placeholder values.
+   - For planned experiments, create a clean paper-style table scaffold with
+     `--` for missing metrics instead of leaving prose TODOs; keep the caption
+     focused on the comparison contract and do not interpret placeholder values.
    - Prune redundancy. Delete or merge duplicate controls, equivalent inputs,
      uninformative panels, and plain scatter plots with no clear message. Fewer
      clear visuals are better than a "fancy" but unfocused figure set.
    - Use icons only when they reduce text and are reproducible from LaTeX or an existing project icon system. Do not copy external paper image assets.
 
-5. Validate rendered output.
+6. Validate rendered output.
    - Compile the paper or render the affected standalone output.
    - Inspect the rendered PDF/PNG visually for clipping, overlap, crowded ticks, unreadable labels, broken references, excessive table scaling, and color imbalance.
    - For dense colored tables, render-check the affected pages at least twice after the final edit.
@@ -76,6 +90,9 @@ license: MIT
 
 - Use semantic color, not raw sign: color should answer whether the value is better, worse, a reference, or a diagnostic warning.
 - Make tables serve the paper story. A table should let the reader scan the experimental question and evidence, not reconstruct the implementation chronology.
+- Make each main table answer one reviewer question. Put the primary comparison
+  before ablations and diagnostics, and remove metrics that do not change how
+  the claim is interpreted.
 - Make the comparison axis explicit before optimizing style. If the reader
   cannot tell whether rows compare models, controls, tasks, or implementation
   variants, redesign the table before polishing colors.
@@ -93,7 +110,9 @@ license: MIT
   user explicitly allows `resizebox` and horizontal scanning is the core value,
   prefer one coherent shrunken table over two panels.
 - Always compile and render-check dense table pages after LaTeX edits, especially when adding cell-level color or rank cues.
-- When a result is not ready, reserve the row/column structure with dashes only if the planned experiment is already part of the paper story and the caption clearly marks the blank metrics.
+- When a result is not ready, reserve the accepted row/column structure with
+  `--` only if the experiment is part of the paper story. Do not expose internal
+  completion status in the caption or infer claims from blank cells.
 
 ## Reference Routing
 

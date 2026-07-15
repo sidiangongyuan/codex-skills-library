@@ -3,6 +3,9 @@
 ## Table Role
 
 - Main-paper tables should answer one claim quickly.
+- Design the final table before launching its experiments. Freeze the row and
+  column meanings, comparison axis, reference row, and claim that owns the table
+  so result collection cannot silently redefine the paper story.
 - Appendix tables can contain more rows, but still need short cells, grouped headers, and clear row ordering.
 - Reliability/control tables should make conditions and controls visually scanable before showing interpretation.
 - Tables are part of the paper narrative, not a dump of execution artifacts. Choose rows and groups around the experimental question the reader should understand.
@@ -37,7 +40,11 @@
   the new row must use the same contract or the table must be redesigned. Do not
   add plain metric values to a table whose cells encode comparison against a
   reference.
-- If a planned experiment is accepted as part of the paper structure but the data are not ready, use a polished scaffold table with dash-valued metric cells. The caption must say the metrics are intentionally blank in the current draft, and the prose must not claim results from those rows.
+- If a planned experiment is accepted as part of the paper structure but the
+  data are not ready, use a polished scaffold table with `--` metric cells. The
+  caption should define the comparison and metrics without exposing internal
+  status such as `TODO`, `TBD`, or `pending`; the prose must not claim results
+  from those rows.
 - Keep comparison axes intact. If a wide appendix table is designed for
   left-to-right comparison across task groups, models, or controls, prefer one
   coherent table when the user allows shrinking or explicitly permits
@@ -70,6 +77,9 @@
 
 ## Numeric Consistency
 
+- Define every non-standard metric by measured quantity, aggregation
+  population, unit, direction, and precision. For deltas, name the reference row
+  or condition and state the sign convention.
 - Align rounding with the paper's existing precision.
 - Keep deltas tied to a named baseline in the header or caption.
 - When a new row compares against a different reference than earlier rows, state
@@ -91,5 +101,8 @@
 - Resize only to shrink a naturally overwide table. Prefer a max-width wrapper such as `adjustbox` with `max width=\linewidth` or `max width=\textwidth`, because it preserves native size when the table fits and shrinks only when needed.
 - Before shrinking, try reducing text, tightening `\tabcolsep`, using compact grouped headers, or fixed-width `p{}` columns. Split the table only when the resulting panels still preserve the intended reader scan path. If the user explicitly permits `resizebox` and horizontal scanability is the point, a single coherent shrunken table is preferred over automatic panel splitting.
 - Use `\small` or `\scriptsize` sparingly. A readable table is better than a dense table with every metric.
+- Prefer a compact table over a decorative or multi-panel figure when rows and
+  columns already express the comparison. Complexity must earn space by making a
+  relationship materially easier to understand.
 - Compile and check for overfull boxes, clipped cells, broken references, and captions that push tables awkwardly across pages.
 - Render dense colored table pages at least twice after final edits. Check that color blocks align by column, delta text is subordinate, color-word captions are readable, and no cell is ambiguous.

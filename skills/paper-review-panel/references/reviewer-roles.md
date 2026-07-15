@@ -51,8 +51,11 @@ Focus on:
 - baseline fairness and conversion details;
 - metric definitions, sample counts, statistical support, and confidence
   intervals;
+- whether a delta has a named reference and sign convention;
 - ablations, controls, robustness diagnostics, and negative results;
-- leakage risks, checkpoint-selection risks, and unsupported causal claims.
+- leakage risks, checkpoint-selection risks, and unsupported causal claims;
+- whether repeated seeds are necessary for the claim given the observed margin,
+  expected variance, training cost, and venue requirements.
 
 Prompt template:
 
@@ -73,8 +76,11 @@ Focus on:
 
 - writing clarity and section flow;
 - figure and table readability;
+- whether the main claim and primary table appear before secondary diagnostics;
 - caption quality and visual consistency;
 - notation, terminology, and symbol consistency;
+- opaque metric names, duplicate aliases, author-facing notes, and unresolved
+  placeholders in paper-facing text;
 - citations and bibliography completeness;
 - appendix/main-paper consistency;
 - reproducibility details, release claims, and artifact traceability.

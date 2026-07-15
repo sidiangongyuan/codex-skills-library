@@ -18,9 +18,28 @@ Experiments
 └── (Limitations is NOT placed here — it lives in Appendix only; see discipline note below.)
 ```
 
-**Rule.** E1–E3 are non-negotiable. E4 subsection count = number of non-trivial hypotheses worth their own figure/table (typical: 2-3). E5 may be merged into E4 if space is tight.
+**Rule.** E1 and E2 are required. Include E3 when the paper makes a component
+or mechanism claim. Add E4 and E5 only when they provide evidence needed for the
+central claim or answer a credible reviewer question; do not add subsections for
+symmetry or apparent completeness.
 
 **Limitations placement (default).** Put detailed limitations in a **dedicated Appendix section** unless the venue requires a main-text discussion. Avoid repeating the same material in Experiments and Conclusion. The Appendix section title is normally sufficient navigation; see the "Limitations — where it lives" block below.
+
+## Pre-Run Table Contract
+
+Before experiments start, freeze the final main-result table, the
+claim-critical ablation table, and only the necessary analysis tables. Each
+table must answer one reviewer question and name the claim it supports. Define
+every metric by measured quantity, aggregation population, unit, direction,
+precision, and any delta reference or sign convention. If the LaTeX manuscript
+exists, insert the final table scaffolds immediately and use `--` for unavailable
+values. Do not write `TODO`, `TBD`, `pending`, or result claims around
+placeholders.
+
+Keep the main comparison first. Ablations, reliability controls, robustness,
+and diagnostics are supporting evidence unless the paper explicitly makes one
+of them central. Merge duplicate condition names and remove a metric, table, or
+standalone concept when it does not change how the central claim is interpreted.
 
 ## E1. Experimental Setup
 
@@ -30,7 +49,11 @@ Experiments
 
 **Baselines paragraph.** Group baselines into 2-3 families (e.g., "early fusion", "intermediate fusion", "late fusion" for collaborative perception). Present main-table rows by normal method names first. State the chosen version, source, and any re-implementation or adaptation only where it affects fairness, validity, or reproducibility; **silent unfair re-implementations are a top reviewer red flag**, but overloading every row with checkpoint, guard, adapter, or failed-run caveats makes the table read like an incident report.
 
-**Metrics paragraph.** Primary metric first (AP / IoU / NDS / PSNR …), secondary after. If using a non-standard metric, give a one-sentence definition and a reference. Do not invent a metric only to win a table.
+**Metrics paragraph.** Primary metric first (AP / IoU / NDS / PSNR …), secondary
+after. For every non-standard metric, state what it measures, the aggregation
+population, unit, direction, and reference for any delta. Do not invent a metric
+only to win a table; simplify or remove one that is difficult for a reviewer to
+interpret.
 
 **Implementation details paragraph.** Hardware, framework, optimizer + schedule, epochs, batch size, key hyperparameters. Must be sufficient to reproduce within ±1 point. If any hyperparameter was tuned per dataset, say so.
 
@@ -53,7 +76,7 @@ controls reveal the benchmark's diagnostic value, and how baselines demonstrate
 that value. Keep runner details, parser mechanics, checkpoint bookkeeping, and
 engineering caveats in appendix notes unless they are needed to understand the
 main comparison. For planned-but-unfinished diagnostics, lay out the final table
-structure with dash-valued metric cells, then fill metrics when accepted; do not
+structure with `--` metric cells, then fill metrics when accepted; do not
 replace the table with prose promises.
 
 **Protocol and diagnostic terminology lives here, not in the abstract.** Once E1
@@ -96,7 +119,12 @@ unless the paper provides direct evidence for that stronger claim.
 
 The Sanity move is what separates believable papers from overclaiming ones. **Every main-table gain must be either explained or honestly bounded**.
 
-**Seed variance.** Single-run is the default (domain has high compute cost). Report mean ± std over ≥3 seeds only when (a) margin vs SOTA < 1%, or (b) reviewers are likely to question variance. For NeurIPS checklist, declare honestly: "We report single-run results due to compute cost; the baseline was evaluated under identical conditions."
+**Seed variance.** Single-run training is the default for expensive tasks such
+as autonomous driving. Record an existing seed and keep compared methods under
+the same budget, evaluation, and checkpoint-selection policy. Add repeated seeds
+only when variance could change the central claim, the margin is small, the runs
+are inexpensive, or the venue requires them. Disclose a single-run policy
+honestly instead of presenting it as stronger statistical evidence.
 
 **Communication accounting.** For communication-sensitive papers, state what the reported payload means. Distinguish native communication cost from budget-matched comparison, and distinguish payload before corruption from retained payload after packet loss / dropping when both are discussed. A table that mixes these quantities without labeling is unfair even if the numbers are correct.
 
@@ -113,7 +141,11 @@ The Sanity move is what separates believable papers from overclaiming ones. **Ev
 
 Do **not** mix per-component and per-hyperparameter ablations in the same table — split into separate small tables.
 
-**Claim-alignment rule (hard).** For every numbered submodule in Method (M2 … M_{last-1}), there must be an ablation row where that submodule is off. If a component is not ablatable (architectural rewrite), say so explicitly and justify in one sentence.
+**Claim-alignment rule.** Every novel component used to support the central
+method claim must map to an interpretable ablation row or a concise justification
+when removal requires an architectural rewrite. Do not create ablations for
+ordinary implementation plumbing or modules that the paper does not claim as a
+contribution.
 
 **Variant-definition rule.** Before interpreting any ablation table, state the shared conditions and the varied factor. Define named variants in the table caption or surrounding prose. For example, if rows differ by whether they use an input prior, whether training injects noise, or how many inference steps are run, say which factor changes and which remains fixed.
 
@@ -126,7 +158,10 @@ Reviewers respect honesty on small gains; they penalize evasion.
 
 ## E4. Analysis / Robustness / Scalability (per-hypothesis)
 
-**Purpose.** Answer the "would X hold under Y?" questions a skeptical reviewer will ask. Each subsection is a self-contained scientific question.
+**Purpose.** Answer only the "would X hold under Y?" questions that matter to
+the central claim. Each retained subsection is a self-contained scientific
+question; secondary analysis must not be promoted into a separate contribution
+merely because the result exists.
 
 **Typical subsections for collaborative perception / 3D AD papers.**
 - *Robustness to localization noise* — add Gaussian noise to poses, plot AP vs σ.
@@ -229,7 +264,8 @@ must map back to a high-level claim rather than becoming a standalone slogan.
 - [ ] Every baseline's source / config is cited where needed; re-implementation or adaptation details are disclosed without turning main rows into engineering caveats.
 - [ ] Main table uses per-dataset split unless the collapse conditions are met.
 - [ ] "Ours" row is highlighted; bolding reflects actual best, not cherry-picked.
-- [ ] Each Method submodule has at least one ablation row (or an explicit justification why not ablatable).
+- [ ] Each claimed novel component has an ablation row or an explicit
+  justification; ordinary implementation plumbing is not ablated for symmetry.
 - [ ] Named ablation variants are defined by the changed factor and held-fixed factors before interpretation.
 - [ ] Technical fairness/conversion terms are defined in setup or captions, not introduced first in the abstract.
 - [ ] Diagnostic controls are interpreted as analysis tools and are not described as dataset or method components.

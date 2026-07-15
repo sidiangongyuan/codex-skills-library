@@ -25,7 +25,9 @@ Use DriveBench as a design reference, not an asset source. Borrow layout logic, 
 - Use light highlights for the reference input, proposed dataset/model, and strongest control rows.
 - Keep captions short but explicit about mark meanings, control definitions, and whether judge scores are secondary.
 - Let the table carry the comparison and let the prose carry the story. DriveBench-style polish works because the reader can scan the conditions, controls, and metric families without reading implementation notes.
-- For pending QA or control diagnostics, it is acceptable in an internal draft to reserve the DriveBench-style table structure with dash-valued metric cells, but do not write result language until the metrics are filled.
+- For unfinished QA or control diagnostics, reserve the DriveBench-style table
+  structure with `--` metric cells, keep internal completion status outside the
+  paper-facing caption, and do not write result language until values are filled.
 
 ## Claim Safety
 

@@ -23,9 +23,13 @@ close to submission.
   limits that claim?
 - Are missing or ambiguous citations framed as reviewer risk with source
   coverage limits?
+- If source coverage is partial, is the score or acceptance-risk judgment
+  explicitly conditional on that limitation?
 
 ## Claims And Evidence
 
+- Can a reviewer identify one central claim and its primary evidence before
+  encountering ablations, reliability studies, or diagnostics?
 - Does every main claim point to a table, figure, experiment, theorem, dataset
   statistic, annotation audit, or citation?
 - Are negative or mixed results framed honestly?
@@ -46,16 +50,24 @@ close to submission.
 ## Experiments And Metrics
 
 - Are baselines fair and clearly labeled?
-- Are metrics defined with directionality and units?
+- Are metrics defined by measured quantity, aggregation population,
+  directionality, and units?
+- Does every delta name its reference and make the sign convention clear?
 - Are sample counts, splits, and checkpoint policies consistent?
 - Are ablations tied to the main mechanism?
 - Are confidence intervals, paired comparisons, or stratified analyses used
   when small deltas drive the conclusion?
 - Are command/class imbalance and metric disagreement handled explicitly?
+- Is repeated-seed evidence requested only when variance could change the main
+  claim, rather than mechanically for an expensive training task?
+- If the draft uses `--`, are those cells treated only as planned structure,
+  with no result claim inferred from them?
 
 ## Figures And Tables
 
 - Can each figure/table be understood without reading long surrounding prose?
+- Does each main table answer one reviewer question, with secondary diagnostics
+  clearly subordinate to the main comparison?
 - Are captions concise and claim-aligned?
 - Are colors, arrows, deltas, and highlights semantically consistent?
 - Are table values traceable to artifacts?
@@ -69,6 +81,10 @@ close to submission.
 - Are terms and symbols introduced once and used consistently?
 - Are paragraphs cohesive rather than run-log fragments?
 - Are citations present for factual comparisons and related work claims?
+- Are duplicate aliases, opaque coined metrics, and unnecessary diagnostic
+  concepts removed before they make the paper tiring to read?
+- Is paper-facing text free of author instructions and internal labels such as
+  `TODO`, `TBD`, or `pending`?
 
 ## Reproducibility And Appendix
 
