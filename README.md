@@ -16,10 +16,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a>
-  <img alt="17 skills" src="https://img.shields.io/badge/skills-17-0f766e">
-  <img alt="Python standard library installer" src="https://img.shields.io/badge/installer-Python%20stdlib-2563eb">
-  <a href="NOTICE.md"><img alt="Tracked provenance" src="https://img.shields.io/badge/provenance-tracked-b45309"></a>
+  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a> <img alt="17 skills" src="https://img.shields.io/badge/skills-17-0f766e"> <img alt="Python standard library installer" src="https://img.shields.io/badge/installer-Python%20stdlib-2563eb"> <a href="NOTICE.md"><img alt="Tracked provenance" src="https://img.shields.io/badge/provenance-tracked-b45309"></a>
 </p>
 
 Codex Skills Library is a public collection of reusable workflows for product
@@ -70,7 +67,8 @@ before installing it in a sensitive environment. See the
 [single-skill installation details](docs/INSTALL.md#install-one-skill-with-codex)
 for private forks and command-line alternatives.
 
-### Install several skills
+<details>
+<summary><strong>Install several skills</strong></summary>
 
 The repository installer supports selected or bulk installation and has no
 runtime dependencies outside the Python standard library. It defaults to the
@@ -104,6 +102,8 @@ Existing skill directories are skipped by default. Use `--replace` only after
 reviewing the dry run. Use `--target <directory>` to install elsewhere. The
 [installation guide](docs/INSTALL.md) covers Windows paths, manual copying,
 legacy `--codex-home` compatibility, and troubleshooting.
+
+</details>
 
 ## Workflow map
 

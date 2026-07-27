@@ -16,10 +16,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a>
-  <img alt="17 skills" src="https://img.shields.io/badge/skills-17-0f766e">
-  <img alt="Python 标准库安装器" src="https://img.shields.io/badge/installer-Python%20stdlib-2563eb">
-  <a href="NOTICE.md"><img alt="来源可追溯" src="https://img.shields.io/badge/provenance-tracked-b45309"></a>
+  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a> <img alt="17 skills" src="https://img.shields.io/badge/skills-17-0f766e"> <img alt="Python 标准库安装器" src="https://img.shields.io/badge/installer-Python%20stdlib-2563eb"> <a href="NOTICE.md"><img alt="来源可追溯" src="https://img.shields.io/badge/provenance-tracked-b45309"></a>
 </p>
 
 Codex Skills Library 是一个公开的可复用工作流集合，涵盖产品开发、研究、
@@ -64,7 +61,8 @@ $skill-installer 安装 https://github.com/sidiangongyuan/codex-skills-library/t
 私有 fork 与命令行安装方式见英文
 [单项安装说明](docs/INSTALL.md#install-one-skill-with-codex)。
 
-### 安装多个 skills
+<details>
+<summary><strong>安装多个 skills</strong></summary>
 
 仓库自带的安装器支持选择安装和批量安装，运行时只依赖 Python 标准库，默认写入
 用户级共享目录 `$HOME/.agents/skills`。
@@ -96,6 +94,8 @@ python scripts/install.py \
 已有目录默认跳过。只有在检查 dry run 后，才应使用 `--replace` 覆盖同名 skill。
 用 `--target <目录>` 可以指定其他安装位置。Windows 路径、手动复制、旧参数
 `--codex-home` 的兼容行为和故障排查见英文[安装指南](docs/INSTALL.md)。
+
+</details>
 
 ## 工作流导航
 
