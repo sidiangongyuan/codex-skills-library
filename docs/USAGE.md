@@ -176,7 +176,13 @@ $research-evidence Build an evidence map for each reviewer concern using the sub
 Draft concise, reviewer-specific responses:
 
 ```text
-$rebuttal-response-skills Draft the author response under the venue limit. Address every concern, lead with direct answers, cite only verified evidence, avoid unsupported promises, and distinguish completed work from proposed changes.
+$rebuttal-response-skills Using the supplied exact review text and submitted paper, preserve each reviewer's concern order and draft separate OpenReview Markdown responses under the official character limit.
+```
+
+For a shared PDF response, state the venue template and official page limit:
+
+```text
+$rebuttal-response-skills Using the supplied exact reviews and submitted paper, draft the shared PDF author response in reviewer order, then compile and inspect the final page count and rendering.
 ```
 
 Stress-test the result:

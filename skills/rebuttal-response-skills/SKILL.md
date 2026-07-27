@@ -1,135 +1,207 @@
 ---
 name: rebuttal-response-skills
-description: Use when drafting, revising, compressing, planning, or stress-testing rebuttals and author responses for AI, vision, robotics, or autonomous-driving venues. Enforces complete issue coverage, concise reviewer-specific strategy, verified evidence, no fabrication, and no overpromising.
+description: Use when drafting, revising, compressing, planning, or stress-testing rebuttals and author responses in PDF or OpenReview Markdown. Requires exact review text, preserves reviewer order, and grounds each answer in verified paper or experiment evidence.
 license: MIT
 ---
 
 # Rebuttal Response Skills
 
 ## Core Goal
-Produce a safe, concise, evidence-grounded author response that improves acceptance probability without overclaiming, fabricating, or wasting space.
 
-## Non-Negotiable Gates
-1. **Provenance gate**: every factual claim must map to one source: paper text, appendix/supplement, code, log/result file, user-confirmed result, or explicitly marked future work.
-2. **Commitment gate**: every promise must be either already done, explicitly approved by the user, or framed as future work / limitation.
-3. **Coverage gate**: every reviewer concern must end in one of: answered, answered with narrow concession, deferred intentionally, or needs user input.
-4. **Tone gate**: no defensive phrasing, no "the reviewer asks/notes" unless needed for disambiguation; answer the concern directly.
-5. **Limit gate**: respect page / character / per-reviewer limits. If over limit, compress by removing explanation before removing evidence.
-6. **External-evidence gate**: when a response depends on a citation, related-work claim, or reference authenticity that is not already verified in the paper artifacts, use `$research-evidence` before drafting the visible claim.
+Write a direct, reviewer-specific author response that is easy to verify and
+hard to misread. Keep evidence discipline strict internally. Do not turn that
+discipline into a visible stream of disclaimers, limitations, or defensive
+scope statements.
 
-## Workflow
+## Required Inputs
 
-### 1. Normalize Inputs
-Collect:
-- venue and exact format rule: one shared response vs per-reviewer threads; page/word/character limit; PDF vs text-only; anonymity.
-- raw reviews, reviewer IDs, scores, confidence, stance.
-- paper source, supplement, key tables, logs, and existing ablations.
-- user-approved new experiments and results.
+Do not draft from a paraphrase of the review.
 
-### 2. Build an Issue Board
-For each concern, record:
-- reviewer ID and raw anchor quote.
-- issue type: clarity, assumption, novelty, mechanism, ablation, baseline, statistics, efficiency, reproducibility, limitation, writing.
-- severity: critical / major / minor.
-- reviewer priority: pivotal if the reviewer is borderline/negative and the concern is addressable.
-- response mode:
-  - `direct_clarification`: reviewer missed or misunderstood existing content.
-  - `appendix_pointer`: answer mostly exists in appendix/supplement.
-  - `grounded_evidence`: use a table, metric, equation, code fact, or log.
-  - `narrow_concession`: reviewer is locally right; preserve the main claim.
-  - `structural_distinction`: show why the method is not reducible to a generic baseline.
-  - `future_work_boundary`: outside scope, not claimed, but reasonable extension.
+1. Obtain the exact review text, including all available questions, weaknesses,
+   scores, confidence ratings, and score-raising conditions. A supplied file or
+   attachment containing the full text counts. If the user provides only a
+   summary, ask only for the complete review first. Do not send a long intake
+   checklist. After receiving it, discover local artifacts before asking for
+   anything else.
+2. Read the submitted paper and supplement, preferably the submitted PDF as the
+   reviewer saw it. Use newer source files only to locate content or when the
+   user explicitly identifies them as the submission.
+3. Determine the official response format: shared or per-reviewer, PDF or
+   portal text, page or character limit, anonymity rules, Markdown/LaTeX
+   support, and whether links or attachments are allowed. Verify current
+   official venue instructions when the venue is known and the rules were not
+   supplied.
+4. Collect only evidence that can be traced to the submission, appendix, code,
+   accepted result artifacts, verified literature, or an explicit
+   user-confirmed value.
 
-### 3. Strategy Before Drafting
-- Decide structure: reviewer-wise when reviewers are distinct; issue-wise only when many concerns overlap.
-- Allocate space by decision impact, not by number of comments.
-- Lead with shared positives only if they support the acceptance case; keep opener short.
-- Prioritize the concerns that can flip a borderline reviewer.
-- For each pivotal concern, identify the minimum sufficient evidence: one number, one table, one equation, or one code fact.
+## Select the Output Mode
 
-### 4. Draft Pattern
-Default per-issue pattern:
-1. **Direct answer** in the first sentence.
-2. **Evidence** in 1-3 sentences, with exact appendix/table/figure pointers when content already exists.
-3. **Implication**: what this resolves or what will be clarified in revision.
+Ask the user when the mode is genuinely ambiguous. Official venue rules
+override all defaults.
 
-Preferred style:
-- Use concise declarative sentences.
-- Point to appendix/supplement instead of re-explaining long derivations.
-- Use numbers only when they directly answer the concern.
-- Avoid vague thanks before every issue.
-- Avoid repeating the reviewer's wording unless needed to map a concern.
-- Do not write "The reviewer asks..." or "The reviewer notes..." by default.
+### OpenReview Markdown
 
-### 5. Evidence and Experiment Triage
-Run or report a new experiment only if it is:
-- directly requested or clearly decision-relevant;
-- cheap enough for rebuttal time;
-- interpretable under current training/eval protocol;
-- not a new major contribution.
+- Use one response per reviewer when the platform provides separate threads.
+- Include reviewer ID, score, and confidence in the title when they are
+  available, useful, and allowed by the platform.
+- Count the complete visible response, including headings, tables, spaces, and
+  Markdown, under the platform's stated rule.
+- Use GFM tables for dense numerical comparisons and supported LaTeX
+  delimiters for formulas.
+- Check table alignment, paired math delimiters, headings, bold text, and links
+  before submission.
 
-If evidence already exists:
-- cite the exact appendix/table/figure/section.
-- reproduce only the smallest table needed for readability.
-- explain less; reviewers can inspect the referenced evidence.
+### PDF Author Response
 
-If evidence is external:
-- use `$research-evidence` for a focused check.
-- report only verified or likely-supported claims in the visible rebuttal.
-- mark unsupported or ambiguous literature claims as needs-user-input instead of improvising.
+- Use the official template and exact page limit. One page is common, not
+  universal.
+- Preserve reviewer order within the shared document while allocating more
+  space to decision-critical concerns.
+- Compile the final source, render every page, and inspect page count, font
+  size, overflow, clipping, table readability, and references.
+- Do not solve overflow by making the response unreasonably small or dense.
 
-If an experiment is pending:
-- do not include it as a result.
-- keep a source comment/TODO separate from the visible rebuttal.
-- if mentioning future work, frame as limitation, not promise.
+## Map the Review Before Drafting
 
-### 6. Compression Rules
-When over limit, cut in this order:
-1. repeated gratitude and setup;
-2. restating reviewer questions;
-3. long interpretation of obvious tables;
-4. implementation details already in appendix;
-5. secondary metrics;
-6. weak future-work statements.
+Read the review sentence by sentence. For each substantive point, record its
+reviewer, source section, original position, premise, explicit request,
+available evidence, and proposed answer.
 
-Keep:
-- direct answers to pivotal concerns;
-- one strong numerical anchor per empirical concern;
-- narrow concessions that avoid overclaiming;
-- explicit pointers to appendix/supplement evidence;
-- all reviewer concerns covered at least minimally.
+- Preserve the visible order of the review. Meta-review priorities may change
+  emphasis, but not the question sequence.
+- Match labels to the source: `Q1` for Questions and `W1` for standalone
+  Weaknesses. Use `S1` only when a factual premise in Strengths needs explicit
+  correction and cannot be handled cleanly in the opening or a related
+  question. Do not replace source-matched labels with generic labels such as
+  `C1`.
+- If a weakness and a question ask the same thing, answer once under the
+  explicit question at its original position. Keep the duplicate mapping
+  internal.
+- If two explicit questions overlap but contain distinct requests, keep both
+  headings. Answer the shared part once, then use the later heading only for
+  the remaining request.
+- Treat a declarative score-raising condition in the Questions section as the
+  next `Q` item.
+- Keep a separate concern map for each reviewer. Reuse a shared experiment only
+  when it directly answers both reviewers; do not import one reviewer's
+  requested baselines, limitations, or side issues into another response.
+- Ensure every substantive point is answered, intentionally combined with a
+  duplicate, or held for one necessary user decision.
 
-### 7. Stress Test Checklist
-Before finalizing, ask:
-- Is any reviewer concern missing?
-- Is any claim unsupported by paper/code/result logs?
-- Is any promise not approved by the user?
-- Could any sentence sound defensive or dismissive?
-- Is any result vulnerable to train/test mismatch or cherry-picking?
-- Is the main acceptance case clear to the area chair?
-- Does the response remain anonymous and free of external links if required?
+## Draft Each Response
 
-### 8. Follow-Up Rounds
-For new reviewer comments:
-- write a delta reply only, not a full rewrite.
-- link each new comment to an existing issue or create a new issue.
-- escalate technically, not rhetorically.
-- concede if the reviewer is correct.
-- if a reviewer is immovable and no new evidence exists, answer once and stop arguing.
+Assume the reviewer may not remember the paper in detail. Start with at most
+two or three short sentences that restore only the method concept needed to
+understand the answers.
 
-## Collaborative Perception Defaults
-For autonomous-driving collaborative perception papers:
-- Prefer mechanism + ablation + robustness evidence over broad claims.
-- Treat density / confidence / uncertainty terminology carefully; define operational meaning.
-- Separate communication payload from measured latency.
-- Separate local feature denoising from collaborative fusion with A/B/C diagnostics when possible.
-- For modality extension questions, distinguish module generality from current supervision source.
-- For distance / small-object concerns, report stratified AP if available; do not overclaim outside benchmark classes.
+For each issue:
 
-## Benchmark / Dataset Rebuttal Defaults
-For dataset, benchmark, or reference-baseline papers:
-- Keep protocol boundaries explicit. Do not mix native metrics and unified-protocol metrics in the same main comparison table unless each row is clearly labeled; call bridge baselines bridge baselines.
-- Separate the dataset contribution, benchmark protocol, and reference baseline. Do not oversell a simple reference model as the main methodological contribution.
-- Separate language reasoning supervision from structured prediction outputs. Do not claim raw chain-of-thought, explanations, or rationales generate final actions unless the model actually uses them as the prediction source.
-- Treat mixed or negative ablations as scope evidence or appendix analysis unless they directly support the main claim. State the narrow interpretation before the implication.
-- For annotation-quality concerns, answer with provenance, audit gates, human-review scope, sample counts, and failure-repair policy. Avoid vague phrases such as "we manually checked" without describing what was checked.
+1. Use a short heading that faithfully restates the concern.
+2. Give the direct answer in the first sentence.
+3. Provide the minimum explanation, evidence, formula, or experiment needed.
+4. End with the concrete implication for that concern.
+
+Writing rules:
+
+- Prefer short declarative sentences and familiar technical words.
+- Write in the authors' voice for the reviewer, not as notes to the user.
+- Match the reviewer's tone. Use a cooperative tone for exploratory questions
+  and a calm, factual, AC-readable tone for skeptical or low-score reviews.
+- Do not criticize the reviewer or speculate about their expertise.
+- Avoid repeated gratitude, long question restatements, generic transition
+  sentences, and AI-sounding summaries.
+- Use compact tables when prose would force the reviewer to track many values.
+  Define the protocol, comparison point, unit, and direction. Bold the best
+  relevant result. Do not add redundant gain rows when the best values are
+  already clear.
+- Report mixed or negative results honestly, then explain their narrow
+  implication without hiding them or turning them into a broader claim.
+
+## Stay on the Asked Question
+
+- Do not volunteer unrelated limitations, missing modalities, extra tasks,
+  baselines, experiments, or deployment gaps.
+- Do not habitually write "we only claim", "we do not claim", or long scope
+  boundaries. Use a boundary only when it corrects a material misreading,
+  separates measured evidence from an estimate, or prevents an actual
+  overclaim.
+- Do not repeat a limitation already acknowledged by the reviewer unless it is
+  part of the question being answered.
+- For a request that is infeasible during rebuttal, first answer the technical
+  point with current evidence or reasoning. Explain the missing protocol or
+  resource in one concise sentence. Add a future-work commitment only after the
+  user approves it.
+- Never promise a new experiment, dataset, release, revision, or result merely
+  to make the response sound complete.
+
+## Evidence Discipline
+
+Maintain an internal claim-to-source map even when it is not shown to the
+reviewer.
+
+- Separate submitted evidence, new rebuttal evidence, analytical derivations,
+  dataset statistics, architectural reasoning, and future work.
+- Trace every number to the submitted PDF, a table/CSV/log, or an explicit
+  user-confirmed final value. Record user-confirmed values as such internally.
+- Do not present pending runs, placeholders, expected trends, or partial
+  outputs as results.
+- State formulas and analytical estimates with their assumptions. Do not call
+  them measured latency, accuracy, scalability, or network behavior.
+- Use `$research-evidence` when a response depends on external literature,
+  dataset facts, novelty positioning, or citation authenticity. Do not invent
+  citations. Follow venue rules on links and normal citations.
+- Add a new experiment only when it directly answers the review, fits the
+  rebuttal window, uses an interpretable protocol, and does not create a new
+  paper contribution.
+
+## Resolve High-Impact Decisions
+
+Use `$grill-me` behavior for ambiguous reviewer requests, experiment choices,
+conflicting evidence, response-scope tradeoffs, or future commitments.
+
+- Inspect the paper, review, code, logs, and official rules before asking.
+- Ask one high-impact question at a time and provide a recommended answer.
+- Use a reasonable documented default for non-critical choices.
+- Do not make this skill dependent on Plan Mode.
+
+## Independent Reviewer and AC Audit
+
+For a high-stakes final response, use independent subagents when available.
+
+1. Give each reviewer agent only the exact review, submitted paper, applicable
+   venue rules, and that reviewer's response.
+2. Do not provide the intended answer, prior critique, or suspected weakness.
+3. Ask the agent to identify missed or reordered concerns, evasive answers,
+   unsupported claims, unclear concepts, contradictions, and format violations.
+4. Give an AC agent the meta-review, all reviews, and all responses only after
+   the reviewer-specific audits.
+5. Revise substantive problems. Do not expand the rebuttal for minor stylistic
+   preferences.
+
+If subagents are unavailable, apply the same audit yourself.
+
+## Final Three-Pass Check
+
+1. **Coverage and order**: every concern is mapped once, headings match the
+   review, duplicates are merged, and reviewer-specific issues remain isolated.
+2. **Evidence and logic**: every number and factual claim has provenance;
+   comparisons are fair; estimates are labeled; no unapproved commitment,
+   contradiction, or logical gap remains.
+3. **Language and rendering**: sentences are direct and natural; repetition is
+   removed; Markdown/LaTeX or the compiled PDF renders correctly; the exact
+   character or page limit is satisfied with margin.
+
+For a follow-up reviewer comment, write only the needed delta response. Do not
+restart the full rebuttal unless the new comment changes the response strategy.
+
+## Technical Rebuttal Defaults
+
+- Separate communication payload from compute latency and measured network
+  latency.
+- Separate architecture-level scaling from measured multi-agent accuracy,
+  runtime, congestion, or dataset coverage.
+- Keep native and unified-protocol baselines clearly labeled.
+- Use mechanism, control, and ablation evidence to explain why a method works;
+  do not assign a full gain to one component when several factors change.
+- Treat dataset counts and protocol audits as context, not performance evidence.

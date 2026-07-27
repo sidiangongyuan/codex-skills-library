@@ -174,16 +174,16 @@ $paper-review-panel Review this draft as a CVPR-style panel and identify the hig
 
 ### [`rebuttal-response-skills`](../skills/rebuttal-response-skills)
 
-Draft, revise, compress, and stress-test concise author responses grounded only in verified evidence.
+Draft reviewer-ordered PDF or OpenReview responses from exact review text and verified evidence.
 
-- Tags: `rebuttal`, `author-response`, `reviewers`, `academic-writing`
+- Tags: `rebuttal`, `author-response`, `reviewers`, `openreview`, `pdf`
 - Requirements: none beyond the tools needed for the task
 - Provenance: `third-party-adapted`
 - Source: [pinned source `e5132630e26e`](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/e5132630e26e26e24d256a149b85f17b0cc6dcac/skills/skills-codex/rebuttal/SKILL.md)
 - License: `MIT`; see [notice](../NOTICE.md)
 
 ```text
-$rebuttal-response-skills Draft a concise response to Reviewer 2 using only evidence already present in the paper and logs.
+$rebuttal-response-skills Using the exact reviews and submitted paper, draft reviewer-ordered OpenReview responses under the official character limit.
 ```
 
 ## Figures & Tables
