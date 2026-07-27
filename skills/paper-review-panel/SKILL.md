@@ -1,6 +1,6 @@
 ---
 name: paper-review-panel
-description: Use when conducting a mock top-conference review, reviewer-style audit, readiness assessment, or accept/reject risk analysis for a research paper. Synthesizes reviewer-style concerns for venues such as CVPR, ICCV, ECCV, ICLR, NeurIPS, and AAAI without editing the manuscript.
+description: Use when independently reviewing a research-paper draft before submission, running a mock top-conference panel, assessing readiness or accept/reject risk, or predicting reviewer concerns for venues such as CVPR, ICCV, ECCV, ICLR, NeurIPS, and AAAI. Does not draft or audit author responses after official reviews arrive.
 license: MIT
 ---
 
@@ -8,10 +8,14 @@ license: MIT
 
 ## Core Rule
 
-Review by default. Do not edit the paper, mutate LaTeX, change figures, rerun
-experiments, or patch files unless the user separately asks for implementation.
-The output is an official-review-style synthesis plus compact revision
-priorities.
+This skill owns pre-submission paper review and readiness assessment. Review by
+default. Do not edit the paper, mutate LaTeX, change figures, rerun experiments,
+or patch files unless the user separately asks for implementation. The output
+is an official-review-style synthesis plus compact revision priorities.
+
+Once official reviews arrive, stop using this skill as the workflow owner. Use
+`$rebuttal-response-skills` for exact concern mapping, evidence integration,
+author-response drafting, and response audits.
 
 ## Workflow
 
@@ -23,7 +27,7 @@ priorities.
    - Use `$research-evidence` for citation/reference sanity checks or literature
      positioning when a review finding depends on external evidence.
    - For novelty, related-work, score-prediction, reviewer-risk,
-     rebuttal-readiness, or final-submission reviews, run a recent-literature
+     submission-readiness, or final-submission reviews, run a recent-literature
      audit through `$research-evidence` before finalizing novelty or acceptance
      risk. Do not require this extra pass for casual local or prose-only reviews
      unless novelty or missing citations are part of the ask.

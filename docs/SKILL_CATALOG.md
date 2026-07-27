@@ -156,34 +156,36 @@ Refine research-paper logic and prose while preserving verified claims, terminol
 $paper-refinement-skills Tighten this introduction without strengthening unsupported claims.
 ```
 
-## Review & Rebuttal
+## Paper Review & Readiness
 
 ### [`paper-review-panel`](../skills/paper-review-panel)
 
-Run a top-conference-style paper review panel and synthesize readiness risks without editing the manuscript.
+Independently review a paper before submission, synthesize top-conference concerns, and identify decision-changing readiness risks without editing the manuscript.
 
-- Tags: `peer-review`, `paper`, `cvpr`, `risk-analysis`
+- Tags: `peer-review`, `paper`, `submission-readiness`, `risk-analysis`
 - Requirements: none beyond the tools needed for the task
 - Provenance: `original`
 - Source: original project work
 - License: `MIT`; see [notice](../NOTICE.md)
 
 ```text
-$paper-review-panel Review this draft as a CVPR-style panel and identify the highest acceptance risks.
+$paper-review-panel Review this draft before submission and identify the decision-changing acceptance risks.
 ```
+
+## Rebuttal & Author Response
 
 ### [`rebuttal-response-skills`](../skills/rebuttal-response-skills)
 
-Draft reviewer-ordered PDF or OpenReview responses from exact review text and verified evidence.
+Run an evidence-grounded rebuttal lifecycle from exact concern mapping and approved experiments through reviewer-specific responses and blind final audits.
 
-- Tags: `rebuttal`, `author-response`, `reviewers`, `openreview`, `pdf`
+- Tags: `rebuttal`, `author-response`, `reviewers`, `openreview`, `blind-audit`
 - Requirements: none beyond the tools needed for the task
 - Provenance: `third-party-adapted`
 - Source: [pinned source `e5132630e26e`](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/e5132630e26e26e24d256a149b85f17b0cc6dcac/skills/skills-codex/rebuttal/SKILL.md)
 - License: `MIT`; see [notice](../NOTICE.md)
 
 ```text
-$rebuttal-response-skills Using the exact reviews and submitted paper, draft reviewer-ordered OpenReview responses under the official character limit.
+$rebuttal-response-skills Map these exact reviews, build the evidence ledger, draft reviewer-specific responses, and run the final blind audit.
 ```
 
 ## Figures & Tables

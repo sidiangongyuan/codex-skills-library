@@ -53,7 +53,9 @@ class CatalogGeneratorTests(unittest.TestCase):
         detail = (self.root / "docs" / "SKILL_CATALOG.md").read_text(
             encoding="utf-8"
         )
+        self.assertIn("| Goal | Skill | Use it for |", readme)
         self.assertIn("[`demo-skill`](skills/demo-skill)", readme)
+        self.assertIn("Demonstrate generated documentation.", readme)
         self.assertIn("$demo-skill Show the catalog.", detail)
         with redirect_stdout(StringIO()), redirect_stderr(StringIO()):
             self.assertEqual(catalog.generate(self.root, check=True), 0)

@@ -5,7 +5,7 @@
 <h1 align="center">Codex Skills Library</h1>
 
 <p align="center">
-  Practical Codex skills distilled from real workflows, with clear provenance and community contributions.
+  Reusable workflows for research, paper writing, product engineering, visual communication, and release operations.
 </p>
 
 <p align="center">
@@ -13,6 +13,13 @@
   <a href="docs/SKILL_CATALOG.md">Skill catalog</a> ·
   <a href="docs/INSTALL.md">Installation</a> ·
   <a href="CONTRIBUTING.md">Contributing</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a>
+  <img alt="17 skills" src="https://img.shields.io/badge/skills-17-0f766e">
+  <img alt="Python standard library installer" src="https://img.shields.io/badge/installer-Python%20stdlib-2563eb">
+  <a href="NOTICE.md"><img alt="Tracked provenance" src="https://img.shields.io/badge/provenance-tracked-b45309"></a>
 </p>
 
 Codex Skills Library is a public collection of reusable workflows for product
@@ -25,7 +32,27 @@ OpenAI project and is not affiliated with or endorsed by OpenAI. The repository
 itself is the distribution: there is no separate website, GitHub Pages site, or
 plugin marketplace.
 
-## Install one skill
+<table>
+  <tr>
+    <td width="33%">
+      <strong>Find one skill</strong><br>
+      Start from the goal-oriented catalog and install only the workflow you need.<br><br>
+      <a href="#browse-by-goal">Browse by goal</a>
+    </td>
+    <td width="33%">
+      <strong>Build a workflow</strong><br>
+      Compose focused skills across research, writing, review, rebuttal, and release.<br><br>
+      <a href="#workflow-map">See workflow paths</a>
+    </td>
+    <td width="33%">
+      <strong>Inspect before use</strong><br>
+      Every skill keeps its requirements, license, and provenance close to the installable files.<br><br>
+      <a href="docs/SKILL_CATALOG.md">Open the full catalog</a>
+    </td>
+  </tr>
+</table>
+
+## Quick start
 
 Codex includes the `$skill-installer` system skill. Give it the GitHub URL of an
 individual skill directory:
@@ -43,7 +70,7 @@ before installing it in a sensitive environment. See the
 [single-skill installation details](docs/INSTALL.md#install-one-skill-with-codex)
 for private forks and command-line alternatives.
 
-## Install several skills
+### Install several skills
 
 The repository installer supports selected or bulk installation and has no
 runtime dependencies outside the Python standard library. It defaults to the
@@ -78,33 +105,62 @@ reviewing the dry run. Use `--target <directory>` to install elsewhere. The
 [installation guide](docs/INSTALL.md) covers Windows paths, manual copying,
 legacy `--codex-home` compatibility, and troubleshooting.
 
+## Workflow map
+
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Research discovery</strong><br>
+      <code>grill-me</code> &rarr; <code>experiment-planner</code> &rarr; <code>research-evidence</code><br><br>
+      Turn an ambiguous idea into a falsifiable plan, then verify the literature and claims.
+    </td>
+    <td width="50%">
+      <strong>Paper lifecycle</strong><br>
+      <code>paper-section-playbook</code> &rarr; <code>paper-refinement-skills</code> &rarr; <code>paper-review-panel</code> &rarr; <code>rebuttal-response-skills</code><br><br>
+      Structure and refine the paper, review it before submission, then switch to the rebuttal workflow only after official reviews arrive.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Product delivery</strong><br>
+      <code>app-feature-craft</code> &rarr; <code>app-bug-forensics</code> &rarr; <code>app-release-readiness</code><br><br>
+      Build a feature, diagnose failures from evidence, and validate the release surface.
+    </td>
+    <td width="50%">
+      <strong>Paper communication</strong><br>
+      <code>paper-framework-figure-studio-pro</code> &rarr; <code>paper-visual-craft</code> &rarr; <code>paper-share-html</code><br><br>
+      Plan the visual story, refine figures and tables, and prepare an audience-ready presentation.
+    </td>
+  </tr>
+</table>
+
 ## Browse by goal
 
-The table below is generated from [`skills.json`](skills.json). Requirements
-listed as “None” mean that the skill itself has no extra runtime dependency;
-the work it performs may still require task-specific tools or access.
+The concise table below is generated from [`skills.json`](skills.json).
+Requirements, example prompts, licenses, and pinned source revisions remain in
+the generated [full skill catalog](docs/SKILL_CATALOG.md).
 
 <!-- skills-table:start -->
 
-| Goal | Skill | Extra requirements | Source |
-|---|---|---|---|
-| Research Ideation & Experiment Planning | [`experiment-planner`](skills/experiment-planner) | None | `adapter` |
-| Evidence & Search | [`research-evidence`](skills/research-evidence) | Network access for literature lookup<br>Optional paper-search MCP or RefChecker backends | `original` |
-| Evidence & Search | [`search-first`](skills/search-first) | Network or repository search access | `third-party-adapted` |
-| UI/UX & Product Design | [`ui-ux-pro-max`](skills/ui-ux-pro-max) | Python 3 for the bundled design search scripts | `third-party-adapted` |
-| App Development & Release | [`app-feature-craft`](skills/app-feature-craft) | None | `original` |
-| App Development & Release | [`app-bug-forensics`](skills/app-bug-forensics) | None | `original` |
-| App Development & Release | [`app-release-readiness`](skills/app-release-readiness) | Target application's build and packaging toolchain<br>GitHub CLI for GitHub publishing tasks | `original` |
-| Research Ideation & Experiment Planning | [`grill-me`](skills/grill-me) | None | `third-party-exact` |
-| Paper Writing | [`paper-section-playbook`](skills/paper-section-playbook) | None | `original` |
-| Paper Writing | [`paper-refinement-skills`](skills/paper-refinement-skills) | None | `original` |
-| Review & Rebuttal | [`paper-review-panel`](skills/paper-review-panel) | None | `original` |
-| Review & Rebuttal | [`rebuttal-response-skills`](skills/rebuttal-response-skills) | None | `third-party-adapted` |
-| Figures & Tables | [`paper-framework-figure-studio-pro`](skills/paper-framework-figure-studio-pro) | None | `adapter` |
-| Figures & Tables | [`paper-visual-craft`](skills/paper-visual-craft) | The plotting or LaTeX toolchain used by the source artifact<br>PDF rendering tools for visual verification | `original` |
-| Paper Communication | [`paper-share-html`](skills/paper-share-html) | Browser automation for visual QA<br>PDF extraction or rendering tools when the source is a PDF<br>Optional Pillow for automated table-crop checks | `original` |
-| Operations & Release | [`github-project-release`](skills/github-project-release) | Git<br>GitHub CLI for remote repository operations | `original` |
-| Operations & Release | [`codex-session-restore`](skills/codex-session-restore) | Python 3 for the bundled recovery script<br>Local access to the Codex Desktop data directory | `original` |
+| Goal | Skill | Use it for |
+|---|---|---|
+| Research Ideation & Experiment Planning | [`experiment-planner`](skills/experiment-planner) | Plan deep-learning and computer-science research ideas as claim-driven, pilot-first experiment matrices. |
+| Evidence & Search | [`research-evidence`](skills/research-evidence) | Search academic evidence, verify citation metadata, and check whether sources support research claims. |
+| Evidence & Search | [`search-first`](skills/search-first) | Search for maintained tools, libraries, skills, research, and proven patterns before building a custom solution. |
+| UI/UX & Product Design | [`ui-ux-pro-max`](skills/ui-ux-pro-max) | Design and review accessible web and mobile interfaces with a searchable UI/UX knowledge base. |
+| App Development & Release | [`app-feature-craft`](skills/app-feature-craft) | Build product-grade app features across UX, frontend, backend, tests, and end-to-end verification. |
+| App Development & Release | [`app-bug-forensics`](skills/app-bug-forensics) | Diagnose user-reported application failures from symptoms and logs through root cause and regression coverage. |
+| App Development & Release | [`app-release-readiness`](skills/app-release-readiness) | Prepare, package, publish, and verify desktop or web application releases without shipping stale artifacts. |
+| Research Ideation & Experiment Planning | [`grill-me`](skills/grill-me) | Interview a user one decision at a time to stress-test an underspecified plan or design. |
+| Paper Writing | [`paper-section-playbook`](skills/paper-section-playbook) | Plan and restructure sections of computer-vision, 3D-perception, and autonomous-driving research papers. |
+| Paper Writing | [`paper-refinement-skills`](skills/paper-refinement-skills) | Refine research-paper logic and prose while preserving verified claims, terminology, notation, and citation boundaries. |
+| Paper Review & Readiness | [`paper-review-panel`](skills/paper-review-panel) | Independently review a paper before submission, synthesize top-conference concerns, and identify decision-changing readiness risks without editing the manuscript. |
+| Rebuttal & Author Response | [`rebuttal-response-skills`](skills/rebuttal-response-skills) | Run an evidence-grounded rebuttal lifecycle from exact concern mapping and approved experiments through reviewer-specific responses and blind final audits. |
+| Figures & Tables | [`paper-framework-figure-studio-pro`](skills/paper-framework-figure-studio-pro) | Plan source-grounded method, architecture, pipeline, system, and agent-workflow figures for CS and deep-learning papers. |
+| Figures & Tables | [`paper-visual-craft`](skills/paper-visual-craft) | Design, redraw, and validate publication-ready research figures and tables while preserving exact evidence. |
+| Paper Communication | [`paper-share-html`](skills/paper-share-html) | Create source-grounded, responsive paper presentations with readable PDF-extracted tables, varied explanatory diagrams, optional presenter-paced reveals, and live-talk browser QA. |
+| Operations & Release | [`github-project-release`](skills/github-project-release) | Prepare a clean GitHub project repository with publication audits and controlled release workflows. |
+| Operations & Release | [`codex-session-restore`](skills/codex-session-restore) | Diagnose and restore active Codex Desktop sidebar sessions after provider switches without changing authentication. |
 
 <!-- skills-table:end -->
 
@@ -124,19 +180,24 @@ $app-bug-forensics Diagnose this intermittent provider timeout from the UI state
 $experiment-planner Turn this idea into a pilot-first experiment matrix with a falsifiable claim, baselines, diagnostics, and a stop/go gate.
 ```
 
+Before submission, use the review panel to expose decision-changing paper risks:
+
 ```text
-$paper-review-panel Review this draft as a top-conference panel. Separate fatal evidence gaps from issues that can be fixed with writing.
+$paper-review-panel Review this draft before submission. Separate decision-changing evidence gaps from issues that can be fixed with writing.
+```
+
+After official reviews arrive, switch workflow owners:
+
+```text
+$rebuttal-response-skills Map these exact reviews, build the evidence ledger, draft reviewer-specific responses, and run the final blind audit.
 ```
 
 All included skills also allow implicit invocation: Codex may select one when
 its description closely matches the request. Explicit `$skill-name` invocation
 is preferable when a particular workflow or a repeatable handoff matters.
 
-Skills can be composed in sequence. A research idea might move through
-`$grill-me`, `$experiment-planner`, and `$research-evidence`; a product release
-might use `$app-feature-craft`, `$app-bug-forensics`, and
-`$app-release-readiness`. See [workflow recipes](docs/USAGE.md) for complete
-examples.
+Skills can be composed in sequence, but each stage keeps a clear owner. See
+[workflow recipes](docs/USAGE.md) for complete examples and handoff points.
 
 ## Contribute
 

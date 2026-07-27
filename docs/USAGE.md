@@ -150,6 +150,9 @@ Use `$paper-review-panel` for independent reviewer-style scrutiny:
 $paper-review-panel Run a top-conference-style panel review of this draft. Assess novelty, technical soundness, evidence, clarity, reproducibility, and likely score risk; prioritize findings that could change the decision.
 ```
 
+This skill ends with the independent review and revision priorities. After
+official reviews arrive, hand ownership to `$rebuttal-response-skills`.
+
 Plan a source-grounded method overview before drawing it:
 
 ```text
@@ -167,13 +170,18 @@ the evidence and visual review.
 
 ## Prepare a rebuttal
 
-Map every concern to available evidence first:
+Once official reviews arrive, use `$rebuttal-response-skills` as the workflow
+owner. It archives the exact reviews, maps every concern, maintains the evidence
+and decision ledger, and keeps reviewer-specific issues isolated:
 
 ```text
-$research-evidence Build an evidence map for each reviewer concern using the submitted paper, existing results, and verified literature. Mark missing support and claims that require author confirmation.
+$rebuttal-response-skills Map these exact reviews against the submitted paper and supplement. Build the concern/evidence ledger before drafting, and stop for author decisions on conflicting or negative evidence.
 ```
 
-Draft concise, reviewer-specific responses:
+Use `$research-evidence` only when a response depends on external literature,
+dataset facts, novelty positioning, or citation authenticity.
+
+For separate OpenReview threads:
 
 ```text
 $rebuttal-response-skills Using the supplied exact review text and submitted paper, preserve each reviewer's concern order and draft separate OpenReview Markdown responses under the official character limit.
@@ -188,7 +196,7 @@ $rebuttal-response-skills Using the supplied exact reviews and submitted paper, 
 Stress-test the result:
 
 ```text
-$paper-review-panel Audit this rebuttal for missed concerns, unsupported claims, evasive tone, contradictions, and evidence gaps. Do not rewrite it until the coverage audit is complete.
+$rebuttal-response-skills Run the two-stage blind reviewer and AC audit on these final responses, then perform the venue-format verification.
 ```
 
 The final response should remain faithful to work that actually exists. New

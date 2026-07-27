@@ -42,28 +42,20 @@ def _cell(value: object) -> str:
     return str(value).replace("|", "\\|").replace("\n", "<br>")
 
 
-def _requirements(item: dict[str, object]) -> str:
-    values = item.get("requirements", [])
-    if not isinstance(values, list) or not values:
-        return "None"
-    return "<br>".join(_cell(value) for value in values)
-
-
 def render_readme_table(skills: Sequence[dict[str, object]]) -> str:
     lines = [
-        "| Goal | Skill | Extra requirements | Source |",
-        "|---|---|---|---|",
+        "| Goal | Skill | Use it for |",
+        "|---|---|---|",
     ]
     for item in skills:
         name = str(item["name"])
         path = str(item["path"])
         lines.append(
-            "| {category} | [`{name}`]({path}) | {requirements} | `{provenance}` |".format(
+            "| {category} | [`{name}`]({path}) | {description} |".format(
                 category=_cell(item["category"]),
                 name=_cell(name),
                 path=path,
-                requirements=_requirements(item),
-                provenance=_cell(item["provenance"]),
+                description=_cell(item["description"]),
             )
         )
     return "\n".join(lines)
