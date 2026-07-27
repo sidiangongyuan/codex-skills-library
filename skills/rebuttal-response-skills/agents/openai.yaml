@@ -1,7 +1,7 @@
 interface:
   display_name: "Rebuttal Response Skills"
-  short_description: "Draft direct, reviewer-mapped author responses"
-  default_prompt: "Use $rebuttal-response-skills with the exact review text and submitted paper, preserve concern order, select the required PDF or OpenReview format, and use only verified evidence."
+  short_description: "Build evidence-grounded rebuttals and blind audits"
+  default_prompt: "Use $rebuttal-response-skills to map exact reviews, draft evidence-grounded responses, resolve risks with me, and validate the final venue format."
 
 policy:
   allow_implicit_invocation: true
