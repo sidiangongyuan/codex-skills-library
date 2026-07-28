@@ -5,7 +5,7 @@
 <h1 align="center">Codex Skills Library</h1>
 
 <p align="center">
-  把科研构思、论文写作和软件开发，变成可检查、可继续、可复用的 Codex 工作流。
+  面向科研与论文，也覆盖应用开发、通用方法和日常技术运维的 Codex 工作流库。
 </p>
 
 <p align="center">
@@ -23,19 +23,28 @@
   <a href="assets/readme-overview.svg"><img src="assets/readme-overview.svg" width="100%" alt="一个任务经过已安装的 skill 和 Codex 检查点，最终成为可检查的产物"></a>
 </p>
 
-Codex Skills Library 收录了 17 个从真实科研和开发工作中反复打磨出来的可安装
-工作流。这里的 skill 更像一份轻量 SOP，不是模型，也不是几句万能提示词：它会
-告诉 Codex 先看什么、在哪些节点检查、最后留下什么产物，以及什么时候必须停下来
-交给人判断。
+Codex Skills Library 收录了 17 个从真实科研、软件开发和日常技术工作中反复打磨
+出来的可安装工作流。这里的 skill 更像一份轻量 SOP，不是模型，也不是几句万能
+提示词：它会告诉 Codex 先看什么、在哪些节点检查、最后留下什么产物，以及什么
+时候必须停下来交给人判断。
 
 可以只装一项解决眼前问题，也可以把几项串成完整流程。每个可安装目录都把说明、
 依赖、许可证和来源放在一起，方便使用前检查。
+
+目前仍以科研和论文为主，但不是纯科研工具箱：
+
+- **科研与论文 · 9 项**：实验、证据、写作、评审、rebuttal、图表和分享。
+- **应用与 UI · 4 项**：产品设计、功能开发、故障定位和应用发布。
+- **通用方法 · 2 项**：把模糊方案问清楚，以及动手前先检索现成方案。
+- **GitHub 与 Codex 运维 · 2 项**：发布干净仓库，以及恢复 Codex Desktop 会话。
 
 _这是由社区维护的独立项目，与 OpenAI 无隶属或背书关系。_
 
 ## 先装一个试试
 
-Codex 自带 `$skill-installer` 系统 skill。把目标 skill 的 GitHub 目录链接交给它：
+Codex 自带 `$skill-installer` 系统 skill。可以从最接近手头任务的一项开始。
+
+**科研或课程实验**
 
 ```text
 $skill-installer 安装 https://github.com/sidiangongyuan/codex-skills-library/tree/main/skills/experiment-planner
@@ -51,6 +60,21 @@ $experiment-planner 把我的图像分类课程项目整理成一天内能完成
 把原来的想法扩写得更长。
 [完整示例](docs/EXAMPLE_EXPERIMENT_PLAN.md)展示了这种产物应有的形状，同时明确
 区分实验计划和尚未产生的结果。
+
+**应用故障排查**
+
+```text
+$skill-installer 安装 https://github.com/sidiangongyuan/codex-skills-library/tree/main/skills/app-bug-forensics
+```
+
+下一轮可以输入：
+
+```text
+$app-bug-forensics 从用户看到的现象、日志和请求链路追查这个间歇性超时；先确定根因，再修改代码。
+```
+
+合格的结果应区分已观察到的证据和待验证假设，找到真正失败的边界，并留下针对性的
+回归检查。
 
 不必一次装完 17 项。将 `experiment-planner` 换成[目标目录](#按目标浏览)中的任意
 skill 名称即可；安装后会在下一轮对话中可用。在敏感环境中使用前，请检查目标
@@ -77,14 +101,14 @@ python scripts/install.py --all
 ```bash
 python scripts/install.py \
   --skill experiment-planner \
-  --skill research-evidence \
-  --skill paper-section-playbook \
+  --skill app-bug-forensics \
+  --skill search-first \
   --dry-run
 
 python scripts/install.py \
   --skill experiment-planner \
-  --skill research-evidence \
-  --skill paper-section-playbook
+  --skill app-bug-forensics \
+  --skill search-first
 ```
 
 已有目录默认跳过。只有在检查 dry run 后，才应使用 `--replace` 覆盖同名 skill。
@@ -95,7 +119,10 @@ python scripts/install.py \
 
 ## 从手头任务开始
 
-- **课程设计或毕业设计**：
+- **模糊方案或陌生任务**：
+  `grill-me` &rarr; `search-first`，先问清真正影响决策的问题，再检查维护中的工具、
+  开源实现或已有方法。
+- **软件或应用类课程设计**：
   `grill-me` &rarr; `search-first` &rarr; `app-feature-craft`，先把需求边界问清楚，
   再检查现成工具，最后完成实现与验证。
 - **一个深度学习研究想法**：
@@ -114,6 +141,9 @@ python scripts/install.py \
 - **应用开发或开源发布**：
   `app-feature-craft` &rarr; `app-bug-forensics` &rarr;
   `app-release-readiness`，完成开发、定位根因，并核验真正发布出去的产物。
+- **仓库发布或 Codex 恢复**：
+  `github-project-release` 用于发布前的仓库审计；`codex-session-restore` 则专门处理
+  切换服务商后 Codex Desktop 会话缺失的问题。
 
 ## 按目标浏览
 
@@ -145,11 +175,19 @@ python scripts/install.py \
 
 ## 使用 skill
 
-显式调用最清楚，也最便于复现和交接：
+显式调用最清楚，也最便于复现和交接。任务本身还没想清楚时，可以先用通用方法：
+
+```text
+$search-first 在决定自己开发这个数据集工具前，先查找维护中的工具、库和现成方案。
+```
+
+遇到应用故障时：
 
 ```text
 $app-bug-forensics 从界面状态沿请求链路诊断这个间歇性 provider timeout；先报告根因，再修改代码。
 ```
+
+规划研究实验时：
 
 ```text
 $experiment-planner 把这个想法整理成 pilot-first 实验矩阵，给出可证伪主张、基线、诊断项和 stop/go 门槛。
@@ -159,12 +197,6 @@ $experiment-planner 把这个想法整理成 pilot-first 实验矩阵，给出�
 
 ```text
 $paper-review-panel 在投稿前按顶会评审组的方式审查这份论文，区分会改变接收判断的证据缺口和可通过写作修复的问题。
-```
-
-收到正式 reviews 后切换到 rebuttal 工作流：
-
-```text
-$rebuttal-response-skills 逐条映射这些正式 reviews，建立证据与决策记录，起草 reviewer-specific 回复，并执行最终盲审。
 ```
 
 所有收录的 skills 也允许隐式调用：当用户请求与描述高度匹配时，Codex 可以自动

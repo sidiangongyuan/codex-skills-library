@@ -32,7 +32,7 @@
     },
     {
       "name": "search-first",
-      "category": "Evidence & Search",
+      "category": "General Planning & Search",
       "description": "Search for maintained tools, libraries, skills, research, and proven patterns before building a custom solution.",
       "path": "skills/search-first",
       "example_prompt": "$search-first Find maintained tools and libraries before we build this dataset utility.",
@@ -102,7 +102,7 @@
     },
     {
       "name": "grill-me",
-      "category": "Research Ideation & Experiment Planning",
+      "category": "General Planning & Search",
       "description": "Interview a user one decision at a time to stress-test an underspecified plan or design.",
       "path": "skills/grill-me",
       "example_prompt": "$grill-me Stress-test this experiment plan before implementation begins.",

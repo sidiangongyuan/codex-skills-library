@@ -5,7 +5,7 @@
 <h1 align="center">Codex Skills Library</h1>
 
 <p align="center">
-  Installable workflows that help Codex turn research ideas, paper drafts, and software projects into work you can inspect and continue.
+  Installable Codex workflows for research, papers, apps, and everyday technical work.
 </p>
 
 <p align="center">
@@ -24,20 +24,35 @@
 </p>
 
 Codex Skills Library collects 17 installable workflows distilled from repeated
-research and engineering work. A skill is closer to a lightweight SOP than a
-prompt: it tells Codex what to inspect, which checkpoints matter, what artifact
-to leave behind, and when to stop for a human decision.
+research, software, and technical operations work. A skill is closer to a
+lightweight SOP than a prompt: it tells Codex what to inspect, which checkpoints
+matter, what artifact to leave behind, and when to stop for a human decision.
 
 Use one skill for a focused job or compose several across a longer project.
 Each installable directory keeps its instructions, declared requirements,
 license, and provenance together.
+
+Research and paper work make up the largest part of the current catalog, but
+this is not a research-only library:
+
+- **Research and papers · 9 skills**: experiments, evidence, writing, review,
+  rebuttal, figures, and presentations.
+- **Apps and UI · 4 skills**: product design, feature delivery, debugging, and
+  application releases.
+- **General methods · 2 skills**: clarify an underspecified plan and search
+  before building.
+- **GitHub and Codex operations · 2 skills**: publish a clean repository or
+  restore missing Codex Desktop sessions.
 
 _Independent community project; not affiliated with or endorsed by OpenAI._
 
 ## Start with one skill
 
 Codex includes the `$skill-installer` system skill. Give it the GitHub URL of an
-individual skill directory:
+individual skill directory. Choose the example closest to the work in front of
+you.
+
+**Research or coursework**
 
 ```text
 $skill-installer Install https://github.com/sidiangongyuan/codex-skills-library/tree/main/skills/experiment-planner
@@ -53,6 +68,21 @@ A useful result should contain a falsifiable claim, comparisons, the smallest
 pilot, expected signals, and a decision gate, not just a longer brainstorm.
 The [worked example](docs/EXAMPLE_EXPERIMENT_PLAN.md) shows the shape of that
 artifact without pretending that unrun experiments produced results.
+
+**Application debugging**
+
+```text
+$skill-installer Install https://github.com/sidiangongyuan/codex-skills-library/tree/main/skills/app-bug-forensics
+```
+
+On the next turn:
+
+```text
+$app-bug-forensics Trace this intermittent timeout from the visible symptom through logs and the request path. Identify the root cause before changing code.
+```
+
+A useful result should distinguish observations from hypotheses, identify the
+failing boundary, and leave behind a focused regression check.
 
 There is no need to install all 17 skills. Replace `experiment-planner` with any
 name in the [catalog](#browse-by-goal). The installed skill is available on the
@@ -82,14 +112,14 @@ usage. `--all` is always explicit. To install a smaller set:
 ```bash
 python scripts/install.py \
   --skill experiment-planner \
-  --skill research-evidence \
-  --skill paper-section-playbook \
+  --skill app-bug-forensics \
+  --skill search-first \
   --dry-run
 
 python scripts/install.py \
   --skill experiment-planner \
-  --skill research-evidence \
-  --skill paper-section-playbook
+  --skill app-bug-forensics \
+  --skill search-first
 ```
 
 Existing skill directories are skipped by default. Use `--replace` only after
@@ -101,7 +131,10 @@ legacy `--codex-home` compatibility, and troubleshooting.
 
 ## Start from the work in front of you
 
-- **Coursework or a capstone project**:
+- **A vague plan or an unfamiliar task**:
+  `grill-me` &rarr; `search-first` clarifies the decisions that matter and
+  checks maintained tools or prior work before anything custom is built.
+- **A software coursework or capstone project**:
   `grill-me` &rarr; `search-first` &rarr; `app-feature-craft` turns a vague brief
   into a bounded project, checks existing tools, and carries the chosen path
   through implementation and verification.
@@ -124,6 +157,10 @@ legacy `--codex-home` compatibility, and troubleshooting.
   `app-feature-craft` &rarr; `app-bug-forensics` &rarr;
   `app-release-readiness` builds the feature, traces failures to root cause,
   and verifies what is actually shipped.
+- **Repository publishing or Codex recovery**:
+  `github-project-release` audits a project before publishing, while
+  `codex-session-restore` handles a specific Codex Desktop session-recovery
+  problem after provider switches.
 
 ## Browse by goal
 
@@ -137,12 +174,12 @@ the generated [full skill catalog](docs/SKILL_CATALOG.md).
 |---|---|---|
 | Research Ideation & Experiment Planning | [`experiment-planner`](skills/experiment-planner) | Plan deep-learning and computer-science research ideas as claim-driven, pilot-first experiment matrices. |
 | Evidence & Search | [`research-evidence`](skills/research-evidence) | Search academic evidence, verify citation metadata, and check whether sources support research claims. |
-| Evidence & Search | [`search-first`](skills/search-first) | Search for maintained tools, libraries, skills, research, and proven patterns before building a custom solution. |
+| General Planning & Search | [`search-first`](skills/search-first) | Search for maintained tools, libraries, skills, research, and proven patterns before building a custom solution. |
 | UI/UX & Product Design | [`ui-ux-pro-max`](skills/ui-ux-pro-max) | Design and review accessible web and mobile interfaces with a searchable UI/UX knowledge base. |
 | App Development & Release | [`app-feature-craft`](skills/app-feature-craft) | Build product-grade app features across UX, frontend, backend, tests, and end-to-end verification. |
 | App Development & Release | [`app-bug-forensics`](skills/app-bug-forensics) | Diagnose user-reported application failures from symptoms and logs through root cause and regression coverage. |
 | App Development & Release | [`app-release-readiness`](skills/app-release-readiness) | Prepare, package, publish, and verify desktop or web application releases without shipping stale artifacts. |
-| Research Ideation & Experiment Planning | [`grill-me`](skills/grill-me) | Interview a user one decision at a time to stress-test an underspecified plan or design. |
+| General Planning & Search | [`grill-me`](skills/grill-me) | Interview a user one decision at a time to stress-test an underspecified plan or design. |
 | Paper Writing | [`paper-section-playbook`](skills/paper-section-playbook) | Plan and restructure sections of computer-vision, 3D-perception, and autonomous-driving research papers. |
 | Paper Writing | [`paper-refinement-skills`](skills/paper-refinement-skills) | Refine research-paper logic and prose while preserving verified claims, terminology, notation, and citation boundaries. |
 | Paper Review & Readiness | [`paper-review-panel`](skills/paper-review-panel) | Independently review a paper before submission, synthesize top-conference concerns, and identify decision-changing readiness risks without editing the manuscript. |
@@ -161,26 +198,30 @@ source treatment are recorded in [NOTICE.md](NOTICE.md).
 
 ## Use a skill
 
-Explicit invocation is the clearest way to make a workflow reproducible:
+Explicit invocation is the clearest way to make a workflow reproducible. Start
+with a general method when the task itself is still unclear:
+
+```text
+$search-first Find maintained tools and libraries for this dataset utility before we decide to build it ourselves.
+```
+
+For an application failure:
 
 ```text
 $app-bug-forensics Diagnose this intermittent provider timeout from the UI state through the request path. Report the root cause before changing code.
 ```
 
+For research planning:
+
 ```text
 $experiment-planner Turn this idea into a pilot-first experiment matrix with a falsifiable claim, baselines, diagnostics, and a stop/go gate.
 ```
 
-Before submission, use the review panel to expose decision-changing paper risks:
+Before submission, use the review panel to expose decision-changing paper
+risks:
 
 ```text
 $paper-review-panel Review this draft before submission. Separate decision-changing evidence gaps from issues that can be fixed with writing.
-```
-
-After official reviews arrive, switch workflow owners:
-
-```text
-$rebuttal-response-skills Map these exact reviews, build the evidence ledger, draft reviewer-specific responses, and run the final blind audit.
 ```
 
 All included skills also allow implicit invocation: Codex may select one when

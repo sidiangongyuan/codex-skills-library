@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 520" role="img" aria-labelledby="title desc">
   <title id="title">How Codex Skills Library turns a task into an inspectable result</title>
-  <desc id="desc">A four-step workflow from a user's task, through an installed skill and Codex checkpoints, to a reusable artifact. Examples cover research, papers, application debugging, and releases.</desc>
+  <desc id="desc">A four-step workflow from a task, through a focused skill and Codex checkpoints, to an inspectable output. The library contains nine research and paper skills, four app and user interface skills, two general methods, and two GitHub or Codex operations skills.</desc>
   <style>
     .canvas { fill: #f6f8fa; }
     .surface { fill: #ffffff; }
@@ -21,6 +21,7 @@
     .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
     .eyebrow { font-size: 15px; font-weight: 700; }
     .title { font-size: 23px; font-weight: 700; }
+    .group-title { font-size: 21px; font-weight: 700; }
     .body { font-size: 16px; font-weight: 500; }
     .small { font-size: 14px; font-weight: 500; }
     .step { font-size: 13px; font-weight: 700; }
@@ -54,9 +55,9 @@
     <rect class="border" width="246" height="158" rx="8"/>
     <rect class="blue-soft" x="18" y="18" width="58" height="26" rx="6"/>
     <text class="sans step blue" x="47" y="36" text-anchor="middle">TASK</text>
-    <text class="sans title text" x="18" y="78">Your question</text>
-    <text class="sans body muted" x="18" y="108">Can this research idea</text>
-    <text class="sans body muted" x="18" y="132">survive a cheap pilot?</text>
+    <text class="sans title text" x="18" y="78">Your task</text>
+    <text class="sans body muted" x="18" y="108">Research, writing, apps,</text>
+    <text class="sans body muted" x="18" y="132">or technical operations</text>
   </g>
 
   <path class="divider" d="M304 155 H326" stroke-width="2"/>
@@ -67,9 +68,9 @@
     <rect class="border" width="250" height="158" rx="8"/>
     <rect class="green-soft" x="18" y="18" width="64" height="26" rx="6"/>
     <text class="sans step green" x="50" y="36" text-anchor="middle">SKILL</text>
-    <text class="mono title green" x="18" y="78">$experiment-planner</text>
-    <text class="sans body muted" x="18" y="108">Claim, baseline, budget,</text>
-    <text class="sans body muted" x="18" y="132">diagnostics, stop/go gate</text>
+    <text class="mono title green" x="18" y="78">$skill-name</text>
+    <text class="sans body muted" x="18" y="108">A focused workflow with</text>
+    <text class="sans body muted" x="18" y="132">boundaries and outputs</text>
   </g>
 
   <path class="divider" d="M604 155 H626" stroke-width="2"/>
@@ -80,11 +81,11 @@
     <rect class="border" width="250" height="158" rx="8"/>
     <rect class="purple-soft" x="18" y="18" width="74" height="26" rx="6"/>
     <text class="sans step purple" x="55" y="36" text-anchor="middle">CODEX</text>
-    <text class="sans title text" x="18" y="78">Follows checkpoints</text>
+    <text class="sans title text" x="18" y="78">Checks each step</text>
     <circle class="purple" cx="24" cy="104" r="4"/>
-    <text class="sans small muted" x="38" y="109">inspect context</text>
+    <text class="sans small muted" x="38" y="109">inspects the context</text>
     <circle class="purple" cx="24" cy="128" r="4"/>
-    <text class="sans small muted" x="38" y="133">verify before claiming done</text>
+    <text class="sans small muted" x="38" y="133">verifies before done</text>
   </g>
 
   <path class="divider" d="M904 155 H926" stroke-width="2"/>
@@ -95,41 +96,44 @@
     <rect class="border" width="288" height="158" rx="8"/>
     <rect class="amber-soft" x="18" y="18" width="70" height="26" rx="6"/>
     <text class="sans step amber" x="53" y="36" text-anchor="middle">RESULT</text>
-    <text class="sans title text" x="18" y="78">An artifact you can inspect</text>
-    <text class="sans body muted" x="18" y="108">Experiment matrix, evidence</text>
-    <text class="sans body muted" x="18" y="132">ledger, and the next decision</text>
+    <text class="sans title text" x="18" y="78">Inspectable output</text>
+    <text class="sans body muted" x="18" y="108">Plan, review, patch,</text>
+    <text class="sans body muted" x="18" y="132">or verified release</text>
   </g>
 
   <line class="divider" x1="48" y1="266" x2="1232" y2="266"/>
 
   <g transform="translate(48 298)">
-    <text class="sans eyebrow green" x="0" y="0">RESEARCH</text>
-    <text class="sans title text" x="0" y="37">Idea &#8594; experiment matrix</text>
-    <text class="sans small muted" x="0" y="65">Evidence, baselines, ablations, budget</text>
+    <text class="sans eyebrow green" x="0" y="0">RESEARCH + PAPERS · 9</text>
+    <text class="sans group-title text" x="0" y="37">Idea &#8594; evidence</text>
+    <text class="sans small muted" x="0" y="65">Experiments, papers, reviews, figures</text>
   </g>
 
   <line class="divider" x1="340" y1="292" x2="340" y2="382"/>
 
   <g transform="translate(372 298)">
-    <text class="sans eyebrow blue" x="0" y="0">PAPERS</text>
-    <text class="sans title text" x="0" y="37">Draft &#8594; reviewer risks</text>
-    <text class="sans small muted" x="0" y="65">Structure, claims, figures, rebuttal</text>
+    <text class="sans eyebrow blue" x="0" y="0">APPS + UI · 4</text>
+    <text class="sans group-title text" x="0" y="37">Feature &#8594; tested build</text>
+    <text class="sans small muted" x="0" y="65">Design, implementation, debugging,</text>
+    <text class="sans small muted" x="0" y="84">and packaging</text>
   </g>
 
   <line class="divider" x1="650" y1="292" x2="650" y2="382"/>
 
   <g transform="translate(682 298)">
-    <text class="sans eyebrow purple" x="0" y="0">APPLICATIONS</text>
-    <text class="sans title text" x="0" y="37">Bug &#8594; root cause + test</text>
-    <text class="sans small muted" x="0" y="65">Trace evidence before changing code</text>
+    <text class="sans eyebrow purple" x="0" y="0">GENERAL METHODS · 2</text>
+    <text class="sans group-title text" x="0" y="37">Question &#8594; decision</text>
+    <text class="sans small muted" x="0" y="65">Requirements and search</text>
+    <text class="sans small muted" x="0" y="84">before building</text>
   </g>
 
   <line class="divider" x1="964" y1="292" x2="964" y2="382"/>
 
   <g transform="translate(996 298)">
-    <text class="sans eyebrow amber" x="0" y="0">RELEASES</text>
-    <text class="sans title text" x="0" y="37">Repo &#8594; verified artifact</text>
-    <text class="sans small muted" x="0" y="65">Audit, package, publish, verify</text>
+    <text class="sans eyebrow amber" x="0" y="0">GITHUB + CODEX · 2</text>
+    <text class="sans group-title text" x="0" y="37">Publish or recover</text>
+    <text class="sans small muted" x="0" y="65">Repository audits and</text>
+    <text class="sans small muted" x="0" y="84">session recovery</text>
   </g>
 
   <rect class="soft" x="48" y="420" width="1184" height="56" rx="8"/>
@@ -139,5 +143,5 @@
   <circle class="muted" cx="504" cy="449" r="3"/>
   <text class="sans body text" x="528" y="454">declared requirements</text>
   <circle class="muted" cx="760" cy="449" r="3"/>
-  <text class="sans body text" x="784" y="454">tracked licenses and provenance</text>
+  <text class="sans body text" x="784" y="454">licenses and provenance</text>
 </svg>

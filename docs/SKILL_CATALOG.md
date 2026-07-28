@@ -22,20 +22,6 @@ Plan deep-learning and computer-science research ideas as claim-driven, pilot-fi
 $experiment-planner Turn this collaborative perception idea into the smallest viable validation experiment.
 ```
 
-### [`grill-me`](../skills/grill-me)
-
-Interview a user one decision at a time to stress-test an underspecified plan or design.
-
-- Tags: `planning`, `interview`, `decision-making`, `requirements`
-- Requirements: none beyond the tools needed for the task
-- Provenance: `third-party-exact`
-- Source: [pinned source `62f43a18177b`](https://github.com/mattpocock/skills/blob/62f43a18177be6ec82da242e59ffbc490a4c22ea/skills/productivity/grill-me/SKILL.md)
-- License: `MIT`; see [notice](../NOTICE.md)
-
-```text
-$grill-me Stress-test this experiment plan before implementation begins.
-```
-
 ## Evidence & Search
 
 ### [`research-evidence`](../skills/research-evidence)
@@ -52,6 +38,8 @@ Search academic evidence, verify citation metadata, and check whether sources su
 $research-evidence Check whether this related-work claim is supported by CVPR, ICCV, or ECCV papers.
 ```
 
+## General Planning & Search
+
 ### [`search-first`](../skills/search-first)
 
 Search for maintained tools, libraries, skills, research, and proven patterns before building a custom solution.
@@ -64,6 +52,20 @@ Search for maintained tools, libraries, skills, research, and proven patterns be
 
 ```text
 $search-first Find maintained tools and libraries before we build this dataset utility.
+```
+
+### [`grill-me`](../skills/grill-me)
+
+Interview a user one decision at a time to stress-test an underspecified plan or design.
+
+- Tags: `planning`, `interview`, `decision-making`, `requirements`
+- Requirements: none beyond the tools needed for the task
+- Provenance: `third-party-exact`
+- Source: [pinned source `62f43a18177b`](https://github.com/mattpocock/skills/blob/62f43a18177be6ec82da242e59ffbc490a4c22ea/skills/productivity/grill-me/SKILL.md)
+- License: `MIT`; see [notice](../NOTICE.md)
+
+```text
+$grill-me Stress-test this experiment plan before implementation begins.
 ```
 
 ## UI/UX & Product Design
