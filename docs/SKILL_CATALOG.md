@@ -70,6 +70,20 @@ $grill-me Stress-test this experiment plan before implementation begins.
 
 ## UI/UX & Product Design
 
+### [`design-taste-frontend`](../skills/design-taste-frontend)
+
+Infer a design language and build distinctive landing pages, portfolios, and redesigns with strict layout, motion, accessibility, and pre-flight checks.
+
+- Tags: `frontend`, `ui`, `visual-design`, `landing-pages`, `portfolios`
+- Requirements: A frontend project toolchain for implementation; Optional image generation and browser automation tools
+- Provenance: `third-party-adapted`
+- Source: [pinned source `e988add20dab`](https://github.com/Leonxlnx/taste-skill/blob/e988add20dab0fa97d7a76781c48961c8184288e/skills/taste-skill/SKILL.md)
+- License: `MIT`; see [notice](../NOTICE.md)
+
+```text
+$design-taste-frontend Redesign this portfolio so it feels intentional, distinctive, responsive, and production-ready rather than templated.
+```
+
 ### [`ui-ux-pro-max`](../skills/ui-ux-pro-max)
 
 Design and review accessible web and mobile interfaces with a searchable UI/UX knowledge base.

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Design Taste Frontend"
+  short_description: "Build distinctive landing pages and portfolios"
+  default_prompt: "Use $design-taste-frontend to infer the design language and build or redesign this landing page or portfolio without generic AI visual patterns."
+
+policy:
+  allow_implicit_invocation: true

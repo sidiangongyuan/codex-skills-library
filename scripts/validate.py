@@ -43,6 +43,7 @@ REQUIRED_FIELDS = {
     "notice_path",
 }
 KNOWN_PINS = {
+    "design-taste-frontend": "e988add20dab0fa97d7a76781c48961c8184288e",
     "grill-me": "62f43a18177be6ec82da242e59ffbc490a4c22ea",
     "search-first": "99baa8250096f2d295583572399a5c9aba2ce312",
     "ui-ux-pro-max": "232f201dfa3ec3d74af5dff80ec61eb8144c7507",
