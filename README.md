@@ -5,7 +5,7 @@
 <h1 align="center">Codex Skills Library</h1>
 
 <p align="center">
-  Reusable workflows for research, paper writing, product engineering, visual communication, and release operations.
+  Installable workflows that help Codex turn research ideas, paper drafts, and software projects into work you can inspect and continue.
 </p>
 
 <p align="center">
@@ -16,54 +16,48 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a> <img alt="17 skills" src="https://img.shields.io/badge/skills-17-0f766e"> <img alt="Python standard library installer" src="https://img.shields.io/badge/installer-Python%20stdlib-2563eb"> <a href="NOTICE.md"><img alt="Tracked provenance" src="https://img.shields.io/badge/provenance-tracked-b45309"></a>
+  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a> <img alt="17 skills" src="https://img.shields.io/badge/skills-17-1f883d"> <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-0969da"></a>
 </p>
 
-Codex Skills Library is a public collection of reusable workflows for product
-development, research, academic writing, visual communication, and project
-operations. Each skill is an installable directory with focused instructions,
-optional helpers, declared requirements, and traceable provenance.
+<p align="center">
+  <a href="assets/readme-overview.svg"><img src="assets/readme-overview.svg" width="100%" alt="A task moves through an installed skill and Codex checkpoints to an inspectable result"></a>
+</p>
 
-This is an independent, community-maintained project. It is not an official
-OpenAI project and is not affiliated with or endorsed by OpenAI. The repository
-itself is the distribution: there is no separate website, GitHub Pages site, or
-plugin marketplace.
+Codex Skills Library collects 17 installable workflows distilled from repeated
+research and engineering work. A skill is closer to a lightweight SOP than a
+prompt: it tells Codex what to inspect, which checkpoints matter, what artifact
+to leave behind, and when to stop for a human decision.
 
-<table>
-  <tr>
-    <td width="33%">
-      <strong>Find one skill</strong><br>
-      Start from the goal-oriented catalog and install only the workflow you need.<br><br>
-      <a href="#browse-by-goal">Browse by goal</a>
-    </td>
-    <td width="33%">
-      <strong>Build a workflow</strong><br>
-      Compose focused skills across research, writing, review, rebuttal, and release.<br><br>
-      <a href="#workflow-map">See workflow paths</a>
-    </td>
-    <td width="33%">
-      <strong>Inspect before use</strong><br>
-      Every skill keeps its requirements, license, and provenance close to the installable files.<br><br>
-      <a href="docs/SKILL_CATALOG.md">Open the full catalog</a>
-    </td>
-  </tr>
-</table>
+Use one skill for a focused job or compose several across a longer project.
+Each installable directory keeps its instructions, declared requirements,
+license, and provenance together.
 
-## Quick start
+_Independent community project; not affiliated with or endorsed by OpenAI._
+
+## Start with one skill
 
 Codex includes the `$skill-installer` system skill. Give it the GitHub URL of an
 individual skill directory:
 
 ```text
-$skill-installer Install https://github.com/sidiangongyuan/codex-skills-library/tree/main/skills/research-evidence
+$skill-installer Install https://github.com/sidiangongyuan/codex-skills-library/tree/main/skills/experiment-planner
 ```
 
-Replace `research-evidence` with any name in the catalog. The installed skill
-will be available on the next turn. `$skill-installer` uses the skill directory
-configured for the current Codex environment.
+On the next turn, try a concrete request:
 
-Review the selected skill's `SKILL.md`, `LICENSE`, requirements, and provenance
-before installing it in a sensitive environment. See the
+```text
+$experiment-planner Turn my image-classification course project into a one-day pilot with baselines, metrics, resource assumptions, and a stop/go decision.
+```
+
+A useful result should contain a falsifiable claim, comparisons, the smallest
+pilot, expected signals, and a decision gate, not just a longer brainstorm.
+The [worked example](docs/EXAMPLE_EXPERIMENT_PLAN.md) shows the shape of that
+artifact without pretending that unrun experiments produced results.
+
+There is no need to install all 17 skills. Replace `experiment-planner` with any
+name in the [catalog](#browse-by-goal). The installed skill is available on the
+next turn. Review its `SKILL.md`, `LICENSE`, requirements, and provenance before
+using it in a sensitive environment. See the
 [single-skill installation details](docs/INSTALL.md#install-one-skill-with-codex)
 for private forks and command-line alternatives.
 
@@ -105,34 +99,31 @@ legacy `--codex-home` compatibility, and troubleshooting.
 
 </details>
 
-## Workflow map
+## Start from the work in front of you
 
-<table>
-  <tr>
-    <td width="50%">
-      <strong>Research discovery</strong><br>
-      <code>grill-me</code> &rarr; <code>experiment-planner</code> &rarr; <code>research-evidence</code><br><br>
-      Turn an ambiguous idea into a falsifiable plan, then verify the literature and claims.
-    </td>
-    <td width="50%">
-      <strong>Paper lifecycle</strong><br>
-      <code>paper-section-playbook</code> &rarr; <code>paper-refinement-skills</code> &rarr; <code>paper-review-panel</code> &rarr; <code>rebuttal-response-skills</code><br><br>
-      Structure and refine the paper, review it before submission, then switch to the rebuttal workflow only after official reviews arrive.
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <strong>Product delivery</strong><br>
-      <code>app-feature-craft</code> &rarr; <code>app-bug-forensics</code> &rarr; <code>app-release-readiness</code><br><br>
-      Build a feature, diagnose failures from evidence, and validate the release surface.
-    </td>
-    <td width="50%">
-      <strong>Paper communication</strong><br>
-      <code>paper-framework-figure-studio-pro</code> &rarr; <code>paper-visual-craft</code> &rarr; <code>paper-share-html</code><br><br>
-      Plan the visual story, refine figures and tables, and prepare an audience-ready presentation.
-    </td>
-  </tr>
-</table>
+- **Coursework or a capstone project**:
+  `grill-me` &rarr; `search-first` &rarr; `app-feature-craft` turns a vague brief
+  into a bounded project, checks existing tools, and carries the chosen path
+  through implementation and verification.
+- **A deep-learning research idea**:
+  `grill-me` &rarr; `search-first` / `research-evidence` &rarr;
+  `experiment-planner` separates the claim from the hunch, checks prior work,
+  and ends with a pilot-first experiment matrix.
+- **A paper before submission**:
+  `paper-section-playbook` &rarr; `paper-refinement-skills` &rarr;
+  `paper-review-panel` structures the argument, tightens it without inflating
+  claims, and exposes decision-changing review risks.
+- **Official reviews and rebuttal**:
+  `rebuttal-response-skills` takes over only after reviews arrive, mapping exact
+  concerns to evidence and reviewer-specific responses.
+- **Figures, tables, and a research talk**:
+  `paper-framework-figure-studio-pro` &rarr; `paper-visual-craft` &rarr;
+  `paper-share-html` plans the visual story, refines the evidence, and prepares
+  an audience-ready presentation.
+- **An application or open-source release**:
+  `app-feature-craft` &rarr; `app-bug-forensics` &rarr;
+  `app-release-readiness` builds the feature, traces failures to root cause,
+  and verifies what is actually shipped.
 
 ## Browse by goal
 

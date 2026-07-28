@@ -5,7 +5,7 @@
 <h1 align="center">Codex Skills Library</h1>
 
 <p align="center">
-  面向研究、论文、产品开发、视觉表达和项目发布的可复用 Codex 工作流。
+  把科研构思、论文写作和软件开发，变成可检查、可继续、可复用的 Codex 工作流。
 </p>
 
 <p align="center">
@@ -16,49 +16,45 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a> <img alt="17 skills" src="https://img.shields.io/badge/skills-17-0f766e"> <img alt="Python 标准库安装器" src="https://img.shields.io/badge/installer-Python%20stdlib-2563eb"> <a href="NOTICE.md"><img alt="来源可追溯" src="https://img.shields.io/badge/provenance-tracked-b45309"></a>
+  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a> <img alt="17 skills" src="https://img.shields.io/badge/skills-17-1f883d"> <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-0969da"></a>
 </p>
 
-Codex Skills Library 是一个公开的可复用工作流集合，涵盖产品开发、研究、
-学术写作、视觉表达和项目运维。每个 skill 都是可以独立安装的目录，其中包含
-聚焦的操作说明、可选辅助工具、依赖声明和可追溯的来源信息。
+<p align="center">
+  <a href="assets/readme-overview.svg"><img src="assets/readme-overview.svg" width="100%" alt="一个任务经过已安装的 skill 和 Codex 检查点，最终成为可检查的产物"></a>
+</p>
 
-这是由社区维护的独立项目，不是 OpenAI 官方项目，也不隶属于 OpenAI 或获得其
-背书。仓库本身就是发布载体，不另建网站、GitHub Pages 或插件市场。
+Codex Skills Library 收录了 17 个从真实科研和开发工作中反复打磨出来的可安装
+工作流。这里的 skill 更像一份轻量 SOP，不是模型，也不是几句万能提示词：它会
+告诉 Codex 先看什么、在哪些节点检查、最后留下什么产物，以及什么时候必须停下来
+交给人判断。
 
-<table>
-  <tr>
-    <td width="33%">
-      <strong>找一个 skill</strong><br>
-      从目标导航中选择需要的工作流，只安装这一项。<br><br>
-      <a href="#按目标浏览">按目标浏览</a>
-    </td>
-    <td width="33%">
-      <strong>组合完整流程</strong><br>
-      在研究、写作、评审、rebuttal 和发布阶段使用职责清晰的 skill。<br><br>
-      <a href="#工作流导航">查看工作流</a>
-    </td>
-    <td width="33%">
-      <strong>安装前先检查</strong><br>
-      每个目录都保留依赖、许可证和可追溯来源。<br><br>
-      <a href="docs/SKILL_CATALOG.md">打开完整目录</a>
-    </td>
-  </tr>
-</table>
+可以只装一项解决眼前问题，也可以把几项串成完整流程。每个可安装目录都把说明、
+依赖、许可证和来源放在一起，方便使用前检查。
 
-## 快速开始
+_这是由社区维护的独立项目，与 OpenAI 无隶属或背书关系。_
+
+## 先装一个试试
 
 Codex 自带 `$skill-installer` 系统 skill。把目标 skill 的 GitHub 目录链接交给它：
 
 ```text
-$skill-installer 安装 https://github.com/sidiangongyuan/codex-skills-library/tree/main/skills/research-evidence
+$skill-installer 安装 https://github.com/sidiangongyuan/codex-skills-library/tree/main/skills/experiment-planner
 ```
 
-将 `research-evidence` 替换为目录中的任意 skill 名称。安装后，它会在下一轮对话中
-可用。`$skill-installer` 会使用当前 Codex 环境配置的 skills 目录。
+下一轮可以直接输入：
 
-在敏感环境中安装前，请先检查目标目录中的 `SKILL.md`、`LICENSE`、依赖和来源。
-私有 fork 与命令行安装方式见英文
+```text
+$experiment-planner 把我的图像分类课程项目整理成一天内能完成的最小实验，给出基线、指标、资源假设和 stop/go 条件。
+```
+
+合格的结果至少应包含可证伪主张、对照、最小 pilot、预期信号和决策门槛，而不是
+把原来的想法扩写得更长。
+[完整示例](docs/EXAMPLE_EXPERIMENT_PLAN.md)展示了这种产物应有的形状，同时明确
+区分实验计划和尚未产生的结果。
+
+不必一次装完 17 项。将 `experiment-planner` 换成[目标目录](#按目标浏览)中的任意
+skill 名称即可；安装后会在下一轮对话中可用。在敏感环境中使用前，请检查目标
+目录中的 `SKILL.md`、`LICENSE`、依赖和来源。私有 fork 与命令行安装方式见
 [单项安装说明](docs/INSTALL.md#install-one-skill-with-codex)。
 
 <details>
@@ -97,34 +93,27 @@ python scripts/install.py \
 
 </details>
 
-## 工作流导航
+## 从手头任务开始
 
-<table>
-  <tr>
-    <td width="50%">
-      <strong>研究构思</strong><br>
-      <code>grill-me</code> &rarr; <code>experiment-planner</code> &rarr; <code>research-evidence</code><br><br>
-      把模糊想法压实为可证伪实验计划，再核验文献和主张。
-    </td>
-    <td width="50%">
-      <strong>论文生命周期</strong><br>
-      <code>paper-section-playbook</code> &rarr; <code>paper-refinement-skills</code> &rarr; <code>paper-review-panel</code> &rarr; <code>rebuttal-response-skills</code><br><br>
-      先组织和润色论文，投稿前做独立评审；收到正式 reviews 后再切换到 rebuttal 工作流。
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <strong>产品交付</strong><br>
-      <code>app-feature-craft</code> &rarr; <code>app-bug-forensics</code> &rarr; <code>app-release-readiness</code><br><br>
-      实现功能、基于证据定位故障，并验证最终发布面。
-    </td>
-    <td width="50%">
-      <strong>论文表达</strong><br>
-      <code>paper-framework-figure-studio-pro</code> &rarr; <code>paper-visual-craft</code> &rarr; <code>paper-share-html</code><br><br>
-      规划视觉叙事、完善图表，并制作面向听众的论文分享。
-    </td>
-  </tr>
-</table>
+- **课程设计或毕业设计**：
+  `grill-me` &rarr; `search-first` &rarr; `app-feature-craft`，先把需求边界问清楚，
+  再检查现成工具，最后完成实现与验证。
+- **一个深度学习研究想法**：
+  `grill-me` &rarr; `search-first` / `research-evidence` &rarr;
+  `experiment-planner`，把猜想和主张分开，核对相关工作，并留下 pilot-first
+  实验矩阵。
+- **论文投稿前**：
+  `paper-section-playbook` &rarr; `paper-refinement-skills` &rarr;
+  `paper-review-panel`，组织论证、克制润色，并提前暴露可能改变接收判断的问题。
+- **收到正式 reviews 后**：
+  由 `rebuttal-response-skills` 接手，逐条映射意见、证据和 reviewer-specific
+  回复，不与投稿前评审混在一起。
+- **方法图、表格和组会分享**：
+  `paper-framework-figure-studio-pro` &rarr; `paper-visual-craft` &rarr;
+  `paper-share-html`，先规划视觉叙事，再完善证据表达和演示页面。
+- **应用开发或开源发布**：
+  `app-feature-craft` &rarr; `app-bug-forensics` &rarr;
+  `app-release-readiness`，完成开发、定位根因，并核验真正发布出去的产物。
 
 ## 按目标浏览
 
@@ -134,14 +123,10 @@ python scripts/install.py \
 
 | 目标 | Skill |
 |---|---|
-| 把产品需求做成可交付功能 | [`app-feature-craft`](skills/app-feature-craft) |
-| 从现象和日志定位应用问题 | [`app-bug-forensics`](skills/app-bug-forensics) |
-| 测试、打包并核验应用发布 | [`app-release-readiness`](skills/app-release-readiness) |
-| 改进界面、交互和无障碍质量 | [`ui-ux-pro-max`](skills/ui-ux-pro-max) |
 | 逐层追问并压实模糊方案 | [`grill-me`](skills/grill-me) |
-| 把研究想法变成可证伪实验矩阵 | [`experiment-planner`](skills/experiment-planner) |
-| 搜索论文并核验主张与引用 | [`research-evidence`](skills/research-evidence) |
 | 开发前检索现成工具和方法 | [`search-first`](skills/search-first) |
+| 搜索论文并核验主张与引用 | [`research-evidence`](skills/research-evidence) |
+| 把研究想法变成可证伪实验矩阵 | [`experiment-planner`](skills/experiment-planner) |
 | 规划论文各章节的论证结构 | [`paper-section-playbook`](skills/paper-section-playbook) |
 | 在不扩大主张的前提下润色论文 | [`paper-refinement-skills`](skills/paper-refinement-skills) |
 | 投稿前独立模拟顶会评审并评估接收风险 | [`paper-review-panel`](skills/paper-review-panel) |
@@ -149,6 +134,10 @@ python scripts/install.py \
 | 规划论文方法、架构和流程总览图 | [`paper-framework-figure-studio-pro`](skills/paper-framework-figure-studio-pro) |
 | 设计并验证论文图表 | [`paper-visual-craft`](skills/paper-visual-craft) |
 | 制作表格清晰、可按演讲节奏呈现的论文分享 HTML | [`paper-share-html`](skills/paper-share-html) |
+| 把产品需求做成可交付功能 | [`app-feature-craft`](skills/app-feature-craft) |
+| 从现象和日志定位应用问题 | [`app-bug-forensics`](skills/app-bug-forensics) |
+| 测试、打包并核验应用发布 | [`app-release-readiness`](skills/app-release-readiness) |
+| 改进界面、交互和无障碍质量 | [`ui-ux-pro-max`](skills/ui-ux-pro-max) |
 | 审计并发布干净的 GitHub 项目仓库 | [`github-project-release`](skills/github-project-release) |
 | 诊断并恢复 Codex Desktop 会话 | [`codex-session-restore`](skills/codex-session-restore) |
 

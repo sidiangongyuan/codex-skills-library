@@ -135,7 +135,7 @@ entries, or execute helper scripts.
 | Command or option | Behavior |
 |---|---|
 | `python scripts/install.py` | Print the catalog and usage; make no changes. |
-| `--list` | List catalog entries and installation status. |
+| `--list` | List catalog entries; make no changes. |
 | `--skill NAME` | Select one skill; repeat for multiple skills. |
 | `--all` | Explicitly select every cataloged skill. |
 | `--target PATH` | Install directly under `PATH`. |
