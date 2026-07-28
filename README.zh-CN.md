@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a> <img alt="17 skills" src="https://img.shields.io/badge/skills-17-1f883d"> <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-0969da"></a>
+  <a href="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml"><img alt="Quality" src="https://github.com/sidiangongyuan/codex-skills-library/actions/workflows/quality.yml/badge.svg"></a>
 </p>
 
 <p align="center">
