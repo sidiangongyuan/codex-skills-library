@@ -145,7 +145,10 @@ legacy `--codex-home` compatibility, and troubleshooting.
 - **A recent-paper reading digest**:
   `feishu-paper-reading` searches a broad candidate pool, deeply reads the
   selected papers, preserves short original-language evidence, synthesizes the
-  set, and publishes a verified Feishu report when a connector is available.
+  set, and publishes a verified Feishu report. If no verified connection
+  exists, it guides the official least-privilege Feishu setup step by step
+  before publishing; Markdown fallback is reserved for a declined,
+  incompatible, or unsuccessful setup.
 - **A paper before submission**:
   `paper-section-playbook` &rarr; `paper-refinement-skills` &rarr;
   `paper-review-panel` structures the argument, tightens it without inflating
@@ -178,7 +181,7 @@ the generated [full skill catalog](docs/SKILL_CATALOG.md).
 |---|---|---|
 | Research Ideation & Experiment Planning | [`experiment-planner`](skills/experiment-planner) | Plan deep-learning and computer-science research ideas as claim-driven, pilot-first experiment matrices. |
 | Evidence & Search | [`research-evidence`](skills/research-evidence) | Search academic evidence, verify citation metadata, and check whether sources support research claims. |
-| Evidence & Search | [`feishu-paper-reading`](skills/feishu-paper-reading) | Find, deeply read, synthesize, and publish recent research papers as evidence-grounded Feishu reading reports. |
+| Evidence & Search | [`feishu-paper-reading`](skills/feishu-paper-reading) | Find, deeply read, and synthesize recent papers, then publish verified Feishu reports with guided official setup when no connection exists. |
 | General Planning & Search | [`search-first`](skills/search-first) | Search for maintained tools, libraries, skills, research, and proven patterns before building a custom solution. |
 | UI/UX & Product Design | [`design-taste-frontend`](skills/design-taste-frontend) | Infer a design language and build distinctive landing pages, portfolios, and redesigns with strict layout, motion, accessibility, and pre-flight checks. |
 | UI/UX & Product Design | [`ui-ux-pro-max`](skills/ui-ux-pro-max) | Design and review accessible web and mobile interfaces with a searchable UI/UX knowledge base. |

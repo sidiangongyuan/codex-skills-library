@@ -132,7 +132,9 @@ python scripts/install.py \
   实验矩阵。
 - **近期论文深读与飞书整理**：
   `feishu-paper-reading`，先扩展候选池，再阅读全文、保留带定位的原文短句、完成
-  跨论文综合，最后写入并回读验证飞书文档。
+  跨论文综合，最后写入并回读验证飞书文档。若尚无已验证的连接，它会先逐步引导
+  完成官方、最小权限的飞书接入；只有用户拒绝、环境不兼容或接入仍失败时才降级为
+  Markdown。
 - **论文投稿前**：
   `paper-section-playbook` &rarr; `paper-refinement-skills` &rarr;
   `paper-review-panel`，组织论证、克制润色，并提前暴露可能改变接收判断的问题。
@@ -160,7 +162,7 @@ python scripts/install.py \
 | 逐层追问并压实模糊方案 | [`grill-me`](skills/grill-me) |
 | 开发前检索现成工具和方法 | [`search-first`](skills/search-first) |
 | 搜索论文并核验主张与引用 | [`research-evidence`](skills/research-evidence) |
-| 深读近期论文并整理为飞书阅读报告 | [`feishu-paper-reading`](skills/feishu-paper-reading) |
+| 深读近期论文、按需引导接入飞书并发布阅读报告 | [`feishu-paper-reading`](skills/feishu-paper-reading) |
 | 把研究想法变成可证伪实验矩阵 | [`experiment-planner`](skills/experiment-planner) |
 | 规划论文各章节的论证结构 | [`paper-section-playbook`](skills/paper-section-playbook) |
 | 在不扩大主张的前提下润色论文 | [`paper-refinement-skills`](skills/paper-refinement-skills) |

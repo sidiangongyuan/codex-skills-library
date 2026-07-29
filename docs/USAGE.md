@@ -47,8 +47,13 @@ $feishu-paper-reading Find the strongest five 3D spatial world-model papers from
 The skill builds and deduplicates a broad candidate pool, verifies status and
 metadata, reads full papers and relevant supplements, separates source facts
 from author claims and Codex interpretation, then validates the report before
-publishing. If no authorized Feishu connector is available, it returns the same
-complete report as Markdown instead of discarding the research work.
+publishing. When Feishu is requested but no verified delivery path exists, it
+first offers a guided, least-privilege setup through the official Feishu CLI.
+Existing connectors are reused; installation, app creation, and authorization
+require one explicit consent, and a connection is considered ready only after
+the report is written and read back successfully. If the user declines setup
+or verification still fails, it returns the same complete report as Markdown
+instead of discarding the research work.
 
 ## Explore a research idea
 

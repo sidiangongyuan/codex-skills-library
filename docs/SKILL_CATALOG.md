@@ -40,16 +40,16 @@ $research-evidence Check whether this related-work claim is supported by CVPR, I
 
 ### [`feishu-paper-reading`](../skills/feishu-paper-reading)
 
-Find, deeply read, synthesize, and publish recent research papers as evidence-grounded Feishu reading reports.
+Find, deeply read, and synthesize recent papers, then publish verified Feishu reports with guided official setup when no connection exists.
 
 - Tags: `research`, `paper-reading`, `literature-review`, `feishu`, `evidence`
-- Requirements: Network access to primary literature and metadata; PDF reading or rendering tools for full-text review; Optional Feishu-compatible document connector for publishing
+- Requirements: Network access to primary literature and metadata; PDF reading or rendering tools for full-text review; Feishu publishing requires either a verified compatible connector or user consent for guided official setup; Guided first-time setup requires Python, a browser, GitHub release access, and permission to configure a Feishu or Lark app
 - Provenance: `original`
 - Source: original project work
 - License: `MIT`; see [notice](../NOTICE.md)
 
 ```text
-$feishu-paper-reading Find the strongest five 3D world-model papers from the last 30 days, explain them in Chinese with short original-language evidence excerpts, and publish the verified digest to Feishu.
+$feishu-paper-reading Find the strongest five 3D world-model papers from the last 30 days, explain them in Chinese with short original-language evidence excerpts, and publish the verified digest to Feishu; if needed, guide me through the official least-privilege Feishu setup first.
 ```
 
 ## General Planning & Search

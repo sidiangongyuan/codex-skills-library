@@ -1,6 +1,6 @@
 ---
 name: feishu-paper-reading
-description: Search, screen, deeply read, synthesize, and publish recent research papers for a user-specified topic, time window, count, quality/attention balance, and language. Use for recent or high-quality paper lists, literature digests, cross-paper comparisons, original-language evidence excerpts, Chinese explanations, or Feishu research reports.
+description: Search, screen, deeply read, synthesize, and publish recent research papers for a user-specified topic, window, count, quality/attention balance, and language. Use for evidence-anchored literature digests, cross-paper comparisons, original-language excerpts, Chinese explanations, guided Feishu setup, or Feishu research reports.
 license: MIT
 ---
 
@@ -19,9 +19,25 @@ Read these files before acting:
 - `references/report-schema.md` before extracting evidence or drafting.
 - `references/feishu-publishing.md` only when the requested destination is
   Feishu or another connected document surface.
+- `references/feishu-onboarding.md` whenever Feishu is requested but a
+  verified writable delivery path is not yet available.
 
 Use `scripts/validate_digest.py` on a Markdown report before publishing when a
 local runtime is available.
+Use `scripts/check_feishu_connection.py --json` for a read-only local
+discovery pass when the official Feishu CLI route may be needed; it never
+executes a PATH candidate. Execution requires the installer-returned absolute
+path and executable SHA-256 plus an explicit named profile and Feishu/Lark
+brand, as documented in the onboarding reference.
+Use the onboarding reference's installer, isolated
+`scripts/run_feishu_config_init.py`, and protected authorization helper only
+after consent. A fresh configuration must remain in the helper-returned
+dedicated config/data directories; bind those exact directories, profile,
+brand, and executable hash through preflight, authorization, publication, and
+readback. Use `scripts/publication_checkpoint.py` before the first Feishu create
+request. Launch every direct `lark-cli` child with
+`scripts/feishu_process_environment.py`'s minimal environment builder so
+ambient CLI, workspace, proxy, or custom-CA selectors cannot redirect it.
 
 ## Resolve The Brief
 
@@ -37,8 +53,8 @@ Default to:
 - language: Chinese explanation with original paper titles, terminology, and
   short original-language evidence excerpts;
 - depth: full paper plus relevant appendix, figures, and tables;
-- destination: a new Feishu document when an authorized compatible connector
-  exists, otherwise a complete Markdown report.
+- destination: a new Feishu document, using guided least-privilege onboarding
+  when necessary and accepted; otherwise a complete Markdown report.
 
 Accept user overrides for topic boundaries, dates, paper count, venues, source
 types, quality/attention balance, desired depth, compute budget, reading goal,
@@ -180,6 +196,57 @@ Before publishing:
 5. Resolve failures or disclose intentional deviations. Do not weaken the
    validator merely to make a report pass.
 
+## Establish Feishu Delivery
+
+When Feishu is requested, preserve the validated report locally before
+changing connection state. Research and onboarding are independent: a failed
+installation or authorization must never erase or shorten the reading result.
+
+Probe available tools and local delivery routes before installing anything:
+
+1. Prefer an already authorized connector that can create a document and read
+   it back.
+2. Otherwise inspect an existing official Feishu CLI installation.
+3. Follow `references/feishu-onboarding.md` when the route is absent,
+   disabled, unconfigured, expired, partially authorized, not visible in the
+   current task, or fails a real operation.
+
+Treat status metadata and configuration readback as discovery, not proof of a
+working connection. A route is verified only after the intended report has
+been written and its title and representative content have been read back.
+
+Before installing software, creating or updating a Feishu application,
+publishing/submitting it in a tenant, starting user authorization, expanding
+scopes, changing PATH/Codex/MCP configuration, or restarting a client, ask one
+blocking consent question. Name the account/tenant, remote and local changes,
+official package or service, requested permission profile, and possible admin
+approval. Reuse that consent for the disclosed sequence; ask again when the
+route, identity, remote tenant action, local change, or permission scope expands.
+
+After consent, complete non-sensitive setup steps autonomously. Open only
+official Feishu or Lark authorization pages and pause only for confirmations
+that the user must perform there. Never ask the user to paste a password,
+cookie, App Secret, access token, refresh token, authorization code, or device
+code into chat. Never print, checkpoint, or add credentials to command
+arguments, reports, repositories, or skill directories.
+
+For onboarding that spans tasks, keep a credential-free checkpoint containing
+the operational brief, absolute date window, selected count, validated report
+path and digest, intended destination, and last completed setup stage. Before
+publishing, use `scripts/publication_checkpoint.py` to assign a durable run ID,
+generate the exact publication payload, and atomically record any returned
+document ID before readback. Run its `begin-create` write-ahead transition
+immediately before the remote create, repeating the same verified CLI or
+connector identity binding used at `prepare`; this also re-hashes the payload.
+Do not store authorization URLs or device codes in the research or publication checkpoint. Resume from recorded state
+instead of repeating the search or creating duplicate documents; an in-flight
+or ambiguous create forbids automatic retry and requires the documented audited
+recovery transition.
+
+If the user declines setup, the platform is unsupported, or verification still
+fails after bounded diagnosis, stop changing connection state and return the
+complete local report with the precise publication blocker.
+
 ## Publish And Read Back
 
 Create one new document per run unless the user explicitly asks to update a
@@ -194,7 +261,7 @@ After publication, read the document back and verify:
 - no placeholders, truncation, duplicated sections, or missing media.
 
 Return the document link and disclose any formatting downgrade. If no
-authorized document connector exists, return the same complete report as
+verified delivery path can be established, return the same complete report as
 Markdown; publication failure must not erase the research result.
 
 ## Report Completion
