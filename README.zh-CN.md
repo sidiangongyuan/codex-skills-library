@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="README.md">English</a> ·
+  <a href="docs/FEISHU_PAPER_READING.zh-CN.md">重点工作流</a> ·
   <a href="docs/SKILL_CATALOG.md">Skills 目录</a> ·
   <a href="docs/INSTALL.md">安装指南</a> ·
   <a href="CONTRIBUTING.md">贡献指南</a>
@@ -40,6 +41,26 @@ Codex Skills Library 收录了 19 个从真实科研、软件开发和日常技�
 - **GitHub 与 Codex 运维 · 2 项**：发布干净仓库，以及恢复 Codex Desktop 会话。
 
 _这是由社区维护的独立项目，与 OpenAI 无隶属或背书关系。_
+
+## 重点工作流 · 飞书论文深读
+
+> **把一个研究问题变成有原文锚点、可跨论文比较、写入后回读核验的飞书阅读
+> 报告，而不是论文链接堆。**
+
+[`feishu-paper-reading`](docs/FEISHU_PAPER_READING.zh-CN.md) 覆盖完整链路：
+扩展候选池、核验一手来源、阅读全文和附录、维护证据台账、跨论文综合、报告校验、
+带写前检查点且禁止盲目重复创建的飞书发布，以及写入后的回读确认。若当前没有
+可写连接，它可以逐步引导完成最小权限的官方接入，但不会把凭据打包进 skill，
+也不会静默接管账号。
+
+<p align="center">
+  <a href="docs/FEISHU_PAPER_READING.zh-CN.md"><img src="assets/feishu-paper-reading/actual-summary.png" width="100%" alt="真实飞书论文阅读报告的匿名裁切，展示一篇论文的 30 秒结论"></a>
+</p>
+
+<p align="center"><sub>来自一次真实 connector 写入结果，仅保留文档内容区；账号和文档标识均未公开。</sub></p>
+
+**[查看完整流程、真实结果节选、接入边界与调用示例
+&rarr;](docs/FEISHU_PAPER_READING.zh-CN.md)**
 
 ## 先装一个试试
 
@@ -131,7 +152,8 @@ python scripts/install.py \
   `experiment-planner`，把猜想和主张分开，核对相关工作，并留下 pilot-first
   实验矩阵。
 - **近期论文深读与飞书整理**：
-  `feishu-paper-reading`，先扩展候选池，再阅读全文、保留带定位的原文短句、完成
+  [`feishu-paper-reading`](docs/FEISHU_PAPER_READING.zh-CN.md)，先扩展候选池，
+  再阅读全文、保留带定位的原文短句、完成
   跨论文综合，最后写入并回读验证飞书文档。若尚无已验证的连接，它会先逐步引导
   完成官方、最小权限的飞书接入；只有用户拒绝、环境不兼容或接入仍失败时才降级为
   Markdown。

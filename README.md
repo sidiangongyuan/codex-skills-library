@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="README.zh-CN.md">简体中文</a> ·
+  <a href="docs/FEISHU_PAPER_READING.md">Featured workflow</a> ·
   <a href="docs/SKILL_CATALOG.md">Skill catalog</a> ·
   <a href="docs/INSTALL.md">Installation</a> ·
   <a href="CONTRIBUTING.md">Contributing</a>
@@ -45,6 +46,27 @@ this is not a research-only library:
   restore missing Codex Desktop sessions.
 
 _Independent community project; not affiliated with or endorsed by OpenAI._
+
+## Featured · Feishu paper reading
+
+> **Turn a research question into an evidence-grounded, read-back-verified
+> Feishu brief, not a link dump.**
+
+[`feishu-paper-reading`](docs/FEISHU_PAPER_READING.md) owns the whole path:
+broad candidate retrieval, primary-source verification, full-text and appendix
+reading, an evidence ledger, cross-paper synthesis, report validation,
+checkpointed Feishu publication with no blind duplicate retries, and read-back
+verification. When no writable route exists, it can guide a least-privilege
+official setup without bundling credentials or silently taking over an account.
+
+<p align="center">
+  <a href="docs/FEISHU_PAPER_READING.md"><img src="assets/feishu-paper-reading/actual-summary.png" width="100%" alt="An anonymized crop from an actual Feishu paper-reading report showing a concise conclusion grounded in the selected paper"></a>
+</p>
+
+<p align="center"><sub>Actual connector-backed output, cropped to the document canvas; private account and document identifiers are omitted.</sub></p>
+
+**[Explore the workflow, real output excerpts, setup behavior, and install
+prompts &rarr;](docs/FEISHU_PAPER_READING.md)**
 
 ## Start with one skill
 
@@ -143,7 +165,8 @@ legacy `--codex-home` compatibility, and troubleshooting.
   `experiment-planner` separates the claim from the hunch, checks prior work,
   and ends with a pilot-first experiment matrix.
 - **A recent-paper reading digest**:
-  `feishu-paper-reading` searches a broad candidate pool, deeply reads the
+  [`feishu-paper-reading`](docs/FEISHU_PAPER_READING.md) searches a broad
+  candidate pool, deeply reads the
   selected papers, preserves short original-language evidence, synthesizes the
   set, and publishes a verified Feishu report. If no verified connection
   exists, it guides the official least-privilege Feishu setup step by step

@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import os
+import re
+import struct
 import subprocess
 import sys
 import tempfile
@@ -52,6 +54,55 @@ PUBLISHING_REFERENCE = (
     / "references"
     / "feishu-publishing.md"
 )
+SHOWCASE_EN = REPOSITORY_ROOT / "docs" / "FEISHU_PAPER_READING.md"
+SHOWCASE_ZH = REPOSITORY_ROOT / "docs" / "FEISHU_PAPER_READING.zh-CN.md"
+WORKFLOW_MMD = (
+    REPOSITORY_ROOT / "figures" / "feishu-paper-reading-workflow.mmd"
+)
+WORKFLOW_WRAPPER = (
+    REPOSITORY_ROOT / "figures" / "feishu-paper-reading-workflow.md"
+)
+WORKFLOW_PNG = (
+    REPOSITORY_ROOT / "figures" / "feishu-paper-reading-workflow.png"
+)
+SHOWCASE_SCREENSHOTS = (
+    REPOSITORY_ROOT
+    / "assets"
+    / "feishu-paper-reading"
+    / "actual-summary.png",
+    REPOSITORY_ROOT
+    / "assets"
+    / "feishu-paper-reading"
+    / "actual-insight.png",
+)
+
+
+def png_dimensions(path: Path) -> tuple[int, int]:
+    header = path.read_bytes()[:24]
+    if header[:8] != b"\x89PNG\r\n\x1a\n":
+        raise AssertionError(f"Not a PNG file: {path}")
+    return struct.unpack(">II", header[16:24])
+
+
+def png_chunk_types(path: Path) -> tuple[bytes, ...]:
+    content = path.read_bytes()
+    if content[:8] != b"\x89PNG\r\n\x1a\n":
+        raise AssertionError(f"Not a PNG file: {path}")
+    offset = 8
+    chunks: list[bytes] = []
+    while offset + 12 <= len(content):
+        length = struct.unpack(">I", content[offset : offset + 4])[0]
+        end = offset + 12 + length
+        if end > len(content):
+            raise AssertionError(f"Truncated PNG chunk: {path}")
+        chunk_type = content[offset + 4 : offset + 8]
+        chunks.append(chunk_type)
+        offset = end
+        if chunk_type == b"IEND":
+            break
+    if not chunks or chunks[-1] != b"IEND":
+        raise AssertionError(f"Missing PNG IEND chunk: {path}")
+    return tuple(chunks)
 
 
 class FeishuPaperReadingTests(unittest.TestCase):
@@ -236,6 +287,90 @@ class FeishuPaperReadingTests(unittest.TestCase):
         self.assertNotIn(
             '"<absolute-lark-cli-path>" config init',
             onboarding,
+        )
+
+    def test_showcase_pages_and_assets_are_publishable(self) -> None:
+        english = SHOWCASE_EN.read_text(encoding="utf-8")
+        chinese = SHOWCASE_ZH.read_text(encoding="utf-8")
+        root_readme = (REPOSITORY_ROOT / "README.md").read_text(
+            encoding="utf-8"
+        )
+        chinese_readme = (REPOSITORY_ROOT / "README.zh-CN.md").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("FEISHU_PAPER_READING.zh-CN.md", english)
+        self.assertIn("FEISHU_PAPER_READING.md", chinese)
+        self.assertIn("FEISHU_PAPER_READING.md", root_readme)
+        self.assertIn("FEISHU_PAPER_READING.zh-CN.md", chinese_readme)
+
+        for screenshot in SHOWCASE_SCREENSHOTS:
+            self.assertTrue(screenshot.is_file(), screenshot)
+            width, height = png_dimensions(screenshot)
+            self.assertGreaterEqual(width, 1500)
+            self.assertGreaterEqual(height, 500)
+            reference = f"../assets/feishu-paper-reading/{screenshot.name}"
+            self.assertIn(reference, english)
+            self.assertIn(reference, chinese)
+
+        self.assertTrue(WORKFLOW_PNG.is_file(), WORKFLOW_PNG)
+        workflow_width, workflow_height = png_dimensions(WORKFLOW_PNG)
+        self.assertGreaterEqual(workflow_width, 1500)
+        self.assertGreaterEqual(workflow_height, 1000)
+        self.assertIn(
+            "../figures/feishu-paper-reading-workflow.png",
+            english,
+        )
+        self.assertIn(
+            "../figures/feishu-paper-reading-workflow.png",
+            chinese,
+        )
+        for image in (*SHOWCASE_SCREENSHOTS, WORKFLOW_PNG):
+            chunks = set(png_chunk_types(image))
+            self.assertTrue(
+                chunks.isdisjoint({b"tEXt", b"iTXt", b"zTXt", b"eXIf"}),
+                msg=f"Unexpected textual or EXIF metadata in {image}: {chunks}",
+            )
+
+        source = WORKFLOW_MMD.read_text(encoding="utf-8").strip()
+        wrapper = WORKFLOW_WRAPPER.read_text(encoding="utf-8")
+        fenced = wrapper.split("```mermaid\n", 1)[1].rsplit("\n```", 1)[0]
+        self.assertEqual(source, fenced.strip())
+
+        public_files = (
+            REPOSITORY_ROOT / "README.md",
+            REPOSITORY_ROOT / "README.zh-CN.md",
+            REPOSITORY_ROOT / "docs" / "USAGE.md",
+            SHOWCASE_EN,
+            SHOWCASE_ZH,
+            WORKFLOW_MMD,
+            WORKFLOW_WRAPPER,
+        )
+        public_copy = "\n".join(
+            path.read_text(encoding="utf-8") for path in public_files
+        )
+        self.assertNotIn("feishu.cn/docx/", public_copy)
+        self.assertIsNone(
+            re.search(
+                r"(?i)\b[a-z]:\\(?:users|documents|appdata)\\",
+                public_copy,
+            )
+        )
+        self.assertIsNone(
+            re.search(
+                r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b",
+                public_copy,
+            )
+        )
+        self.assertIsNone(
+            re.search(
+                r"\b(?=[A-Za-z0-9]{20,32}\b)"
+                r"(?=[A-Za-z0-9]*[A-Z])"
+                r"(?=[A-Za-z0-9]*[a-z])"
+                r"(?=[A-Za-z0-9]*\d)"
+                r"[A-Za-z0-9]+\b",
+                public_copy,
+            )
         )
 
 

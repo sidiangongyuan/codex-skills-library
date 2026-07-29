@@ -55,6 +55,10 @@ the report is written and read back successfully. If the user declines setup
 or verification still fails, it returns the same complete report as Markdown
 instead of discarding the research work.
 
+See the [dedicated feature page](FEISHU_PAPER_READING.md) for the full workflow,
+anonymized excerpts from an actual Feishu delivery, setup boundaries, and more
+invocation examples.
+
 ## Explore a research idea
 
 Use this sequence when the idea sounds promising but the claim, prior work,
