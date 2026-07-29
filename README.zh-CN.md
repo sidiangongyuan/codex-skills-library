@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="README.md">English</a> ·
+  <a href="docs/FEISHU_PAPER_READING.zh-CN.md">重点工作流</a> ·
   <a href="docs/SKILL_CATALOG.md">Skills 目录</a> ·
   <a href="docs/INSTALL.md">安装指南</a> ·
   <a href="CONTRIBUTING.md">贡献指南</a>
@@ -23,7 +24,7 @@
   <a href="assets/readme-overview.svg"><img src="assets/readme-overview.svg" width="100%" alt="一个任务经过已安装的 skill 和 Codex 检查点，最终成为可检查的产物"></a>
 </p>
 
-Codex Skills Library 收录了 17 个从真实科研、软件开发和日常技术工作中反复打磨
+Codex Skills Library 收录了 19 个从真实科研、软件开发和日常技术工作中反复打磨
 出来的可安装工作流。这里的 skill 更像一份轻量 SOP，不是模型，也不是几句万能
 提示词：它会告诉 Codex 先看什么、在哪些节点检查、最后留下什么产物，以及什么
 时候必须停下来交给人判断。
@@ -33,12 +34,33 @@ Codex Skills Library 收录了 17 个从真实科研、软件开发和日常技�
 
 目前仍以科研和论文为主，但不是纯科研工具箱：
 
-- **科研与论文 · 9 项**：实验、证据、写作、评审、rebuttal、图表和分享。
-- **应用与 UI · 4 项**：产品设计、功能开发、故障定位和应用发布。
+- **科研与论文 · 10 项**：实验、证据、近期论文深读、写作、评审、rebuttal、
+  图表和分享。
+- **应用与 UI · 5 项**：产品设计、功能开发、故障定位和应用发布。
 - **通用方法 · 2 项**：把模糊方案问清楚，以及动手前先检索现成方案。
 - **GitHub 与 Codex 运维 · 2 项**：发布干净仓库，以及恢复 Codex Desktop 会话。
 
 _这是由社区维护的独立项目，与 OpenAI 无隶属或背书关系。_
+
+## 重点工作流 · 飞书论文深读
+
+> **把一个研究问题变成有原文锚点、可跨论文比较、写入后回读核验的飞书阅读
+> 报告，而不是论文链接堆。**
+
+[`feishu-paper-reading`](docs/FEISHU_PAPER_READING.zh-CN.md) 覆盖完整链路：
+扩展候选池、核验一手来源、阅读全文和附录、维护证据台账、跨论文综合、报告校验、
+带写前检查点且禁止盲目重复创建的飞书发布，以及写入后的回读确认。若当前没有
+可写连接，它可以逐步引导完成最小权限的官方接入，但不会把凭据打包进 skill，
+也不会静默接管账号。
+
+<p align="center">
+  <a href="docs/FEISHU_PAPER_READING.zh-CN.md"><img src="assets/feishu-paper-reading/actual-summary.png" width="100%" alt="真实飞书论文阅读报告的匿名裁切，展示一篇论文的 30 秒结论"></a>
+</p>
+
+<p align="center"><sub>来自一次真实 connector 写入结果，仅保留文档内容区；账号和文档标识均未公开。</sub></p>
+
+**[查看完整流程、真实结果节选、接入边界与调用示例
+&rarr;](docs/FEISHU_PAPER_READING.zh-CN.md)**
 
 ## 先装一个试试
 
@@ -76,7 +98,7 @@ $app-bug-forensics 从用户看到的现象、日志和请求链路追查这个�
 合格的结果应区分已观察到的证据和待验证假设，找到真正失败的边界，并留下针对性的
 回归检查。
 
-不必一次装完 17 项。将 `experiment-planner` 换成[目标目录](#按目标浏览)中的任意
+不必一次装完 19 项。将 `experiment-planner` 换成[目标目录](#按目标浏览)中的任意
 skill 名称即可；安装后会在下一轮对话中可用。在敏感环境中使用前，请检查目标
 目录中的 `SKILL.md`、`LICENSE`、依赖和来源。私有 fork 与命令行安装方式见
 [单项安装说明](docs/INSTALL.md#install-one-skill-with-codex)。
@@ -129,6 +151,12 @@ python scripts/install.py \
   `grill-me` &rarr; `search-first` / `research-evidence` &rarr;
   `experiment-planner`，把猜想和主张分开，核对相关工作，并留下 pilot-first
   实验矩阵。
+- **近期论文深读与飞书整理**：
+  [`feishu-paper-reading`](docs/FEISHU_PAPER_READING.zh-CN.md)，先扩展候选池，
+  再阅读全文、保留带定位的原文短句、完成
+  跨论文综合，最后写入并回读验证飞书文档。若尚无已验证的连接，它会先逐步引导
+  完成官方、最小权限的飞书接入；只有用户拒绝、环境不兼容或接入仍失败时才降级为
+  Markdown。
 - **论文投稿前**：
   `paper-section-playbook` &rarr; `paper-refinement-skills` &rarr;
   `paper-review-panel`，组织论证、克制润色，并提前暴露可能改变接收判断的问题。
@@ -147,7 +175,7 @@ python scripts/install.py \
 
 ## 按目标浏览
 
-下面提供 17 个 skills 的中文导航。英文 README 中的技能表和
+下面提供 19 个 skills 的中文导航。英文 README 中的技能表和
 [完整目录](docs/SKILL_CATALOG.md)由 [`skills.json`](skills.json) 自动生成，
 其中包含完整依赖、示例 prompt、许可证以及固定的上游 revision。
 
@@ -156,6 +184,7 @@ python scripts/install.py \
 | 逐层追问并压实模糊方案 | [`grill-me`](skills/grill-me) |
 | 开发前检索现成工具和方法 | [`search-first`](skills/search-first) |
 | 搜索论文并核验主张与引用 | [`research-evidence`](skills/research-evidence) |
+| 深读近期论文、按需引导接入飞书并发布阅读报告 | [`feishu-paper-reading`](skills/feishu-paper-reading) |
 | 把研究想法变成可证伪实验矩阵 | [`experiment-planner`](skills/experiment-planner) |
 | 规划论文各章节的论证结构 | [`paper-section-playbook`](skills/paper-section-playbook) |
 | 在不扩大主张的前提下润色论文 | [`paper-refinement-skills`](skills/paper-refinement-skills) |
@@ -168,6 +197,7 @@ python scripts/install.py \
 | 从现象和日志定位应用问题 | [`app-bug-forensics`](skills/app-bug-forensics) |
 | 测试、打包并核验应用发布 | [`app-release-readiness`](skills/app-release-readiness) |
 | 改进界面、交互和无障碍质量 | [`ui-ux-pro-max`](skills/ui-ux-pro-max) |
+| 构建有明确设计语言的前端与作品集 | [`design-taste-frontend`](skills/design-taste-frontend) |
 | 审计并发布干净的 GitHub 项目仓库 | [`github-project-release`](skills/github-project-release) |
 | 诊断并恢复 Codex Desktop 会话 | [`codex-session-restore`](skills/codex-session-restore) |
 
@@ -199,8 +229,9 @@ $experiment-planner 把这个想法整理成 pilot-first 实验矩阵，给出�
 $paper-review-panel 在投稿前按顶会评审组的方式审查这份论文，区分会改变接收判断的证据缺口和可通过写作修复的问题。
 ```
 
-所有收录的 skills 也允许隐式调用：当用户请求与描述高度匹配时，Codex 可以自动
-选择。需要固定工作流或可复现交接时，建议显式写出 `$skill-name`。
+大多数 skills 允许在请求与描述高度匹配时隐式调用；默认会向外部系统发布内容的
+skill 可以要求显式写出 `$skill-name`，具体策略记录在 `agents/openai.yaml`。
+需要固定工作流或可复现交接时，也建议显式调用。
 
 多个 skills 可以串联，但每个阶段应由一个职责明确的 skill 主导。完整示例和交接点
 见英文[工作流手册](docs/USAGE.md)。

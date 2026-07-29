@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="README.zh-CN.md">简体中文</a> ·
+  <a href="docs/FEISHU_PAPER_READING.md">Featured workflow</a> ·
   <a href="docs/SKILL_CATALOG.md">Skill catalog</a> ·
   <a href="docs/INSTALL.md">Installation</a> ·
   <a href="CONTRIBUTING.md">Contributing</a>
@@ -23,7 +24,7 @@
   <a href="assets/readme-overview.svg"><img src="assets/readme-overview.svg" width="100%" alt="A task moves through an installed skill and Codex checkpoints to an inspectable result"></a>
 </p>
 
-Codex Skills Library collects 17 installable workflows distilled from repeated
+Codex Skills Library collects 19 installable workflows distilled from repeated
 research, software, and technical operations work. A skill is closer to a
 lightweight SOP than a prompt: it tells Codex what to inspect, which checkpoints
 matter, what artifact to leave behind, and when to stop for a human decision.
@@ -35,9 +36,9 @@ license, and provenance together.
 Research and paper work make up the largest part of the current catalog, but
 this is not a research-only library:
 
-- **Research and papers · 9 skills**: experiments, evidence, writing, review,
-  rebuttal, figures, and presentations.
-- **Apps and UI · 4 skills**: product design, feature delivery, debugging, and
+- **Research and papers · 10 skills**: experiments, evidence, recent-paper
+  reading, writing, review, rebuttal, figures, and presentations.
+- **Apps and UI · 5 skills**: product design, feature delivery, debugging, and
   application releases.
 - **General methods · 2 skills**: clarify an underspecified plan and search
   before building.
@@ -45,6 +46,27 @@ this is not a research-only library:
   restore missing Codex Desktop sessions.
 
 _Independent community project; not affiliated with or endorsed by OpenAI._
+
+## Featured · Feishu paper reading
+
+> **Turn a research question into an evidence-grounded, read-back-verified
+> Feishu brief, not a link dump.**
+
+[`feishu-paper-reading`](docs/FEISHU_PAPER_READING.md) owns the whole path:
+broad candidate retrieval, primary-source verification, full-text and appendix
+reading, an evidence ledger, cross-paper synthesis, report validation,
+checkpointed Feishu publication with no blind duplicate retries, and read-back
+verification. When no writable route exists, it can guide a least-privilege
+official setup without bundling credentials or silently taking over an account.
+
+<p align="center">
+  <a href="docs/FEISHU_PAPER_READING.md"><img src="assets/feishu-paper-reading/actual-summary.png" width="100%" alt="An anonymized crop from an actual Feishu paper-reading report showing a concise conclusion grounded in the selected paper"></a>
+</p>
+
+<p align="center"><sub>Actual connector-backed output, cropped to the document canvas; private account and document identifiers are omitted.</sub></p>
+
+**[Explore the workflow, real output excerpts, setup behavior, and install
+prompts &rarr;](docs/FEISHU_PAPER_READING.md)**
 
 ## Start with one skill
 
@@ -84,7 +106,7 @@ $app-bug-forensics Trace this intermittent timeout from the visible symptom thro
 A useful result should distinguish observations from hypotheses, identify the
 failing boundary, and leave behind a focused regression check.
 
-There is no need to install all 17 skills. Replace `experiment-planner` with any
+There is no need to install all 19 skills. Replace `experiment-planner` with any
 name in the [catalog](#browse-by-goal). The installed skill is available on the
 next turn. Review its `SKILL.md`, `LICENSE`, requirements, and provenance before
 using it in a sensitive environment. See the
@@ -142,6 +164,14 @@ legacy `--codex-home` compatibility, and troubleshooting.
   `grill-me` &rarr; `search-first` / `research-evidence` &rarr;
   `experiment-planner` separates the claim from the hunch, checks prior work,
   and ends with a pilot-first experiment matrix.
+- **A recent-paper reading digest**:
+  [`feishu-paper-reading`](docs/FEISHU_PAPER_READING.md) searches a broad
+  candidate pool, deeply reads the
+  selected papers, preserves short original-language evidence, synthesizes the
+  set, and publishes a verified Feishu report. If no verified connection
+  exists, it guides the official least-privilege Feishu setup step by step
+  before publishing; Markdown fallback is reserved for a declined,
+  incompatible, or unsuccessful setup.
 - **A paper before submission**:
   `paper-section-playbook` &rarr; `paper-refinement-skills` &rarr;
   `paper-review-panel` structures the argument, tightens it without inflating
@@ -174,6 +204,7 @@ the generated [full skill catalog](docs/SKILL_CATALOG.md).
 |---|---|---|
 | Research Ideation & Experiment Planning | [`experiment-planner`](skills/experiment-planner) | Plan deep-learning and computer-science research ideas as claim-driven, pilot-first experiment matrices. |
 | Evidence & Search | [`research-evidence`](skills/research-evidence) | Search academic evidence, verify citation metadata, and check whether sources support research claims. |
+| Evidence & Search | [`feishu-paper-reading`](skills/feishu-paper-reading) | Find, deeply read, and synthesize recent papers, then publish verified Feishu reports with guided official setup when no connection exists. |
 | General Planning & Search | [`search-first`](skills/search-first) | Search for maintained tools, libraries, skills, research, and proven patterns before building a custom solution. |
 | UI/UX & Product Design | [`design-taste-frontend`](skills/design-taste-frontend) | Infer a design language and build distinctive landing pages, portfolios, and redesigns with strict layout, motion, accessibility, and pre-flight checks. |
 | UI/UX & Product Design | [`ui-ux-pro-max`](skills/ui-ux-pro-max) | Design and review accessible web and mobile interfaces with a searchable UI/UX knowledge base. |
@@ -225,9 +256,10 @@ risks:
 $paper-review-panel Review this draft before submission. Separate decision-changing evidence gaps from issues that can be fixed with writing.
 ```
 
-All included skills also allow implicit invocation: Codex may select one when
-its description closely matches the request. Explicit `$skill-name` invocation
-is preferable when a particular workflow or a repeatable handoff matters.
+Most included skills allow implicit invocation when their description closely
+matches the request. Skills whose default workflow publishes externally may
+require explicit `$skill-name` invocation; their `agents/openai.yaml` records
+that policy. Explicit invocation is preferable for repeatable handoffs.
 
 Skills can be composed in sequence, but each stage keeps a clear owner. See
 [workflow recipes](docs/USAGE.md) for complete examples and handoff points.

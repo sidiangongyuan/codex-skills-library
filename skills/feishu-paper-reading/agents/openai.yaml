@@ -1,0 +1,7 @@
+interface:
+  display_name: "Feishu Paper Reading"
+  short_description: "Read papers, connect Feishu, and publish reports"
+  default_prompt: "Use $feishu-paper-reading to find, verify, deeply read, synthesize, and publish the strongest recent papers for my topic to Feishu. If no verified publishing capability exists, guide me step by step through the official least-privilege Feishu setup, pause only for required consent or authentication, publish the formal report exactly once, and read it back before claiming success."
+
+policy:
+  allow_implicit_invocation: false

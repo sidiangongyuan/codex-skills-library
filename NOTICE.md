@@ -27,6 +27,7 @@ License, copyright 2026 sidiangongyuan:
 - `app-feature-craft`
 - `app-release-readiness`
 - `codex-session-restore`
+- `feishu-paper-reading`
 - `github-project-release`
 - `paper-refinement-skills`
 - `paper-review-panel`

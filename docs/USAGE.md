@@ -2,8 +2,9 @@
 
 This guide shows how to invoke and compose the installed skills. Examples use
 explicit `$skill-name` calls so that the requested workflow is clear and
-repeatable. Codex may also select any included skill implicitly when its
-description closely matches the task.
+repeatable. Codex may select a skill implicitly when its policy allows and its
+description closely matches the task. Workflows that publish externally may
+require explicit invocation.
 
 For installation and dependency details, see [Installation](INSTALL.md) and
 the generated [Skill catalog](SKILL_CATALOG.md).
@@ -33,6 +34,30 @@ $grill-me Stress-test this feature proposal until its success criteria and failu
 ```text
 $app-feature-craft Implement the agreed proposal and verify the user-visible workflow, including loading, empty, error, cancellation, and recovery states.
 ```
+
+## Read recent papers into Feishu
+
+Use `$feishu-paper-reading` when the deliverable is a current, deeply read
+literature digest rather than a list of search results:
+
+```text
+$feishu-paper-reading Find the strongest five 3D spatial world-model papers from the last 30 days. Favor technical quality over popularity, explain them in Chinese, preserve short original-language evidence with page or figure anchors, compare the papers, and publish the verified report to Feishu.
+```
+
+The skill builds and deduplicates a broad candidate pool, verifies status and
+metadata, reads full papers and relevant supplements, separates source facts
+from author claims and Codex interpretation, then validates the report before
+publishing. When Feishu is requested but no verified delivery path exists, it
+first offers a guided, least-privilege setup through the official Feishu CLI.
+Existing connectors are reused; installation, app creation, and authorization
+require one explicit consent, and a connection is considered ready only after
+the report is written and read back successfully. If the user declines setup
+or verification still fails, it returns the same complete report as Markdown
+instead of discarding the research work.
+
+See the [dedicated feature page](FEISHU_PAPER_READING.md) for the full workflow,
+anonymized excerpts from an actual Feishu delivery, setup boundaries, and more
+invocation examples.
 
 ## Explore a research idea
 
