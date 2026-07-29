@@ -725,7 +725,7 @@ def _safe_summary(checkpoint: dict[str, Any]) -> dict[str, Any]:
 
 def run_self_test() -> None:
     with tempfile.TemporaryDirectory(prefix="feishu-publication-test-") as directory:
-        root = Path(directory)
+        root = Path(directory).resolve(strict=True)
         report = root / "report.md"
         report.write_text("# Report\n\nEvidence.\n", encoding="utf-8")
         state = root / "publication.json"

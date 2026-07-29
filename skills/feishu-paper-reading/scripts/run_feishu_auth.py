@@ -1960,21 +1960,22 @@ def run_self_test() -> None:
         return _FakeProcess(command, fake_output, fake_stderr)
 
     with tempfile.TemporaryDirectory() as temporary_directory:
-        state_path = Path(temporary_directory) / "auth-state.json"
-        fake_lark_cli = Path(temporary_directory) / (
+        root = Path(temporary_directory).resolve(strict=True)
+        state_path = root / "auth-state.json"
+        fake_lark_cli = root / (
             "lark-cli.exe" if os.name == "nt" else "lark-cli"
         )
         fake_lark_cli.touch(mode=0o700)
         with contextlib.suppress(OSError):
             fake_lark_cli.chmod(0o700)
         fake_digest = _sha256_file(os.fspath(fake_lark_cli))
-        shim = Path(temporary_directory) / "lark-cli.cmd"
+        shim = root / "lark-cli.cmd"
         shim.write_text("@echo off\n", encoding="utf-8")
         assert _validated_executable(os.fspath(shim)) is None
 
         mismatch_emitted: list[dict[str, Any]] = []
         mismatch_code = run_authorization(
-            state_path=Path(temporary_directory) / "hash-mismatch.json",
+            state_path=root / "hash-mismatch.json",
             brand="feishu",
             profile="codex-paper-reading",
             timeout_seconds=5,
@@ -1987,7 +1988,7 @@ def run_self_test() -> None:
         )
         assert mismatch_code != 0
         assert mismatch_emitted[-1]["reason"] == "lark_cli_hash_mismatch"
-        assert not (Path(temporary_directory) / "hash-mismatch.json").exists()
+        assert not (root / "hash-mismatch.json").exists()
 
         captured_stdout = io.StringIO()
         captured_stderr = io.StringIO()
@@ -2089,11 +2090,11 @@ def run_self_test() -> None:
         )
         assert not state_path.exists()
 
-        dedicated_config_dir = Path(temporary_directory) / "dedicated-config"
+        dedicated_config_dir = root / "dedicated-config"
         dedicated_config_dir.mkdir(mode=0o700)
         dedicated_data_dir = dedicated_config_dir / "data"
         dedicated_data_dir.mkdir(mode=0o700)
-        dedicated_state = Path(temporary_directory) / "dedicated-auth.json"
+        dedicated_state = root / "dedicated-auth.json"
         captured_environments: list[dict[str, str]] = []
 
         def dedicated_factory(
@@ -2174,7 +2175,7 @@ def run_self_test() -> None:
             )
             == 0
         )
-        original_config_dir = Path(temporary_directory) / "original-config"
+        original_config_dir = root / "original-config"
         dedicated_config_dir.rename(original_config_dir)
         dedicated_config_dir.mkdir(mode=0o700)
         replacement_data_dir = dedicated_config_dir / "data"
@@ -2192,7 +2193,7 @@ def run_self_test() -> None:
             != 0
         )
 
-        clean_exit_path = Path(temporary_directory) / "clean-exit-state.json"
+        clean_exit_path = root / "clean-exit-state.json"
 
         def incomplete_factory(
             command: list[str],
@@ -2243,7 +2244,7 @@ def run_self_test() -> None:
         for secret in (device_code, token):
             assert secret not in incomplete_flattened
 
-        recoverable_path = Path(temporary_directory) / "recoverable.json"
+        recoverable_path = root / "recoverable.json"
         _write_initial_state(
             recoverable_path,
             {
