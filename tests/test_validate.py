@@ -76,6 +76,17 @@ class ValidatorTests(unittest.TestCase):
     def test_valid_repository_fixture(self) -> None:
         self.assertEqual(validate.validate_repository(self.root), [])
 
+    def test_explicit_invocation_policy_is_valid(self) -> None:
+        policy_path = self.root / "skills" / "demo-skill" / "agents" / "openai.yaml"
+        policy_path.write_text(
+            policy_path.read_text(encoding="utf-8").replace(
+                "allow_implicit_invocation: true",
+                "allow_implicit_invocation: false",
+            ),
+            encoding="utf-8",
+        )
+        self.assertEqual(validate.validate_repository(self.root), [])
+
     def test_missing_license_and_broken_link_are_reported(self) -> None:
         (self.root / "skills" / "demo-skill" / "LICENSE").unlink()
         with (self.root / "README.md").open("a", encoding="utf-8") as stream:

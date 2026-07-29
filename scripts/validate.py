@@ -295,9 +295,12 @@ def _validate_skill_files(
                 f"{relative_path}/agents/openai.yaml: default_prompt must invoke ${name}"
             )
     policy = value.get("policy")
-    if not isinstance(policy, dict) or policy.get("allow_implicit_invocation") is not True:
+    if not isinstance(policy, dict) or not isinstance(
+        policy.get("allow_implicit_invocation"), bool
+    ):
         errors.append(
-            f"{relative_path}/agents/openai.yaml: policy.allow_implicit_invocation must be true"
+            f"{relative_path}/agents/openai.yaml: "
+            "policy.allow_implicit_invocation must be a boolean"
         )
 
 

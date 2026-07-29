@@ -38,6 +38,20 @@ Search academic evidence, verify citation metadata, and check whether sources su
 $research-evidence Check whether this related-work claim is supported by CVPR, ICCV, or ECCV papers.
 ```
 
+### [`feishu-paper-reading`](../skills/feishu-paper-reading)
+
+Find, deeply read, synthesize, and publish recent research papers as evidence-grounded Feishu reading reports.
+
+- Tags: `research`, `paper-reading`, `literature-review`, `feishu`, `evidence`
+- Requirements: Network access to primary literature and metadata; PDF reading or rendering tools for full-text review; Optional Feishu-compatible document connector for publishing
+- Provenance: `original`
+- Source: original project work
+- License: `MIT`; see [notice](../NOTICE.md)
+
+```text
+$feishu-paper-reading Find the strongest five 3D world-model papers from the last 30 days, explain them in Chinese with short original-language evidence excerpts, and publish the verified digest to Feishu.
+```
+
 ## General Planning & Search
 
 ### [`search-first`](../skills/search-first)

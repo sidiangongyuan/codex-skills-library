@@ -1,0 +1,7 @@
+interface:
+  display_name: "Feishu Paper Reading"
+  short_description: "Deep-read recent papers and publish to Feishu"
+  default_prompt: "Use $feishu-paper-reading to find, verify, deeply read, synthesize, and publish the strongest recent papers for my topic to Feishu."
+
+policy:
+  allow_implicit_invocation: false
