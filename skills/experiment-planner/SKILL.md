@@ -70,11 +70,14 @@ rebuttal, figure, evidence, or GitHub release skills.
    outputs; remove test data after smoke checks; launch the full run only after
    sanity passes; inspect the first few samples/logs/artifacts; stop continuous
    monitoring once the run is confirmed healthy unless the user asks otherwise.
-10. **Conditional seed policy**: record an existing seed and keep compared runs
-    under the same evaluation and checkpoint-selection policy. For expensive
-    training such as autonomous driving, accept a single training run by default.
-    Require repeated seeds only when variance could change the central claim,
-    the margin is small, the runs are inexpensive, or the venue requires them.
+10. **Explicit-only expansion policy**: record one fixed seed and keep compared
+    runs under the same evaluation and checkpoint-selection policy. Use one
+    training run by default. Do not add CL experiments, multi-seed or
+    repeated-seed runs, or another auxiliary experiment family unless the user
+    explicitly requests that exact experiment. Variance concerns, a small
+    margin, inexpensive runs, idle GPUs, reviewer expectations, or venue norms
+    do not count as authorization. Mention such experiments only as unrun
+    options or limitations when useful.
 11. **Default decisions**: ask only questions whose answers materially change
     the plan. If a non-critical choice goes unanswered, use the recommended
     default and record it as an assumption.

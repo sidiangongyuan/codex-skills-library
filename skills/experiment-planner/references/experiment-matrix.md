@@ -23,7 +23,7 @@ artifact.
 | `follow-up experiments` | Main result, ablation, robustness, efficiency, qualitative, and failure-analysis runs after pilot success. |
 | `subagent/task ownership` | Explorer/worker split, write scopes, and which tasks stay with the main session. |
 | `compute/resource assumptions` | GPU count, expected runtime, data availability, seed policy, and storage constraints when known. |
-| `seed policy` | Single-run or repeated-seed decision, with the cost and evidence-risk reason. |
+| `seed policy` | One fixed seed by default. Mark multi-seed or repeated-seed runs as not scheduled unless the user explicitly requests them. |
 | `success gate` | The explicit condition for moving from pilot to full experiment. |
 | `claim gate` | The result threshold or comparison pattern required before using stronger paper wording. |
 | `next action` | The next concrete step: ask user, search literature, inspect repo, write code, smoke test, launch run, or stop. |
@@ -55,9 +55,14 @@ artifact.
 - Keep the main comparison first; make ablations and diagnostics secondary.
 - Use `--`, never `TBD` or `pending`, for unavailable table values.
 - Do not write result claims from placeholders.
-- Record an existing seed, but do not require repeated expensive training by
-  default. Repeat seeds only when variance could change the claim, the margin is
-  small, the runs are inexpensive, or the venue requires them.
+- Record one fixed seed and keep compared runs under the same evaluation and
+  checkpoint-selection policy.
+- Do not add CL experiments, multi-seed or repeated-seed runs, or another
+  auxiliary experiment family unless the user explicitly requests that exact
+  experiment. Variance concerns, small margins, low cost, idle GPUs, reviewer
+  expectations, and venue norms do not authorize them.
+- If an unrequested auxiliary experiment could matter, note it only as an unrun
+  option or limitation; keep it out of the active matrix and execution queue.
 
 ## Subagent Task Patterns
 
