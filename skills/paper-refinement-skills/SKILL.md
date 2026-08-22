@@ -50,6 +50,16 @@ Use this skill when revising academic papers section by section. Preserve verifi
   section.
 - Use idiomatic, natural academic English: clear, human-sounding sentences; no awkward AI-like filler, inflated phrasing, rare words, or needless synonym swapping.
 - Make prose clean and economical while preserving enough context for a reader to follow the logic.
+- Treat repeated transitions, generic intensifiers, and abstract buzzwords as audit signals, not
+  banned tokens. Remove or replace them only when they add no information; retain precise domain
+  terms when the sentence genuinely needs them.
+- Untangle overloaded sentences by making the main subject and action explicit, then splitting or
+  reordering clauses when that improves comprehension. Use sentence length as a diagnostic rather
+  than a universal word-count limit, and preserve the original logical relations.
+- Remove empty self-discrediting disclaimers, but never hide a material limitation or convert it
+  into future work merely to sound confident. State the limitation, affected scope, and evidence
+  boundary directly; distinguish measured or observed effects from simulated, modelled, or
+  projected effects.
 - Do not use em dashes in paper prose; prefer full sentences, commas, semicolons, parentheses, or sentence splits.
 - Use colons sparingly; avoid loose `claim: explanation` constructions when a cleaner full sentence is available.
 - Match every claim to the paper's actual evidence. If a claim cannot be supported by the current experiments, citations, equations, or figures, weaken it, qualify it, or ask the user rather than inventing support.
