@@ -137,6 +137,25 @@ For every selected paper:
 Never claim a full read when only an abstract, metadata page, or secondary
 summary was available.
 
+## Embed Source Figures And Tables
+
+When the brief asks for figures or tables, the final Feishu document must show
+the source visual itself. Do not replace a requested figure with a sentence
+such as “see Fig. 2 in the paper” or a locator alone.
+
+- Prefer the original PDF figure/table rendered at a readable resolution and
+  caption it with the paper, figure/table number, and PDF page.
+- Use a DOCX import route when media must survive into Feishu. Markdown and
+  plain rich-text routes may preserve the caption while dropping the image.
+- Keep one or two decision-relevant source visuals per paper; add a native
+  Feishu table only when it improves comparison rather than duplicating the
+  source table.
+- Before readback, count the expected image/file blocks when the connector
+  exposes block inspection. A successful text readback alone is not proof that
+  media survived.
+- Attribute every embedded source visual. Do not present a newly generated
+  diagram as an original paper figure.
+
 ## Preserve Original Language
 
 Use original language to let the reader inspect the authors' wording while the
@@ -177,6 +196,14 @@ traceable evidence over a larger report built from abstracts.
 
 Describe the final set as the strongest papers within the disclosed candidate
 pool. Never imply that a bounded search proves a global "best papers" ranking.
+
+The report is an article-reading artifact, not a chat transcript. Do not write
+direct-to-reader asides such as “this is only a reference,” “you should decide
+for yourself,” or “you need to judge.” Put uncertainty, scope, and limitations
+inside the paper analysis itself. Use a fixed semantic palette across runs:
+blue for conclusions/headings, green for transferable strengths, purple for
+original-language evidence, orange for attention/public resources, red for
+limitations/failure modes, and gray for metadata/verification.
 
 ## Validate
 
@@ -258,7 +285,8 @@ After publication, read the document back and verify:
 - canonical paper and code links;
 - comparison, per-paper, synthesis, and confidence sections;
 - original fragments and their source anchors;
-- no placeholders, truncation, duplicated sections, or missing media.
+- no placeholders, truncation, duplicated sections, or missing media;
+- expected source-figure/table media blocks, not only image captions.
 
 Return the document link and disclose any formatting downgrade. If no
 verified delivery path can be established, return the same complete report as

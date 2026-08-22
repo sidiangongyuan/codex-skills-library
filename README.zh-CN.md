@@ -53,6 +53,10 @@ _这是由社区维护的独立项目，与 OpenAI 无隶属或背书关系。_
 可写连接，它可以逐步引导完成最小权限的官方接入，但不会把凭据打包进 skill，
 也不会静默接管账号。
 
+当前交付约定也很具体：需要展示的论文原文图表会通过 DOCX 直接嵌入飞书文档，蓝/绿/
+紫/橙/红/灰语义配色在各期保持一致，报告使用文章叙述方式，不夹带面向读者的对话式
+提醒。
+
 <p align="center">
   <a href="docs/FEISHU_PAPER_READING.zh-CN.md"><img src="assets/feishu-paper-reading/actual-summary.png" width="100%" alt="真实飞书论文阅读报告的匿名裁切，展示一篇论文的 30 秒结论"></a>
 </p>

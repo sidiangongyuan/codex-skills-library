@@ -59,6 +59,12 @@ checkpointed Feishu publication with no blind duplicate retries, and read-back
 verification. When no writable route exists, it can guide a least-privilege
 official setup without bundling credentials or silently taking over an account.
 
+The delivery contract is concrete: key source figures and tables are embedded
+directly into the Feishu document through a DOCX import route, the
+blue/green/purple/orange/red/gray reading palette stays consistent across
+issues, and the report remains article voice rather than a conversation with
+the reader.
+
 <p align="center">
   <a href="docs/FEISHU_PAPER_READING.md"><img src="assets/feishu-paper-reading/actual-summary.png" width="100%" alt="An anonymized crop from an actual Feishu paper-reading report showing a concise conclusion grounded in the selected paper"></a>
 </p>

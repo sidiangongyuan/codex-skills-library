@@ -38,6 +38,13 @@ bounded recovery steps. Disclose the exact reason publishing was skipped.
 - Create a mind map only when it clarifies relationships across at least three
   papers and the connector can verify the result.
 
+If the request explicitly requires key figures or tables to appear in Feishu,
+use DOCX import with the source visuals embedded. Markdown image syntax is not
+an acceptable fallback when it leaves only a caption or paper locator. Keep a
+single stable visual template across issues: blue for conclusions/headings,
+green for strengths and transferable insights, purple for source excerpts,
+orange for attention/resources, red for limits, and gray for metadata.
+
 Create one new document per run. Update an existing document only when the user
 identifies it and explicitly requests the update. Use the publication checkpoint
 from `feishu-onboarding.md`; never issue create when its state is `created`,
@@ -86,6 +93,10 @@ Use restrained semantic styling:
 Avoid decorative color on every paragraph. Keep heading hierarchy consistent.
 Use tables for comparison, not for long prose. Place original-language
 fragments in quote blocks and Chinese explanations directly below them.
+
+Keep the report in article voice. Do not include direct-to-reader coaching or
+meta-asides; uncertainty belongs in the paper's evidence, assumptions, and
+limitations sections.
 
 For each paper, keep canonical paper and code links near its verified metadata.
 Use source figure captions and clear attribution when embedding is allowed.

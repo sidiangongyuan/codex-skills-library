@@ -46,6 +46,14 @@ The result is designed for reading and decision-making. It leads with the
 highest-value conclusions, then keeps the evidence, caveats, original wording,
 and source locators close enough to inspect.
 
+<p align="center">
+  <a href="../assets/feishu-paper-reading/actual-issue3-source-figure.jpg">
+    <img src="../assets/feishu-paper-reading/actual-issue3-source-figure.jpg" width="72%" alt="A clear source figure and table embedded directly in a Feishu paper-reading document">
+  </a>
+</p>
+
+<p align="center"><sub>Issue 3 example: the source paper's figure/table is shown in the Feishu document itself, with a caption and PDF locator.</sub></p>
+
 ## What It Delivers
 
 | Stage | What the skill does |
@@ -56,7 +64,7 @@ and source locators close enough to inspect.
 | Deep reading | Reads the full paper and, when relevant, figures, tables, appendices, proofs, and supplementary material. |
 | Evidence | Builds a claim ledger with results, locators, confidence, caveats, negative evidence, and short original-language excerpts followed by explanation. |
 | Synthesis | Compares assumptions, representations, evidence, disagreements, blind spots, reproduction burden, research opportunities, and reading order across papers. |
-| Delivery | Validates the report, checkpoints the write, forbids blind duplicate retries, reads the Feishu document back, and reports formatting or content downgrades instead of silently claiming success. |
+| Delivery | Validates the report, embeds key source figures/tables through DOCX when needed, checkpoints the write, forbids blind duplicate retries, reads the Feishu document back, and reports formatting or content downgrades instead of silently claiming success. |
 
 Quality and observable attention remain separate signals. The workflow can use
 current community activity for discovery, but popularity does not bypass the
@@ -73,6 +81,16 @@ technical-quality threshold.
 The research path and the delivery path remain separate until the report is
 ready. This matters: a connection problem cannot erase the research artifact,
 and a successful API call cannot substitute for evidence quality.
+
+### Stable reading template
+
+Each issue uses the same semantic visual language: blue for conclusions and
+headings, green for strengths and transferable insights, purple for original
+source evidence, orange for attention and public resources, red for limits and
+failure modes, and gray for metadata and verification. When the brief asks for
+figures or tables, the source visual is embedded rather than replaced by a
+paper locator. Markdown image syntax is not treated as successful delivery if
+Feishu only receives the caption.
 
 ## Evidence You Can Inspect
 
@@ -101,6 +119,10 @@ A complete digest normally contains:
   ideas across the set; and
 - prioritized research opportunities with a minimum experiment and failure
   signal.
+
+The report is written in article voice. Reader-directed coaching and meta-
+asides are excluded; uncertainty, assumptions, and scope are stated inside the
+paper analysis.
 
 ## Feishu Delivery
 
@@ -142,7 +164,9 @@ that no matching document exists.
 Delivery is complete only after the created document is fetched and checked for
 representative content and structure, including its title, date window,
 candidate and selected counts, paper sections, comparison content, evidence
-anchors, and expected links or media fallbacks.
+anchors, and expected links or media. When the connector exposes block
+inspection, the expected image/file count is checked in addition to the text
+readback.
 
 If setup is declined, the platform is incompatible, or verified delivery still
 fails after bounded recovery, the complete Markdown report remains available.
